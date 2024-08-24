@@ -14,7 +14,8 @@
             <div class="form-row">
                 <div class="form-group col-50">
                     <label for="cpf_cnpj">CPF/CNPJ:</label>
-                    <input type="text" id="cpf_cnpj" name="cpf_cnpj" required>
+                    <input type="text" id="cpf_cnpj" name="cpf_cnpj" required placeholder="Digite CPF ou CNPJ">
+                    
                 </div>
                 <div class="form-group col-50">
                     <label for="razao_nome">Razão Social/Nome:</label>
@@ -69,47 +70,15 @@
     </div>
 
         <!-- Adicionando jQuery e jQuery Mask Plugin -->
+       
         <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.16/jquery.mask.min.js"></script>
+        
 
-        <script>
-            $(document).ready(function(){
-                
-                $('#telefone').mask('(00)00000-0000');
-                $('#cep').mask('00000-000');
-                
+    
+        <!-- link para chamada dos scripts em js-->
+        <script src="js/script_insert_client.js"></script>
 
-                // Validação básica para o campo de e-mail
-                $('#email').on('input', function() {
-                    var emailPattern = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,6}$/;
-                    if (!emailPattern.test($(this).val())) {
-                        $(this).css('border-color', 'red');
-                    } else {
-                        $(this).css('border-color', '');
-                    }
-                });
-            
-             // Preenchimento automático do endereço com base no CEP
-                        $('#cep').on('blur', function() {
-                var cep = $(this).val().replace(/\D/g, '');
-                if (cep.length === 8) {
-                    var url = `https://viacep.com.br/ws/${cep}/json/`;
-
-                    $.getJSON(url, function(data) {
-                        if (!("erro" in data)) {
-                            $('#endereco').val(data.logradouro);
-                            $('#bairro').val(data.bairro);
-                            $('#cidade').val(data.localidade);
-                            $('#uf').val(data.uf);
-                        } else {
-                            alert("CEP não encontrado.");
-                        }
-                    });
-                } else {
-                    alert("CEP inválido.");
-                }
-            });
-        });
-        </script>
+       
 </body>
 </html>
