@@ -27,3 +27,18 @@ CREATE TABLE `tb_login` (
 
 INSERT INTO `tb_login` (`id`, `matricula`, `password`) VALUES
 (1, '15151', '123456');
+
+--criando a tabela cadastro cliente
+CREATE TABLE tb_cliente (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    cpf_cnpj VARCHAR(20) NOT NULL,
+    razao_nome VARCHAR(100) NOT NULL,
+    cep VARCHAR(10) NOT NULL,
+    cidade VARCHAR(100) NOT NULL,
+    endereco VARCHAR(150) NOT NULL,
+    complemento VARCHAR(10) NOT NULL,
+    bairro VARCHAR(100) NOT NULL,
+    uf VARCHAR(10) NOT NULL,
+    telefone VARCHAR(15) NOT NULL,
+    email VARCHAR(100) NOT NULL
+);
