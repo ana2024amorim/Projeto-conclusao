@@ -4,7 +4,7 @@ require_once "conector_db.php";
 
 // Verifica se os campos de matrícula e senha foram preenchidos
 if (empty($_POST['matricula']) || empty($_POST['password'])) {
-    header('Location: ../index.html?error=missing_fields');
+    header('Location: ../index.php?error=missing_fields');
     exit();
 }
 
@@ -29,16 +29,16 @@ if ($user = $result->fetch_assoc()) {
     // Verifica se a senha corresponde usando hash no password_verify
     if (password_verify($password, $user['password'])) {
         $_SESSION['matricula'] = $matricula;
-        header('Location: ../pagina_venda.html');
+        header('Location: ../pagina_venda.php');
         exit();
     } else {
         // Senha incorreta
-        header('Location: ../index.html?error=incorrect_password');
+        header('Location: ../index.php?error=incorrect_password');
         exit();
     }
 } else {
     // Usuário não encontrado
-    header('Location: ../index.html?error=user_not_found');
+    header('Location: ../index.php?error=user_not_found');
     exit();
 }
 ?>

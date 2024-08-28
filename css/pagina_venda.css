@@ -1,42 +1,247 @@
-*{
-    padding: 0%;
+/* Reseta o padding e margin para todos os elementos e define a fonte padrão para o documento */
+* {
+    padding: 0;
     margin: 0;
-    font-family: Arial, Helvetica, sans-serif;
+    font-family: Arial, Helvetica, sans-serif; /* Define a fonte padrão */
 }
-header{
-background-color: #e7762b;
-box-shadow: 0px 3px 10px;
+
+/* Estilos para o cabeçalho */
+header {
+    background-color: #e7762b; /* Cor de fundo do cabeçalho */
+    box-shadow: 0px 3px 10px rgba(0, 0, 0, 0.1); /* Sombra sutil para o cabeçalho */
 }
-.ven-bar{
+
+/* Estilos para a barra de navegação */
+.ven-bar {
+    display: flex; /* Usa flexbox para organizar os itens */
+    justify-content: space-between; /* Espaça os itens para ocupar o espaço disponível */
+    align-items: center; /* Alinha os itens verticalmente ao centro */
+    padding: 1.5rem 6rem; /* Espaçamento interno ao redor da barra de navegação */
+}
+
+/* Estilos para o título dentro da seção de logo */
+.logo h1 {
+    color: aliceblue; /* Cor do texto do logo */
+}
+
+/* Estilos para a seção de boas-vindas ao colaborador */
+.colaborador {
+    display: flex; /* Usa flexbox para organizar os itens */
+    align-items: center; /* Alinha os itens verticalmente ao centro */
+}
+
+/* Estilos para o nome do usuário */
+.user-name {
+    margin-left: 5px; /* Espaçamento à esquerda do nome */
+    font-weight: bold; /* Define a fonte como negrito */
+    color: aliceblue; /* Cor do texto do nome */
+}
+
+/* Estilos para a área do perfil do usuário */
+.user-profile {
+    display: flex; /* Usa flexbox para organizar os itens */
+    align-items: center; /* Alinha os itens verticalmente ao centro */
+    position: relative; /* Necessário para o posicionamento do menu dropdown */
+}
+
+/* Estilos para o ícone do usuário */
+.user-icon {
+    width: 40px; /* Largura do ícone */
+    height: 40px; /* Altura do ícone */
+    border-radius: 50%; /* Faz o ícone ser circular */
+    margin-left: 10px; /* Espaçamento à esquerda do ícone (ajustado) */
+    cursor: pointer; /* Muda o cursor ao passar o mouse sobre o ícone */
+}
+
+/* Estilos para o contêiner do menu dropdown */
+.dropdown {
+    position: relative; /* Necessário para posicionar o dropdown-content */
+}
+
+/* Estilos para o botão do menu dropdown ---------*/
+.user-profile {
     display: flex;
-    justify-content: space-between;
-    padding: 1.5rem 6rem;
-}
-.logo h1{
-    display: flex;
-    color: aliceblue;
-}
-.list ul{
-    display: flex;
+    flex-direction: column;
+    align-items: center;
     position: relative;
-    list-style: none;
 }
-.vendedor{
-    margin: 0 15px;
+
+.dropbtn {
+    background-color: #e7762b; /* Cor de fundo do botão */
+    color: white; /* Cor do texto do botão */
+    font-size: 16px; /* Tamanho da fonte do botão */
+    border: none; /* Remove a borda padrão */
+    border-radius: 5px; /* Adiciona bordas arredondadas ao botão */
+    padding: 10px 15px; /* Adiciona espaçamento interno (padding) */
+    cursor: pointer; /* Muda o cursor ao passar o mouse sobre o botão */
+    transition: background-color 0.3s ease, box-shadow 0.3s ease; /* Adiciona transições suaves */
+    text-align: center; /* Alinha o texto ao centro */
+    display: flex;
+    flex-direction: column;
+    align-items: center; /* Centraliza o conteúdo horizontalmente */
 }
-.link{
+
+.icon {
+    width: 40px; /* Largura do ícone */
+    height: 40px; /* Altura do ícone */
+    margin-bottom: 5px; /* Espaçamento entre o ícone e o texto */
+}
+
+.dropdown-text {
+    font-size: 14px; /* Tamanho da fonte do texto "Perfil" */
+}
+
+.dropbtn:hover {
+    background-color: #d65a2e; /* Cor de fundo ao passar o mouse */
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.2); /* Adiciona uma sombra ao botão ao passar o mouse */
+}
+
+
+/* Estilos para o conteúdo do menu dropdown----- */
+.dropdown-content {
+    display: none; /* Oculta o menu dropdown por padrão */
+    position: absolute; /* Posiciona o menu em relação ao contêiner pai */
+    right: 0; /* Alinha o menu à direita do botão */
+    background-color: #f9f9f9; /* Cor de fundo do menu dropdown */
+    min-width: 160px; /* Largura mínima do menu dropdown */
+    box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.2); /* Sombra ao redor do menu dropdown */
+    z-index: 1; /* Garante que o menu fique acima de outros elementos */
+}
+
+/* Estilos para os links dentro do menu dropdown */
+.dropdown-content a {
+    color: black; /* Cor do texto dos links */
+    padding: 12px 16px; /* Espaçamento interno dos links */
+    text-decoration: none; /* Remove sublinhado dos links */
+    display: block; /* Faz com que cada link ocupe uma linha */
+    text-align: left; /* Alinha o texto à esquerda */
+}
+
+/* Estilos para os links dentro do menu dropdown ao passar o mouse */
+.dropdown-content a:hover {
+    background-color: #f1f1f1; /* Cor de fundo ao passar o mouse */
+}
+
+/* Exibe o menu dropdown ao passar o mouse sobre a área do perfil do usuário */
+.user-profile:hover .dropdown-content {
+    display: block; /* Torna o menu dropdown visível */
+}
+
+/* Estilos para o botão do menu dropdown ao passar o mouse */
+.user-profile:hover .dropbtn {
+    background-color: #3e8e41; /* Cor de fundo ao passar o mouse */
+}
+
+/* Estilos para a lista de botões principais */
+.list {
+    display: flex; /* Usa flexbox para organizar os itens */
+    justify-content: center; /* Centraliza os itens horizontalmente */
+    align-items: center; /* Centraliza os itens verticalmente */
+    height: calc(100vh - 100px); /* Altura ajustada para centralizar a lista */
+    margin-top: 50px; /* Espaçamento superior */
+}
+
+/* Estilos para a lista de botões */
+.list ul {
+    display: flex; /* Usa flexbox para organizar os itens da lista */
+    flex-direction: column; /* Organiza os botões em coluna */
+    align-items: center; /* Centraliza os botões horizontalmente */
+    list-style: none; /* Remove os marcadores da lista */
+    padding: 0; /* Remove o padding da lista */
+    margin: 0; /* Remove a margem da lista */
+}
+
+/* Estilos para cada item da lista de botões */
+.vendedor {
+    margin: 10px 0; /* Espaçamento entre os botões */
+}
+
+/* Estilos para os links dos botões */
+.link {
+    display: block; /* Faz com que cada link ocupe uma linha */
+    text-decoration: none; /* Remove sublinhado */
+    font-size: 1.15rem; /* Tamanho da fonte */
+    font-weight: 400; /* Peso da fonte */
+    color: white; /* Cor do texto */
+    background-color: green; /* Cor de fundo dos botões */
+    padding: 15px 20px; /* Espaçamento interno dos botões */
+    border-radius: 5px; /* Bordas arredondadas */
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1); /* Sombra ao redor dos botões */
+    transition: background-color 0.3s ease, box-shadow 0.3s ease; /* Transição suave para cor e sombra */
+    width: 200px; /* Largura fixa dos botões */
+    text-align: center; /* Centraliza o texto */
+}
+
+/* Estilos para os links dos botões ao passar o mouse */
+.link:hover {
+    background-color: darkgreen; /* Cor de fundo ao passar o mouse */
+    box-shadow: 0px 6px 8px rgba(0, 0, 0, 0.2); /* Sombra mais forte ao passar o mouse */
+}
+/*TESTE*/
+/* styles.css */
+
+.popup {
+    display: none; /* Oculta o popup por padrão */
+    position: fixed;
+    z-index: 1; /* Fica acima de outros elementos */
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto; /* Adiciona rolagem se necessário */
+    background-color: rgb(0,0,0); /* Cor de fundo */
+    background-color: rgba(0,0,0,0.4); /* Cor de fundo com opacidade */
+}
+
+.popup-content {
+    background-color: #fefefe;
+    margin: 15% auto; /* Centraliza o popup */
+    padding: 20px;
+    border: 1px solid #888;
+    width: 80%; /* Largura do popup */
+    max-width: 500px; /* Largura máxima do popup */
+    border-radius: 8px; /* Bordas arredondadas */
+}
+
+.close-btn {
+    color: #aaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+}
+
+.close-btn:hover,
+.close-btn:focus {
+    color: black;
     text-decoration: none;
-    font-size: 1,15rem;
-    font-weight: 400;
-}body ul{
-  font-family: "Montserrat";
-  color: #404040;
-  display: flex;
-  height: 100vh;
-  justify-content: center;
-  align-items: center;    
+    cursor: pointer;
 }
-.vendedor{
-    border: 10px none #404040;
-    background-color: aliceblue;
+
+form {
+    display: flex;
+    flex-direction: column;
+}
+
+form label {
+    margin: 10px 0 5px;
+}
+
+form input {
+    margin-bottom: 15px;
+    padding: 10px;
+    border-radius: 4px;
+    border: 1px solid #ccc;
+}
+
+form button {
+    background-color: #4CAF50; /* Cor de fundo do botão */
+    color: white;
+    border: none;
+    padding: 10px;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+form button:hover {
+    background-color: #45a049;
 }
