@@ -29,7 +29,7 @@ if ($user = $result->fetch_assoc()) {
     // Verifica se a senha corresponde usando hash no password_verify
     if (password_verify($password, $user['password'])) {
         $_SESSION['matricula'] = $matricula;
-        header('Location: ../pagina_inicial.html');
+        header('Location: ../pagina_venda.html');
         exit();
     } else {
         // Senha incorreta
