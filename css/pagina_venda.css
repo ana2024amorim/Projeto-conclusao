@@ -1,0 +1,42 @@
+*{
+    padding: 0%;
+    margin: 0;
+    font-family: Arial, Helvetica, sans-serif;
+}
+header{
+background-color: #e7762b;
+box-shadow: 0px 3px 10px;
+}
+.ven-bar{
+    display: flex;
+    justify-content: space-between;
+    padding: 1.5rem 6rem;
+}
+.logo h1{
+    display: flex;
+    color: aliceblue;
+}
+.list ul{
+    display: flex;
+    position: relative;
+    list-style: none;
+}
+.vendedor{
+    margin: 0 15px;
+}
+.link{
+    text-decoration: none;
+    font-size: 1,15rem;
+    font-weight: 400;
+}body ul{
+  font-family: "Montserrat";
+  color: #404040;
+  display: flex;
+  height: 100vh;
+  justify-content: center;
+  align-items: center;    
+}
+.vendedor{
+    border: 10px none #404040;
+    background-color: aliceblue;
+}
