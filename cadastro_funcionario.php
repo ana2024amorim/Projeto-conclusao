@@ -20,13 +20,13 @@ $photoUrl = 'images/template.png'; // Substitua com a URL real da foto
 
         <h1>Cadastro de Funcionário</h1>
 
-        <form id="user-form" enctype="multipart/form-data">
+        <form id="user-form" enctype="multipart/form-data" action="conector/insert_funcionario.php" metho="POST">
             <div class="column">
                 <label for="username">Nome:</label>
-                <input type="text" id="username" name="username" value="Usuário">
+                <input type="text" id="username" name="username" placeholder="Usuário">
                 
                 <label for="email">Email:</label>
-                <input type="email" id="email" name="email" value="usuario@example.com">
+                <input type="email" id="email" name="email" placeholder="usuario@example.com">
                 
                 <label for="password">Senha:</label>
                 <input type="password" id="password" name="password" placeholder="Nova senha">
@@ -52,10 +52,23 @@ $photoUrl = 'images/template.png'; // Substitua com a URL real da foto
                 <input type="text" id="employee-id" name="employee-id" value="1234" readonly>
                 
                 <label for="position">Cargo:</label>
-                <input type="text" id="position" name="position">
+                <!--<input type="text" id="position" name="position"> -->
+                <select id="position" name="position">
+                    <option value="adm">Administrador</option>
+                    <option value="vendedor">Vendedor</option>
+                    <option value="caixa">Caixa</option>
+                </select>
                 
                 <label for="access-level">Nível de Acesso:</label>
-                <input type="text" id="access-level" name="access-level">
+                <!--<input type="text" id="access-level" name="access-level"> -->
+                <select id="access-level" name="access-level">
+                    <option value="Gerente">Gerente</option>
+                    <option value="Vendedor">Vendedor</option>
+                </select>
+            </div>
+            <div class="column">
+                <label for="telefone">Número de Matrícula:</label>
+                <input type="text" id="telefone" name="telefone" placeholder="(xx)9999-9999">
             </div>
 
             <!-- Contêiner para os botões -->

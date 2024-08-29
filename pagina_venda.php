@@ -21,7 +21,7 @@
                     <button class="dropbtn">Perfil</button>
                     <div class="dropdown-content">
                         <a href="#" id="open-popup-btn">Modificar Dados</a>
-                        <a href="#">Logout</a>
+                        <a href="index.php">Logout</a>
                     </div>
                 </div>
             </div>

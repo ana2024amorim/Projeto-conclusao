@@ -1,50 +1,39 @@
 <?php
+// Inicia a conexão com o banco de dados
 require_once "conector_db.php";
-// Verifica se o formulário foi enviado
+
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    // Obtém os dados do formulário
-    $nome = $_POST['nome'];
-    $genero = $_POST['genero'];
-    $data_nascimento = $_POST['data_nascimento'];
-    $telefone = $_POST['telefone'];
-    $email = $_POST['email'];
-    $matricula = $_POST['matricula'];
-    $cargo = $_POST['cargo'];
-    $nivel_acesso = $_POST['nivel_acesso'];
-    $senha = password_hash($_POST['senha'], PASSWORD_DEFAULT); // Hash da senha
+    // Captura os dados do formulário
+    $username = mysqli_real_escape_string($conn, $_POST['username']);
+    $email = mysqli_real_escape_string($conn, $_POST['email']);
+    $password = mysqli_real_escape_string($conn, $_POST['password']);
+    $gender = mysqli_real_escape_string($conn, $_POST['gender']);
+    $dob = mysqli_real_escape_string($conn, $_POST['dob']);
+    $employee_id = mysqli_real_escape_string($conn, $_POST['employee-id']);
+    $position = mysqli_real_escape_string($conn, $_POST['position']);
+    $access_level = mysqli_real_escape_string($conn, $_POST['access-level']);
+    $telefone = mysqli_real_escape_string($conn, $_POST['telefone']);
+    
+    // Tratamento do upload da foto
+    $photo = $_FILES['photo']['name'];
+    $photo_tmp = $_FILES['photo']['tmp_name'];
+    $photo_folder = "uploads/" . basename($photo);
 
-    // Verifica se uma foto foi enviada
-    $foto = null;
-    if (isset($_FILES['foto']) && $_FILES['foto']['error'] == UPLOAD_ERR_OK) {
-        $foto = $_FILES['foto']['name'];
-        $upload_dir = 'uploads/'; // Diretório onde a foto será salva
-        $upload_file = $upload_dir . basename($foto);
+    if (move_uploaded_file($photo_tmp, $photo_folder)) {
+        // Query de inserção no banco de dados
+        $sql = "INSERT INTO tb_funcionario (nome, email, senha, genero, data_nascimento, matricula, cargo, nivel_acesso, telefone, foto)
+                VALUES ('$username', '$email', '$password', '$gender', '$dob', '$employee_id', '$position', '$access_level', '$telefone', '$photo_folder')";
 
-        // Move o arquivo para o diretório de upload
-        if (!move_uploaded_file($_FILES['foto']['tmp_name'], $upload_file)) {
-            die("Falha ao enviar a foto.");
+        if (mysqli_query($conn, $sql)) {
+            echo "Funcionário cadastrado com sucesso!";
+        } else {
+            echo "Erro: " . $sql . "<br>" . mysqli_error($conn);
         }
-    }
-
-    // Prepara a consulta SQL
-    $sql = "INSERT INTO funcionarios (nome, genero, data_nascimento, telefone, email, matricula, cargo, nivel_acesso, foto, senha)
-            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
-
-    // Prepara a declaração
-    $stmt = $conn->prepare($sql);
-    if ($stmt === false) {
-        die("Erro na preparação da consulta: " . $conn->error);
-    }
-
-    // Liga os parâmetros e executa a declaração
-    $stmt->bind_param("ssssssssss", $nome, $genero, $data_nascimento, $telefone, $email, $matricula, $cargo, $nivel_acesso, $foto, $senha);
-    if ($stmt->execute()) {
-        echo "Cadastro realizado com sucesso!";
     } else {
-        echo "Erro ao realizar o cadastro: " . $stmt->error;
+        echo "Falha ao fazer o upload da foto.";
     }
-
-    // Fecha a declaração e a conexão
-    $stmt->close();
-    $conn->close();
 }
+
+// Fecha a conexão (opcional)
+mysqli_close($conn);
+?>
