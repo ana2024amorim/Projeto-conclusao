@@ -10,7 +10,7 @@
             "type": "chrome",
             "request": "launch",
             "name": "Launch Chrome against localhost",
-            "url": "http://localhost/projeto-conclusao/index.html",
+            "url": "http://localhost/projeto-conclusao/index.php",
             "webRoot": "${workspaceFolder}"
         }
     ]

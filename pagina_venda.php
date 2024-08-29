@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="css/pagina_venda.css">
-    <title>Bem vindo</title>
+    <title>Bem-vindo</title>
 </head>
 <body>
     <header>
@@ -31,13 +31,20 @@
     
     </header>
 
+    <!-- Popup -->
+    <div id="popup" class="popup" style="display: none;">
+        <!-- O conteúdo do popup será carregado aqui via JavaScript -->
+    </div>
+
     <div class="list">
         <ul>
             <li class="vendedor"><a href="cadastro_cliente.php" class="link">CADASTRO CLIENTE</a></li>
             <li class="vendedor"><a href="#" class="link">NOVA VENDA</a></li>
             <li class="vendedor"><a href="#" class="link">PRODUTO</a></li>
+            <li class="vendedor"><a href="cadastro_funcionario.php" class="link">CADASTRO FUNCIONARIO</a></li>
         </ul>
     </div>
+
     <script src="js/scrip_popup_edit_perfil.js"></script>
 </body>
 </html>
