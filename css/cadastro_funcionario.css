@@ -1,5 +1,5 @@
-/* Estilo geral da página */
-body {
+ /* Estilo geral da página */
+ body {
     font-family: Arial, sans-serif;
     background-color: #f4f4f9;
     margin: 0;
@@ -60,9 +60,17 @@ form {
 
 /* Estilo das colunas do formulário */
 .column {
-    flex: 1;
+    flex: 2;
     min-width: calc(33.333% - 20px);
     box-sizing: border-box;
+    margin-top: 10px; /* Adiciona espaço acima das colunas */
+}
+#gender {
+    margin-bottom: 20px; /* Ajuste o valor conforme necessário */
+}
+/* Adiciona margem inferior ao campo de seleção de nível de acesso */
+label[for="access-level"] {
+    margin-top: 20px; 
 }
 
 /* Estilo dos rótulos dos campos */
@@ -92,6 +100,7 @@ select {
 /* Estilo específico para o campo de upload de arquivo */
 input[type="file"] {
     padding: 0;
+
 }
 
 /* Contêiner para os botões */
@@ -139,4 +148,37 @@ button[type="submit"]:hover {
 
 .back-button:hover {
     background-color: #0056b3; /* Cor de fundo azul mais escuro ao passar o mouse */
+}
+
+.required:after {
+    content: "*";
+    color: red;
+    font-size: 0.8em;
+    margin-left: 0.2em;
+}
+
+.modal-header .btn-close {
+    background: none;
+    border: none;
+    font-size: 1.5rem;
+}
+
+.modal-body {
+    text-align: center;
+}
+
+.modal-body .icon-success {
+    font-size: 3rem;
+    color: #28a745; /* Cor verde para sucesso */
+}
+
+.modal-body .icon-error {
+    font-size: 3rem;
+    color: #dc3545; /* Cor vermelha para erro */
+}
+
+.modal-body .message {
+    margin-top: 10px;
+    font-size: 18px;
+    color: #333;
 }

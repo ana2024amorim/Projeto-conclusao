@@ -16,15 +16,18 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $uf = mysqli_real_escape_string($conn, $_POST['uf']);
     $telefone = mysqli_real_escape_string($conn, $_POST['telefone']);
     $email = mysqli_real_escape_string($conn, $_POST['email']);
+    $rginscricao = mysqli_real_escape_string($conn, $_POST['rginscricao']);
+    $sitcad = mysqli_real_escape_string($conn, $_POST['sitcad']);
+
 
     // Monta a query SQL para inserção dos dados
-    $query = "INSERT INTO tb_cliente (cpf_cnpj, razao_nome, cep, cidade, endereco, complemento, bairro, uf, telefone, email)
-              VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+    $query = "INSERT INTO tb_cliente (cpf_cnpj, razao_nome, cep, cidade, endereco, complemento, bairro, uf, telefone, email, rginscricao, sitcad)
+              VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
     // Prepara a instrução SQL
     if ($stmt = $conn->prepare($query)) {
         // Associa os parâmetros
-        $stmt->bind_param("ssssssssss", $cpf_cnpj, $razao_nome, $cep, $cidade, $endereco, $complemento, $bairro, $uf, $telefone, $email);
+        $stmt->bind_param("ssssssssssss", $cpf_cnpj, $razao_nome, $cep, $cidade, $endereco, $complemento, $bairro, $uf, $telefone, $email, $rginscricao,$sitcad);
 
         // Executa a query
         if ($stmt->execute()) {

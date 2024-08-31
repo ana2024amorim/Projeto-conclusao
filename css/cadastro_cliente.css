@@ -8,6 +8,7 @@ body {
     align-items: center;
     height: 100vh;
 }
+
 .container {
     background-color: #ffffff;
     padding: 30px;
@@ -17,20 +18,39 @@ body {
     max-width: 800px;
     box-sizing: border-box;
 }
+
 h1 {
     text-align: center;
     color: #333333;
     margin-bottom: 20px;
 }
+
+.form-row {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+}
+
 .form-group {
     margin-bottom: 15px;
     display: flex;
     flex-direction: column;
+    flex: 0 0 48%; /* Tamanho padrão das colunas */
 }
+
+.form-group.col-50 {
+    flex: 0 0 48%; /* Tamanho de cada coluna em telas maiores */
+}
+
+.form-group.col-100 {
+    flex: 0 0 100%; /* Coluna inteira em telas menores */
+}
+
 label {
     margin-bottom: 5px;
     color: #333333;
 }
+
 input[type="text"],
 input[type="email"],
 input[type="tel"] {
@@ -39,22 +59,13 @@ input[type="tel"] {
     border-radius: 4px;
     box-sizing: border-box;
 }
-.form-row {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: space-between;
-}
-.form-group.col-50 {
-    flex: 0 0 48%; /* Tamanho de cada coluna */
-}
-.form-group.col-100 {
-    flex: 0 0 100%; /* Coluna inteira */
-}
+
 .button-container {
     display: flex;
     justify-content: flex-end;
     margin-top: 20px;
 }
+
 button {
     padding: 10px 20px;
     background-color: #4CAF50;
@@ -64,12 +75,49 @@ button {
     font-size: 16px;
     cursor: pointer;
 }
+
 button:hover {
     background-color: #45a049;
 }
+
+.modal-content {
+    padding: 20px;
+    border-radius: 8px;
+}
+
+.modal-header {
+    display: flex;
+    align-items: center;
+}
+
+.modal-title {
+    flex: 1;
+    font-size: 18px;
+}
+
+.modal-title i {
+    margin-right: 10px;
+    font-size: 24px; /* Tamanho do ícone */
+    color: #28a745; /* Cor do ícone de sucesso */
+}
+
+.modal-title i.fas.fa-exclamation-circle {
+    color: #dc3545; /* Cor do ícone de erro */
+}
+
+.modal-body {
+    font-size: 16px;
+    color: #333;
+}
+
+.modal-footer {
+    display: flex;
+    justify-content: flex-end;
+}
+
 @media (max-width: 600px) {
-    .form-group.col-50 {
-        flex: 0 0 100%;
+    .form-group {
+        flex: 0 0 100%; /* Tamanho das colunas em telas menores */
     }
     .button-container {
         justify-content: center;
