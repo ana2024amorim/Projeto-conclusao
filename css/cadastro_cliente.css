@@ -1,0 +1,162 @@
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f0f0f0; /* Cinza claro */
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+
+.container {
+    background-color: #ffffff;
+    padding: 30px;
+    border-radius: 8px;
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
+    width: 80%;
+    max-width: 800px;
+    box-sizing: border-box;
+}
+
+h1 {
+    text-align: center;
+    color: #333333;
+    margin-bottom: 20px;
+}
+
+.form-row {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+}
+
+.form-group {
+    margin-bottom: 15px;
+    display: flex;
+    flex-direction: column;
+    flex: 0 0 48%; /* Tamanho padrão das colunas */
+}
+
+.form-group.col-50 {
+    flex: 0 0 48%; /* Tamanho de cada coluna em telas maiores */
+}
+
+.form-group.col-100 {
+    flex: 0 0 100%; /* Coluna inteira em telas menores */
+}
+
+label {
+    margin-bottom: 5px;
+    color: #333333;
+}
+
+input[type="text"],
+input[type="email"],
+input[type="tel"] {
+    padding: 10px;
+    border: 1px solid #cccccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+}
+
+.button-container {
+    display: flex;
+    justify-content: space-between; /* Espaçamento entre os botões */
+    margin-top: 20px;
+}
+.btn-back {
+    background-color: #f44336; /* Cor vermelha para o botão de voltar */
+    color: white;
+    padding: 12px 20px; /* Ajustado para botões mais largos */
+    border: none;
+    border-radius: 4px;
+    font-size: 16px;
+    text-align: center;
+    cursor: pointer;
+    width: 28%;
+}
+
+.btn-back:hover {
+    background-color: #d32f2f; /* Cor vermelha mais escura ao passar o mouse */
+}
+button.btn-primary {
+    background-color: #0d8c22; /* Cor vermelha para o botão de voltar */
+    color: white;
+    padding: 12px 20px; /* Ajustado para botões mais largos */
+    border: none;
+    border-radius: 4px;
+    font-size: 16px;
+    text-align: center;
+    cursor: pointer;
+    width: 28%;
+
+}
+button.btn-primary:hover {
+    background-color: #0d8c22; /* Cor vermelha mais escura ao passar o mouse */
+}
+
+.modal-content {
+    padding: 20px;
+    border-radius: 8px;
+}
+
+.modal-header {
+    display: flex;
+    align-items: center;
+}
+
+.modal-title {
+    flex: 1;
+    font-size: 18px;
+}
+
+.modal-title i {
+    margin-right: 10px;
+    font-size: 24px; /* Tamanho do ícone */
+    color: #28a745; /* Cor do ícone de sucesso */
+}
+
+.modal-title i.fas.fa-exclamation-circle {
+    color: #dc3545; /* Cor do ícone de erro */
+}
+
+.modal-body {
+    font-size: 16px;
+    color: #333;
+}
+
+.modal-footer {
+    display: flex;
+    justify-content: flex-end;
+}
+
+/* Media Queries para telas menores */
+@media (max-width: 768px) {
+    .form-group {
+        flex: 1 1 100%; /* Colunas ocupam toda a largura em telas menores */
+    }
+    .button-container {
+        flex-direction: column; /* Botões empilhados em telas menores */
+        align-items: center; /* Centraliza os botões verticalmente */
+    }
+    .button-container button {
+        width: 100%; /* Botões ocupam a largura total */
+        margin-bottom: 10px; /* Espaçamento entre botões */
+    }
+}
+
+@media (max-width: 480px) {
+    .container {
+        padding: 15px; /* Reduz o padding em telas muito pequenas */
+    }
+    h1 {
+        font-size: 24px; /* Reduz o tamanho do título em telas muito pequenas */
+    }
+    .modal-title {
+        font-size: 16px; /* Reduz o tamanho da fonte do título do modal */
+    }
+    .modal-body {
+        font-size: 14px; /* Reduz o tamanho da fonte do corpo do modal */
+    }
+}

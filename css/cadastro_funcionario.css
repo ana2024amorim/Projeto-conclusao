@@ -1,0 +1,184 @@
+ /* Estilo geral da página */
+ body {
+    font-family: Arial, sans-serif;
+    background-color: #f4f4f9;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    overflow: hidden;
+}
+
+/* Container do formulário */
+.container {
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    width: 80%;
+    max-width: 900px;
+    padding: 20px;
+    box-sizing: border-box;
+    border: 2px solid #ddd;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+/* Estilo da visualização da foto de perfil */
+.photo-preview-container {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.photo-preview-container img {
+    width: 150px;
+    height: 150px;
+    border-radius: 50%; /* Torna a imagem redonda */
+    object-fit: cover;
+    border: 2px solid #ddd;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* Estilo do título do formulário */
+h1 {
+    color: #333;
+    font-size: 24px;
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+/* Estilo do formulário */
+form {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    width: 100%;
+}
+
+/* Estilo das colunas do formulário */
+.column {
+    flex: 2;
+    min-width: calc(33.333% - 20px);
+    box-sizing: border-box;
+    margin-top: 10px; /* Adiciona espaço acima das colunas */
+}
+#gender {
+    margin-bottom: 20px; /* Ajuste o valor conforme necessário */
+}
+/* Adiciona margem inferior ao campo de seleção de nível de acesso */
+label[for="access-level"] {
+    margin-top: 20px; 
+}
+
+/* Estilo dos rótulos dos campos */
+label {
+    font-size: 14px;
+    color: #555;
+    display: block;
+    margin-bottom: 8px;
+}
+
+/* Estilo dos campos de entrada */
+input[type="text"],
+input[type="email"],
+input[type="password"],
+input[type="date"],
+input[type="file"],
+select {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    margin-bottom: 15px;
+    font-size: 16px;
+    box-sizing: border-box;
+}
+
+/* Estilo específico para o campo de upload de arquivo */
+input[type="file"] {
+    padding: 0;
+
+}
+
+/* Contêiner para os botões */
+.button-container {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    margin-top: 20px;
+    gap: 10px; /* Espaço entre os botões */
+}
+
+/* Estilo do botão de envio */
+button[type="submit"] {
+    background-color: #28a745;
+    color: #fff;
+    border: none;
+    padding: 15px;
+    border-radius: 4px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    flex: 1; /* Ocupa o espaço disponível */
+    text-align: center;
+}
+
+/* Estilo do botão de envio ao passar o mouse */
+button[type="submit"]:hover {
+    background-color: #218838;
+}
+
+/* Estilo do botão de voltar */
+.back-button {
+    display: inline-block;
+    padding: 15px;
+    font-size: 16px;
+    color: #fff;
+    background-color: #007bff; /* Cor de fundo azul */
+    border: none;
+    border-radius: 5px;
+    text-decoration: none;
+    text-align: center;
+    flex: 1; /* Ocupa o espaço disponível */
+    text-align: center;
+}
+
+.back-button:hover {
+    background-color: #0056b3; /* Cor de fundo azul mais escuro ao passar o mouse */
+}
+
+.required:after {
+    content: "*";
+    color: red;
+    font-size: 0.8em;
+    margin-left: 0.2em;
+}
+
+.modal-header .btn-close {
+    background: none;
+    border: none;
+    font-size: 1.5rem;
+}
+
+.modal-body {
+    text-align: center;
+}
+
+.modal-body .icon-success {
+    font-size: 3rem;
+    color: #28a745; /* Cor verde para sucesso */
+}
+
+.modal-body .icon-error {
+    font-size: 3rem;
+    color: #dc3545; /* Cor vermelha para erro */
+}
+
+.modal-body .message {
+    margin-top: 10px;
+    font-size: 18px;
+    color: #333;
+}
