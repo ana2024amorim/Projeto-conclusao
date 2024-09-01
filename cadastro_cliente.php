@@ -7,41 +7,8 @@
     <link rel="stylesheet" href="css/cadastro_cliente.css">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-    <style>
-        /* Estilos adicionais para o botão Voltar */
-        .button-container {
-            display: flex;
-            justify-content: space-between; /* Espaçamento entre os botões */
-            margin-top: 20px;
-        }
-
-        button {
-            padding: 10px 20px;
-            border: none;
-            border-radius: 4px;
-            font-size: 16px;
-            cursor: pointer;
-        }
-
-        .btn-primary {
-            background-color: #4CAF50; /* Cor verde para o botão de enviar */
-            color: white;
-        }
-
-        .btn-primary:hover {
-            background-color: #45a049;
-        }
-
-        .btn-back {
-            background-color: #f44336; /* Cor vermelha para o botão de voltar */
-            color: white;
-        }
-
-        .btn-back:hover {
-            background-color: #d32f2f;
-        }
-    </style>
 </head>
+
 <body>
     <div class="container">
         <h1>Cadastro de Cliente</h1>
@@ -107,8 +74,8 @@
                 </div>
             </div>
             <div class="button-container">
-                <a href="pagina_venda.php" class="btn btn-back">Voltar</a>
-                <button type="submit" class="btn btn-primary">Enviar</button>
+                <a href="pagina_venda.php" class="btn-back">Voltar</a>
+                <button type="submit" class="btn-primary">Enviar</button>
             </div>
         </form>
     </div>
