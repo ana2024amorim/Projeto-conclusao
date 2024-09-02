@@ -1,4 +1,4 @@
-﻿# Projeto-conclusao
+# Projeto-conclusao
  segue os comando de inclusao dentro do vscode caso tenham alguma duvida
 
 git init
