@@ -25,17 +25,15 @@
           <label for="password">Sua senha*</label>
           <input type="password" id="password" name="password" required />
       </div>  
-      <!-- <div class="lembrar-me">
-          <input type="checkbox" />
-          <p>Lembrar-me</p>
-      </div> -->
+      
       <button type="submit">Entrar</button>
       <!-- Para classe esqueceu a senha -->
       <p class="esqueceu-senha">
           Esqueceu sua senha?
-          <a href="http://www.alunoetc.com/" target="_blank">Clique aqui!</a>
+          <a href="testes/recuperar_senha.php" target="_blank">Clique aqui!</a>
       </p>
   </form>
 
+  
 </body>
 </html>
