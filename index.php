@@ -30,7 +30,7 @@
       <!-- Para classe esqueceu a senha -->
       <p class="esqueceu-senha">
           Esqueceu sua senha?
-          <a href="testes/recuperar_senha.php" target="_blank">Clique aqui!</a>
+          <a href="recuperar_senha.php" target="_blank">Clique aqui!</a>
       </p>
   </form>
 

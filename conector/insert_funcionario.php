@@ -57,6 +57,21 @@ if (empty($email) || empty($password)) {
     exit();
 }
 
+// Verifica se o usuário ou email já existem
+$sql_check = "SELECT COUNT(*) FROM tb_funcionario WHERE nome = ? OR email = ?";
+$stmt_check = $conn->prepare($sql_check);
+$stmt_check->bind_param("ss", $username, $email);
+$stmt_check->execute();
+$stmt_check->bind_result($count);
+$stmt_check->fetch();
+$stmt_check->close();
+
+if ($count > 0) {
+    $response['message'] = "Usuário ou email já estão cadastrados!";
+    echo json_encode($response);
+    exit();
+}
+
 // Captura e sanitiza os campos opcionais
 $gender = !empty($_POST['gender']) ? mysqli_real_escape_string($conn, $_POST['gender']) : null;
 $dob = !empty($_POST['dob']) ? mysqli_real_escape_string($conn, $_POST['dob']) : null;
@@ -91,31 +106,50 @@ if (!empty($_FILES['foto']['name'])) {
     }
 }
 
-// Query de inserção no banco de dados usando prepared statement
-$sql = "INSERT INTO tb_funcionario (matricula, nome, email, senha, genero, data_nascimento, cargo, nivel_acesso, telefone, foto) 
-        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+// Query de inserção na tabela tb_funcionario
+$sql_funcionario = "INSERT INTO tb_funcionario (matricula, nome, email, genero, data_nascimento, cargo, nivel_acesso, telefone, foto) 
+                    VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
 // Preparar a instrução SQL
-$stmt = $conn->prepare($sql);
+$stmt_funcionario = $conn->prepare($sql_funcionario);
 
-if (!$stmt) {
+if (!$stmt_funcionario) {
     $response['message'] = "Erro na preparação da consulta: " . $conn->error;
     echo json_encode($response);
     exit();
 }
 
 // Bind os parâmetros, alguns deles podem ser nulos
-$stmt->bind_param("ssssssssss", $matricula, $username, $email, $hashed_password, $gender, $dob, $position, $access_level, $telefone, $photo_folder);
+$stmt_funcionario->bind_param("sssssssss", $matricula, $username, $email, $gender, $dob, $position, $access_level, $telefone, $photo_folder);
 
-if ($stmt->execute()) {
-    $response['success'] = true;
-    $response['message'] = 'Funcionário cadastrado com sucesso!';
+if ($stmt_funcionario->execute()) {
+    // Inserção na tabela tb_login
+    $sql_login = "INSERT INTO tb_login (matricula, password) VALUES (?, ?)";
+    $stmt_login = $conn->prepare($sql_login);
+
+    if (!$stmt_login) {
+        $response['message'] = "Erro na preparação da consulta de login: " . $conn->error;
+        echo json_encode($response);
+        exit();
+    }
+
+    // Bind os parâmetros para a tabela de login
+    $stmt_login->bind_param("ss", $matricula, $hashed_password);
+
+    if ($stmt_login->execute()) {
+        $response['success'] = true;
+        $response['message'] = 'Funcionário cadastrado com sucesso!';
+    } else {
+        $response['message'] = 'Erro ao cadastrar no login: ' . $stmt_login->error;
+    }
+
+    $stmt_login->close();
 } else {
-    $response['message'] = 'Erro ao cadastrar funcionário: ' . $stmt->error;
+    $response['message'] = 'Erro ao cadastrar funcionário: ' . $stmt_funcionario->error;
 }
 
 echo json_encode($response);
 
-$stmt->close();
+$stmt_funcionario->close();
 $conn->close();
 ?>
