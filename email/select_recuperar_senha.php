@@ -9,7 +9,7 @@ require '../src/Exception.php';
 $config = require 'config_smtp.php'; // Inclua o arquivo de configuração
 
 function gerarSenhaProvisoria($tamanho = 8) {
-    return bin2hex(random_bytes($tamanho / 2);
+    return bin2hex (random_bytes($tamanho / 2));
 }
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
