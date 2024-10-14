@@ -119,20 +119,13 @@
             background-color: #A9A9A9;
         }
         /* Ajuste do campo Marca do Carro para ter aparência padrão */
-        #fabricante-carro {
-            width: 100%; /* Largura total igual às caixas de texto */
-            padding: 5px; /* Espaçamento interno */
-            border: 1px solid #000; /* Borda padrão */
-            background-color: #FFF; /* Cor de fundo branco */
-            font-size: 14px; /* Tamanho da fonte igual às outras caixas */
-        }
-        #modelo-carro {
-            width: 100%; /* Largura total igual às caixas de texto */
-            padding: 5px; /* Espaçamento interno */
-            border: 1px solid #000; /* Borda padrão */
-            background-color: #FFF; /* Cor de fundo branco */
-            font-size: 14px; /* Tamanho da fonte igual às outras caixas */
-        }
+#marca-carro {
+    width: 100%; /* Largura total igual às caixas de texto */
+    padding: 5px; /* Espaçamento interno */
+    border: 1px solid #000; /* Borda padrão */
+    background-color: #FFF; /* Cor de fundo branco */
+    font-size: 14px; /* Tamanho da fonte igual às outras caixas */
+}
     </style>
 </head>
 <body>
@@ -199,23 +192,57 @@
             <label for="valor-varejo">Valor Varejo:</label>
             <input type="text" id="valor-varejo" name="valor_varejo" required>
         </div>
-        <!--comeca aqui a consulta-->
-        <div class="form-group">
-            <label for="fabricante-carro">Marca Carro:</label>
-            <select id="fabricante-carro" name="fabricante_carro">
-                <option value="">Selecione a Marca</option>
-                <!-- As marcas serão carregadas aqui via AJAX -->
-            </select>
-        </div>
-         <!--comeca aqui a consulta-->
 
-         <div class="form-group">
-            <label for="modelo-carro">Modelo Carro:</label>
-            <select id="modelo-carro" name="modelo_carro">
-                <option value="">Selecione a Marca</option>
-                <!-- As marcas serão carregadas aqui via AJAX -->
-            </select>
-        </div>
+        <!-- inicio ajuste-->
+
+        <div class="form-group">
+    <label for="marca-carro">Marca do Carro:</label>
+    <select id="marca-carro" name="marca_carro">
+        <option value="">Selecione a Marca</option>
+        <!-- As marcas serão carregadas aqui via AJAX -->
+    </select>
+</div>
+
+<div class="form-group">
+    <label for="modelo-carro">Modelo Carro:</label>
+    <input type="text" id="modelo-carro" name="modelo_carro" required>
+</div>
+
+<script>
+    // Função para carregar as marcas via AJAX
+    function carregarMarcas() {
+        const selectMarca = document.getElementById('marca-carro');
+
+        // Fazer requisição para o PHP via AJAX
+        fetch('../conector/consulta_geral_cadastro.php')
+            .then(response => response.json())
+            .then(data => {
+                // Limpar o campo antes de adicionar novas opções
+                selectMarca.innerHTML = '<option value="">Selecione a Marca</option>';
+
+                // Preencher o select com as marcas vindas do banco de dados
+                data.forEach(marca => {
+                    const option = document.createElement('option');
+                    option.value = marca.marca;
+                    option.textContent = marca.marca;
+                    selectMarca.appendChild(option);
+                });
+            })
+            .catch(error => console.error('Erro ao carregar marcas:', error));
+    }
+
+    // Carregar as marcas ao carregar a página
+    document.addEventListener('DOMContentLoaded', carregarMarcas);
+
+    // Você pode adicionar um listener ao select para carregar os modelos baseados na marca
+    document.getElementById('marca-carro').addEventListener('change', function() {
+        const selectedMarca = this.value;
+        // Aqui você pode implementar uma lógica adicional para buscar os modelos com base na marca
+        document.getElementById('modelo-carro').value = `Modelo relacionado à marca: ${selectedMarca}`;
+    });
+</script>
+
+         <!--fim ajuste-->
 
         <div class="form-group">
             <label for="marca-fabricante">Marca do Fabricante:</label>
@@ -232,8 +259,11 @@
         </div>
     </form>
 
+
     <!--  consulta   -->
  
+ 
+
     <h3>Produtos Cadastrados</h3>
 
     <div class="table-container">
@@ -286,188 +316,14 @@
             cursor: pointer;
             color: #008CBA; /* Cor do ícone */
         }
+
     </style>
 </div>
 
 
 
-    <!-- Tab 2: Consulta Veículo -->
-    <div class="form-section" id="tab2">
-        <div class="form-group">
-            <label for="carros">Carros:</label>
-            <input type="text" id="carros">
-        </div>
-        <div class="form-group">
-            <label for="ano">Ano:</label>
-            <input type="text" id="ano">
-        </div>
-        <div class="form-group">
-            <label for="modelo">Modelo:</label>
-            <input type="text" id="modelo">
-        </div>
-        <div class="form-group">
-            <label for="fabricante-veiculo">Fabricante:</label>
-            <input type="text" id="fabricante-veiculo">
-        </div>
-        <div class="button-group">
-            <button>Salvar</button>
-            <button>Novo</button>
-        </div>
-    </div>
+   
 
-    <!-- Tab 3: Fornecedor -->
-    <div class="form-section" id="tab3">
-    <form action="../conector/inserir_fornecedor.php" method="POST"> <!-- Ação para o script PHP -->
-        <div class="form-group">
-            <label for="fornecedor">Fornecedor:</label>
-            <input type="text" id="fornecedor" name="fornecedor" required>
-        </div>
-        <div class="form-group">
-            <label for="razao-social">Razão Social:</label>
-            <input type="text" id="razao-social" name="razao_social" required>
-        </div>
-        <div class="form-group">
-            <label for="endereco">Endereço:</label>
-            <input type="text" id="endereco" name="endereco" required>
-        </div>
-        <div class="form-group">
-            <label for="bairro">Bairro:</label>
-            <input type="text" id="bairro" name="bairro" required>
-        </div>
-        <div class="form-group">
-            <label for="cidade">Cidade:</label>
-            <input type="text" id="cidade" name="cidade" required>
-        </div>
-        <div class="form-group">
-            <label for="email">E-mail:</label>
-            <input type="email" id="email" name="email" required>
-        </div>
-
-        <div class="form-group">
-        <label for="situacao">Situação:</label>
-        <select id="situacao" name="situacao" required>
-            <option value="" disabled selected>Selecione uma situação</option>
-            <option value="Ativa">Ativa</option>
-            <option value="Desativada">Desativada</option>
-            <option value="Bloqueada">Bloqueada</option>
-        </select>
-        </div>
-
-        <div class="form-group">
-            <label for="estado">Estado:</label>
-            <input type="text" id="estado" name="estado" required>
-        </div>
-        <div class="button-group">
-            <button type="submit">Salvar</button>
-        </div>
-    </form>
-</div>
-
-<!-- Tab 4: Cadastro Veiculo -->
-<div class="form-section" id="tab4">
-    <form action="../conector/inserir_veiculo.php" method="POST"> <!-- Ação para o script PHP -->
-        <div class="form-group">
-            <label for="carros">Veículo:</label>
-            <input type="text" id="carros" name="veiculo" required>
-        </div>
-        <div class="form-group">
-            <label for="marca">Marca:</label>
-            <input type="text" id="marca" name="marca" required>
-        </div>
-        <div class="form-group">
-            <label for="ano">Ano:</label>
-            <input type="text" id="ano" name="ano" required>
-        </div>
-        <div class="form-group">
-            <label for="modelo">Modelo:</label>
-            <input type="text" id="modelo" name="modelo" required>
-        </div>
-        <div class="form-group">
-            <label for="fabricante-veiculo">Fabricante:</label>
-            <input type="text" id="fabricante-veiculo" name="fabricante" required>
-        </div>
-        <div class="button-group">
-            <button type="submit">Salvar</button>
-        </div>
-    </form>
-</div>
-
-<!-- inicio script de consulta marca veiculo -->
-<script>
-    // Função para carregar os fabricantes via AJAX
-    function carregarFabricantes() {
-        const selectFabricante = document.getElementById('fabricante-carro');
-
-        // Fazer requisição para o PHP via AJAX
-        fetch('../conector/consulta_fabricante.php')
-            .then(response => response.json())
-            .then(data => {
-                // Limpar o campo antes de adicionar novas opções
-                selectFabricante.innerHTML = '<option value="">Selecione o Fabricante</option>';
-
-                // Preencher o select com os fabricantes vindos do banco de dados
-                data.forEach(fabricante => {
-                    const option = document.createElement('option');
-                    option.value = fabricante.fabricante;
-                    option.textContent = fabricante.fabricante;
-                    selectFabricante.appendChild(option);
-                });
-            })
-            .catch(error => console.error('Erro ao carregar fabricantes:', error));
-        }
-
-        // Carregar os fabricantes ao carregar a página
-        document.addEventListener('DOMContentLoaded', carregarFabricantes);
-
-        // Listener para tratar a seleção do fabricante
-        document.getElementById('fabricante-carro').addEventListener('change', function() {
-            const selectedFabricante = this.value;
-            const modeloCarroInput = document.getElementById('modelo-carro');
-
-            
-        });
-</script>
-<!-- final script de consulta marca veiculo -->
-
-<!-- inicio script de consulta modelo veiculo -->
-<script>
-    // Função para carregar os modelos via AJAX
-    function carregarModelo() {
-        const selectModelo = document.getElementById('modelo-carro');
-
-        // Fazer requisição para o PHP via AJAX
-        fetch('../conector/consulta_modelo.php')
-            .then(response => response.json())
-            .then(data => {
-                // Limpar o campo antes de adicionar novas opções
-                selectModelo.innerHTML = '<option value="">Selecione o Modelo</option>';
-
-                // Preencher o select com os dados do modelo vindos do banco de dados
-                data.forEach(modelo => {
-                    const option = document.createElement('option');
-                    option.value = modelo.modelo;  // Valor do modelo
-                    option.textContent = modelo.modelo;  // Texto exibido
-                    selectModelo.appendChild(option);  // Adiciona a opção ao select
-                });
-            })
-            .catch(error => console.error('Erro ao carregar modelo:', error));
-    }
-
-    // Carregar os modelos ao carregar a página
-    document.addEventListener('DOMContentLoaded', carregarModelo);
-
-    // Listener para tratar a seleção do modelo
-    document.getElementById('modelo-carro').addEventListener('change', function() {
-        const selectedModelo = this.value;  // Modelo selecionado
-        const modeloCarroInput = document.getElementById('modelo-carro');
-
-        // Aqui você pode adicionar lógica adicional se necessário
-        // Exemplo: atualizar um campo de texto ou exibir informações sobre o modelo selecionado
-        console.log(`Modelo selecionado: ${selectedModelo}`); // Apenas para depuração
-    });
-</script>
-
-<!-- final script de consulta marca veiculo -->
 
 <script>
     //script para limpar e voltar tela de cadastro de fornecedor
