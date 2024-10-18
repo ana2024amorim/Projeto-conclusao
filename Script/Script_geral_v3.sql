@@ -159,21 +159,49 @@ CREATE TABLE tb_fornecedor (
     id INT AUTO_INCREMENT PRIMARY KEY,
     fornecedor VARCHAR(255) NOT NULL,
     razao_social VARCHAR(255) NOT NULL,
-    endereco VARCHAR(255),
-    bairro VARCHAR(100),
-    cidade VARCHAR(100),
-    email VARCHAR(100) UNIQUE,
-    situacao ENUM('Ativo', 'Inativo') NOT NULL,
-    estado CHAR(2) NOT NULL
+    cnpj VARCHAR(18) NOT NULL UNIQUE,
+    insc_estadual VARCHAR(20) NOT NULL,
+    endereco VARCHAR(255) NOT NULL,
+    bairro VARCHAR(100) NOT NULL,
+    telefone VARCHAR(15) NOT NULL,
+    cidade VARCHAR(100) NOT NULL,
+    estado CHAR(2) NOT NULL,
+    situacao ENUM('Ativa', 'Desativada', 'Bloqueada') NOT NULL,
+    email VARCHAR(255) NOT NULL,
+    data_cadastro TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
+
+INSERT INTO tb_fornecedor (fornecedor, razao_social, cnpj, insc_estadual, endereco, bairro, telefone, cidade, estado, situacao, email)
+VALUES
+('Fornecedor A', 'Fornecedor A LTDA', '12.345.678/0001-01', '123456789', 'Rua A, 100', 'Bairro 1', '(11) 98765-4321', 'São Paulo', 'SP', 'Ativa', 'fornecedorA@example.com'),
+('Fornecedor B', 'Fornecedor B LTDA', '98.765.432/0001-02', '987654321', 'Rua B, 200', 'Bairro 2', '(21) 91234-5678', 'Rio de Janeiro', 'RJ', 'Ativa', 'fornecedorB@example.com'),
+('Fornecedor C', 'Fornecedor C ME', '56.123.789/0001-03', '567891234', 'Rua C, 300', 'Bairro 3', '(31) 99876-5432', 'Belo Horizonte', 'MG', 'Desativada', 'fornecedorC@example.com'),
+('Fornecedor D', 'Fornecedor D LTDA', '78.456.123/0001-04', '789123456', 'Rua D, 400', 'Bairro 4', '(41) 92345-6789', 'Curitiba', 'PR', 'Bloqueada', 'fornecedorD@example.com'),
+('Fornecedor E', 'Fornecedor E EIRELI', '34.567.890/0001-05', '345678901', 'Rua E, 500', 'Bairro 5', '(61) 93456-7890', 'Brasília', 'DF', 'Ativa', 'fornecedorE@example.com'),
+('Fornecedor F', 'Fornecedor F LTDA', '23.678.901/0001-06', '236789012', 'Rua F, 600', 'Bairro 6', '(71) 94567-8901', 'Salvador', 'BA', 'Ativa', 'fornecedorF@example.com'),
+('Fornecedor G', 'Fornecedor G ME', '89.012.345/0001-07', '890123456', 'Rua G, 700', 'Bairro 7', '(51) 95678-9012', 'Porto Alegre', 'RS', 'Desativada', 'fornecedorG@example.com');
 
 -- TABELA VEICULOS
 
-CREATE TABLE veiculos (
+CREATE TABLE tb_veiculo (
     id INT AUTO_INCREMENT PRIMARY KEY,
+    fabricante VARCHAR(255) NOT NULL,
     veiculo VARCHAR(255) NOT NULL,
-    marca VARCHAR(255) NOT NULL,
-    ano INT NOT NULL,
+    tipo_motor VARCHAR(100) NOT NULL,
+    ano_lancamento YEAR NOT NULL,
+    ano_encerramento YEAR NOT NULL,
     modelo VARCHAR(255) NOT NULL,
-    fabricante VARCHAR(255) NOT NULL
+    item_agregado VARCHAR(255) NOT NULL
+);
+-- TABELA ESTOQUE
+CREATE TABLE tb_estoque (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    codigo_peca VARCHAR(255) NOT NULL,
+    localizacao VARCHAR(255) NOT NULL,
+    corredor VARCHAR(100) NOT NULL,
+    posicao VARCHAR(100) NOT NULL,
+    nivel VARCHAR(50) NOT NULL,
+    quantidade INT NOT NULL,
+    fornecedor VARCHAR(255) NOT NULL,
+    data_cadastro TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );

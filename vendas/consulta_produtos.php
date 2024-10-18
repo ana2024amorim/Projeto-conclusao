@@ -1,62 +1,69 @@
 <?php
-require_once "../conector/conector_db.php";
+require_once "../conector/conector_db.php"; // Inclua seu arquivo de conexão ao banco de dados
 
-// Verificar conexão
-if ($conn->connect_error) {
-    die("Conexão falhou: " . $conn->connect_error);
-}
+$itens_por_pagina = 10; // Itens por página
 
-// Definir a quantidade de produtos por página
-$produtos_por_pagina = 5;
-$pagina = isset($_GET['pagina']) ? (int)$_GET['pagina'] : 1;
-$offset = ($pagina - 1) * $produtos_por_pagina;
+// Contar o total de produtos
+$total_resultados = $conn->query("SELECT COUNT(*) AS total FROM tb_produto")->fetch_assoc()['total'];
+$total_paginas = ceil($total_resultados / $itens_por_pagina);
 
-// Selecionar produtos em ordem alfabética com limite de produtos por página
-$sql = "SELECT codigo_produto, nome_peca, valor_varejo, peso, fornecedor, modelo_carro 
+$pagina_atual = isset($_GET['pagina']) ? (int)$_GET['pagina'] : 1;
+$offset = ($pagina_atual - 1) * $itens_por_pagina;
+
+// Consulta os produtos
+$sql = "SELECT codigo_produto, fornecedor, nome_peca, peso, valor_varejo, modelo_carro, marca_fabricante, descricao_peca 
         FROM tb_produto 
-        ORDER BY nome_peca ASC 
-        LIMIT $offset, $produtos_por_pagina";
+        LIMIT $itens_por_pagina OFFSET $offset";
+
 $result = $conn->query($sql);
 
-// Montar a tabela com os produtos
+if (!$result) {
+    die("Erro na consulta SQL: " . $conn->error);
+}
+
 if ($result->num_rows > 0) {
-    while($row = $result->fetch_assoc()) {
+    echo "<table class='table'>";
+    echo "<thead>
+            <tr>
+                <th>Código</th>
+                <th>Fornecedor</th>
+                <th>Nome</th>
+                <th>Peso (kg)</th>
+                <th>Valor</th>
+                <th>Modelo</th>
+                <th>Marca</th>
+                <th>Descrição</th>
+                <th>Ações</th>
+            </tr>
+          </thead>
+          <tbody>";
+    while ($row = $result->fetch_assoc()) {
         echo "<tr>
-                <td>" . $row["codigo_produto"] . "</td>
-                <td>" . $row["nome_peca"] . "</td>
+                <td>" . htmlspecialchars($row["codigo_produto"]) . "</td>
+                <td>" . htmlspecialchars($row["fornecedor"]) . "</td>
+                <td>" . htmlspecialchars($row["nome_peca"]) . "</td>
+                <td>" . htmlspecialchars($row["peso"]) . "</td>
                 <td>" . number_format($row["valor_varejo"], 2, ',', '.') . "</td>
-                <td>" . $row["peso"] . " kg</td>
-                <td>" . $row["fornecedor"] . "</td> <!-- Fornecedor -->
-                <td>" . $row["modelo_carro"] . "</td> <!-- Modelo do Carro -->
-                <td><span class='edit-icon' onclick='editProduct(\"" . $row["codigo_produto"] . "\")'>✏️</span></td> <!-- Icone de editar -->
+                <td>" . htmlspecialchars($row["modelo_carro"]) . "</td>
+                <td>" . htmlspecialchars($row["marca_fabricante"]) . "</td>
+                <td>" . htmlspecialchars($row["descricao_peca"]) . "</td>
+                <td>
+                    <button class='btn btn-warning' onclick='openEditModal(\"" . htmlspecialchars($row["codigo_produto"]) . "\")'>✏️</button>
+                    <button class='btn btn-danger' onclick='openDeleteModal(\"" . htmlspecialchars($row["codigo_produto"]) . "\")'>🗑️</button>
+                </td>
               </tr>";
     }
+    echo "</tbody></table>";
+
+    echo '<nav aria-label="Page navigation">';
+    echo '<ul class="pagination">';
+    for ($i = 1; $i <= $total_paginas; $i++) {
+        echo "<li class='page-item'><a class='page-link' href='#' onclick='loadPage($i); return false;'>$i</a></li>";
+    }
+    echo '</ul></nav>';
 } else {
-    echo "<tr><td colspan='7'>Nenhum produto encontrado</td></tr>"; // Alterado para 7 colunas
+    echo "<div>Nenhum produto encontrado.</div>";
 }
-
-// Contar o total de produtos para calcular o número de páginas
-$sql_total = "SELECT COUNT(*) as total FROM tb_produto";
-$result_total = $conn->query($sql_total);
-$total_row = $result_total->fetch_assoc();
-$total_produtos = $total_row['total'];
-$total_paginas = ceil($total_produtos / $produtos_por_pagina);
-
-// Exibir a navegação de páginas
-echo '<tr><td colspan="7">'; // Alterado para 7 colunas
-for ($i = 1; $i <= $total_paginas; $i++) {
-    echo '<a href="?pagina=' . $i . '" style="margin: 0 5px;">' . $i . '</a>';
-}
-echo '</td></tr>';
 
 $conn->close();
 ?>
-
-<script>
-    function editProduct(codigo) {
-        // Lógica para lidar com a edição do produto
-        console.log("Editando produto com código:", codigo);
-        // Você pode redirecionar para uma página de edição ou abrir um modal
-        // window.location.href = 'editar_produto.php?codigo=' + codigo;
-    }
-</script>
