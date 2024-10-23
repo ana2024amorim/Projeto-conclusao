@@ -40,8 +40,8 @@
         <ul>
             <li class="vendedor"><a href="cadastro_cliente.php" class="link">CADASTRO CLIENTE</a></li>
             <li class="vendedor"><a href="#" class="link">NOVA VENDA</a></li>
-            <li class="vendedor"><a href="#" class="link">PRODUTO</a></li>
-            <li class="vendedor"><a href="cadastro_funcionario.php" class="link">CADASTRO FUNCIONARIO</a></li>
+            <li class="vendedor"><a href="vendas/gestao_produtos.php" class="link">PRODUTO</a></li>
+            <!--<li class="vendedor"><a href="cadastro_funcionario.php" class="link">CADASTRO FUNCIONARIO</a></li> -->
         </ul>
     </div>
 
