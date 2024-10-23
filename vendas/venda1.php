@@ -251,7 +251,7 @@
     <!-- Tabs -->
     <div class="tabs">
         <div class="tab active" data-tab="tab1">Cadastro de Produto</div>
-        <div class="tab" data-tab="tab2">Consulta Veículo</div>
+        <div class="tab" data-tab="tab2">Cadastro Estoque</div>
         <div class="tab" data-tab="tab3">Fornecedor</div>
         <div class="tab" data-tab="tab4">Veiculos</div>
     </div>
@@ -570,93 +570,265 @@
 
     <!-- Tab 2: Posicao estoque -->
     <div class="form-section" id="tab2">
-        <form id="form-peca" action="../conector/inserir_estoque.php" method="POST"> <!-- Ação para o script PHP -->
-            <div class="form-group">
-                <label for="codigo-peca">Código da Peça:</label>
-                <input type="text" id="codigo-peca" name="codigo_peca" required>
-            </div>
+    <form id="form-peca" method="POST">
+        <div class="form-group">
+            <label for="codigo-peca">Código da Peça:</label>
+            <input type="text" id="codigo-peca" name="codigo_peca" required>
+        </div>
 
-            <div class="form-group">
-                <label for="localizacao">Localização:</label>
-                <input type="text" id="localizacao" name="localizacao" required>
-            </div>
+        <div class="form-group">
+            <label for="localizacao">Localização:</label>
+            <input type="text" id="localizacao" name="localizacao" required>
+        </div>
 
-            <div class="form-group">
-                <label for="corredor">Corredor:</label>
-                <input type="text" id="corredor" name="corredor" required>
-            </div>
+        <div class="form-group">
+            <label for="corredor">Corredor:</label>
+            <input type="text" id="corredor" name="corredor" required>
+        </div>
 
-            <div class="form-group">
-                <label for="posicao">Posição:</label>
-                <input type="text" id="posicao" name="posicao" required>
-            </div>
+        <div class="form-group">
+            <label for="posicao">Posição:</label>
+            <input type="text" id="posicao" name="posicao" required>
+        </div>
 
-            <div class="form-group">
-                <label for="nivel">Nível:</label>
-                <input type="text" id="nivel" name="nivel" required>
-            </div>
+        <div class="form-group">
+            <label for="nivel">Nível:</label>
+            <input type="text" id="nivel" name="nivel" required>
+        </div>
 
-            <div class="form-group">
-                <label for="quantidade">Quantidade:</label>
-                <input type="number" id="quantidade" name="quantidade" required>
-            </div>
+        <div class="form-group">
+            <label for="quantidade">Quantidade:</label>
+            <input type="number" id="quantidade" name="quantidade" required>
+        </div>
 
-            <div class="form-group">
-                <label for="fornecedor">Fornecedor:</label>
-                <input type="text" id="fornecedor" name="fornecedor" required>
-            </div>
+        <div class="form-group">
+            <label for="fornecedor">Fornecedor:</label>
+            <input type="text" id="fornecedor" name="fornecedor" required>
+        </div>
 
-            <div class="button-group">
-                <button type="submit">Salvar</button>
-                    <!-- Botão para abrir o modal de consulta de estoque -->
-                <button type="button" onclick="openEstoqueModal()">
-                    Consultar Estoque
-                </button>
-            </div>
-        </form>
+        <div class="button-group">
+            <button type="submit" class="btn btn-primary">Salvar</button>
+            <button type="button" class="btn btn-secondary" onclick="openEstoqueModal()">Consultar Estoque</button>
+        </div>
+    </form>
 
-            <!-- Modal de Consulta -->
-            <div class="modal fade" id="estoqueModal" tabindex="-1" role="dialog" aria-labelledby="estoqueModalLabel" aria-hidden="true">
-                <div class="modal-dialog modal-lg" role="document">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <h5 class="modal-title" id="estoqueModalLabel">Consulta de Estoque</h5>
-                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                <span aria-hidden="true">&times;</span>
-                            </button>
-                        </div>
-                        <div class="modal-body">
-                            <div id="estoque-list">
-                                <!-- Os dados do estoque serão carregados aqui via AJAX -->
-                            </div>
-                        </div>
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Fechar</button>
-                        </div>
+    <!-- Modal de Consulta de Estoque -->
+    <div class="modal fade" id="estoqueModal" tabindex="-1" role="dialog" aria-labelledby="estoqueModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="estoqueModalLabel">Consulta de Estoque</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div id="estoque-list">
+                        <!-- Os dados do estoque serão carregados aqui via AJAX -->
                     </div>
                 </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Fechar</button>
+                </div>
             </div>
+        </div>
+    </div>
 
+        <!-- Modal de Edição de Estoque -->
+    <div class="modal fade" id="editEstoqueModal" tabindex="-1" role="dialog" aria-labelledby="editEstoqueModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="editEstoqueModalLabel">Editar Estoque</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form id="edit-estoque-form">
+                        <div class="form-group">
+                            <label for="codigo-peca-edit">Código da Peça</label>
+                            <input type="text" class="form-control" id="codigo-peca-edit" name="codigo_peca" readonly>
+                        </div>
+                        <div class="form-group">
+                            <label for="localizacao-edit">Localização</label>
+                            <input type="text" class="form-control" id="localizacao-edit" name="localizacao" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="corredor-edit">Corredor</label>
+                            <input type="text" class="form-control" id="corredor-edit" name="corredor" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="posicao-edit">Posição</label>
+                            <input type="text" class="form-control" id="posicao-edit" name="posicao" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="local-nivel">Nível</label>
+                            <input type="text" class="form-control" id="local-nivel" name="nivel" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="quantidade-edit">Quantidade</label>
+                            <input type="number" class="form-control" id="quantidade-edit" name="quantidade" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="fornecedor-edit">Fornecedor</label>
+                            <input type="text" class="form-control" id="fornecedor-edit" name="fornecedor" required>
+                        </div>
+                        <button type="button" class="btn btn-primary" onclick="submitEditEstoqueForm()">Salvar alterações</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal de Exclusão de Estoque -->
+    <div class="modal fade" id="deleteEstoqueModal" tabindex="-1" role="dialog" aria-labelledby="deleteEstoqueModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="deleteEstoqueModalLabel">Confirmar Exclusão</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <p>Tem certeza que deseja excluir este item do estoque?</p>
+                    <input type="hidden" id="codigo-peca-delete">
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+                    <button type="button" class="btn btn-danger" onclick="confirmDeleteEstoque()">Excluir</button>
+                </div>
+            </div>
+        </div>
+    </div>
             <script>
-                // Função para carregar a página de estoque via AJAX
-                function loadEstoquePage(pageNumber) {
-                    fetch('../conector/consulta_estoque.php?pagina=' + pageNumber)
-                        .then(response => response.text())
-                        .then(html => {
-                            document.getElementById('estoque-list').innerHTML = html;
-                            $('#estoqueModal').modal('show'); // Abre o modal
-                        })
-                        .catch(error => {
-                            console.error('Erro ao carregar a página de estoque:', error);
-                            document.getElementById('estoque-list').innerHTML = '<div>Erro ao carregar estoque.</div>';
-                        });
+            // Função para carregar a página de estoque via AJAX
+            async function openEstoqueModal(pageNumber = 1) {
+                try {
+                    const response = await fetch(`../conector/consulta_estoque.php?pagina=${pageNumber}`);
+                    if (!response.ok) {
+                        throw new Error('Erro na resposta do servidor: ' + response.status);
+                    }
+                    const html = await response.text();
+                    document.getElementById('estoque-list').innerHTML = html;
+                    $('#estoqueModal').modal('show'); // Mostra o modal após carregar os dados
+                } catch (error) {
+                    console.error('Erro ao carregar o estoque:', error);
+                    document.getElementById('estoque-list').innerHTML = '<div>Erro ao carregar o estoque.</div>';
+                }
+            }
+            //funcao so para mudar as paginas
+            async function loadEstoquePage(pageNumber) {
+                console.log('Carregando página:', pageNumber);
+                await openEstoqueModal(pageNumber);
+            }
+
+
+        // Função para abrir o modal de edição
+        async function openEditEstoqueModal(codigo) {
+            try {
+                const response = await fetch('../conector/get_estoque.php', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ codigo_peca: codigo }),
+                });
+
+                if (!response.ok) {
+                    throw new Error('Erro na resposta do servidor: ' + response.status);
                 }
 
-                // Função para abrir o modal e carregar a primeira página dos dados
-                function openEstoqueModal() {
-                    loadEstoquePage(1); // Carrega a primeira página dos dados
+                const estoque = await response.json();
+
+                // Preencher os campos do formulário
+                document.getElementById('codigo-peca-edit').value = estoque.codigo_peca || '';
+                document.getElementById('localizacao-edit').value = estoque.localizacao || '';
+                document.getElementById('corredor-edit').value = estoque.corredor || '';
+                document.getElementById('posicao-edit').value = estoque.posicao || '';
+                document.getElementById('local-nivel').value = estoque.nivel || '';
+                document.getElementById('quantidade-edit').value = estoque.quantidade || '';
+                document.getElementById('fornecedor-edit').value = estoque.fornecedor || '';
+
+                // Mostrar o modal de edição
+                $('#editEstoqueModal').modal('show');
+            } catch (error) {
+                console.error('Erro ao abrir o modal de edição:', error);
+            }
+        }
+
+                                
+               // Função para enviar o formulário de edição
+            async function submitEditEstoqueForm() {
+                // Cria um objeto com os dados do formulário
+                const data = {
+                    codigo_peca: document.getElementById('codigo-peca-edit').value,
+                    localizacao: document.getElementById('localizacao-edit').value,
+                    corredor: document.getElementById('corredor-edit').value,
+                    posicao: document.getElementById('posicao-edit').value,
+                    nivel: document.getElementById('local-nivel').value,
+                    quantidade: document.getElementById('quantidade-edit').value,
+                    fornecedor: document.getElementById('fornecedor-edit').value
+                };
+
+                // Converte o objeto para uma string JSON
+                const jsonData = JSON.stringify(data);
+
+                console.log('Enviando dados do formulário:', jsonData);
+
+                try {
+                    const response = await fetch('../conector/update_estoque.php', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json' // Define o cabeçalho para JSON
+                        },
+                        body: jsonData,
+                    });
+
+                    console.log('Resposta do servidor:', response);
+
+                    if (response.ok) {
+                        const responseData = await response.json();
+                        alert(responseData.message); // Exibe a mensagem de sucesso ou erro
+                        $('#editEstoqueModal').modal('hide'); // Esconde o modal após atualização
+                        openEstoqueModal(); // Recarrega a lista de estoque
+                    } else {
+                        alert('Erro ao atualizar o estoque.');
+                    }
+                } catch (error) {
+                    console.error('Erro ao atualizar o estoque:', error);
                 }
-            </script>
+            }
+
+
+            // Função para abrir o modal de exclusão
+            function openDeleteEstoqueModal(codigo) {
+                document.getElementById('codigo-peca-delete').value = codigo;
+                $('#deleteEstoqueModal').modal('show');
+            }
+
+            // Função para confirmar a exclusão
+                        async function confirmDeleteEstoque() {
+                    const codigo = document.getElementById('codigo-peca-delete').value;
+                    try {
+                        const response = await fetch('../conector/delete_estoque.php', {
+                            method: 'POST',
+                            headers: { 'Content-Type': 'application/json' },
+                            body: JSON.stringify({ codigo_peca: codigo }),
+                        });
+
+                        if (response.ok) {
+                            alert('Item excluído com sucesso!');
+                            $('#deleteEstoqueModal').modal('hide');
+                            openEstoqueModal(); // Recarrega a lista de estoque
+                        } else {
+                            alert('Erro ao excluir o item.');
+                        }
+                    } catch (error) {
+                        console.error('Erro ao excluir o item:', error);
+                    }
+                }
+
+    </script>
 
         
 

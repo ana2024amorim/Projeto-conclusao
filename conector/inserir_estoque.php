@@ -16,7 +16,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $fornecedor = isset($_POST['fornecedor']) ? htmlspecialchars(strip_tags($_POST['fornecedor'])) : null;
 
     // Verifica se todos os dados obrigatórios foram recebidos
-    if ($codigo_peca && $localizacao && $corredor && $posicao && $nivel && $quantidade && $fornecedor) {
+    if ($codigo_peca && $localizacao && $corredor && $posicao && $nivel && $quantidade !== null && $fornecedor) {
         // Prepara e executa a consulta de inserção com parâmetros
         $sql = "INSERT INTO tb_estoque (codigo_peca, localizacao, corredor, posicao, nivel, quantidade, fornecedor) 
                 VALUES (?, ?, ?, ?, ?, ?, ?)";

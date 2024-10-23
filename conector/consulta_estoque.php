@@ -1,7 +1,7 @@
 <?php
 require_once "conector_db.php"; // Inclua seu arquivo de conexão ao banco de dados
 
-// Defina quantos itens você quer por página
+// Define quantos itens você quer por página
 $itens_por_pagina = 10;
 
 // Obtenha o número total de registros na tabela
@@ -17,8 +17,11 @@ $offset = ($pagina_atual - 1) * $itens_por_pagina;
 // SQL para obter os itens de estoque com limite e offset
 $sql = "SELECT codigo_peca, localizacao, corredor, posicao, nivel, quantidade, fornecedor 
         FROM tb_estoque 
-        LIMIT $itens_por_pagina OFFSET $offset";
-$result = $conn->query($sql);
+        LIMIT ? OFFSET ?";
+$stmt = $conn->prepare($sql);
+$stmt->bind_param("ii", $itens_por_pagina, $offset);
+$stmt->execute();
+$result = $stmt->get_result();
 
 if ($result->num_rows > 0) {
     echo "<table class='table'>";
@@ -45,8 +48,8 @@ if ($result->num_rows > 0) {
                 <td>" . htmlspecialchars($row["quantidade"]) . "</td>
                 <td>" . htmlspecialchars($row["fornecedor"]) . "</td>
                 <td>
-                    <button class='btn btn-warning' onclick='editEstoque(\"" . htmlspecialchars($row["codigo_peca"]) . "\")'>✏️</button>
-                    <button class='btn btn-danger' onclick='deleteEstoque(\"" . htmlspecialchars($row["codigo_peca"]) . "\")'>🗑️</button>
+                    <button class='btn btn-warning' onclick='openEditEstoqueModal(\"" . htmlspecialchars($row["codigo_peca"]) . "\")'>✏️</button>
+                    <button class='btn btn-danger' onclick='openDeleteEstoqueModal(\"" . htmlspecialchars($row["codigo_peca"]) . "\")'>🗑️</button>
                 </td>
               </tr>";
     }
@@ -64,6 +67,7 @@ if ($result->num_rows > 0) {
     echo "<div>Nenhum item de estoque encontrado.</div>";
 }
 
+$stmt->close();
 $conn->close();
 ?>
 
