@@ -82,29 +82,41 @@ ALTER TABLE `tb_funcionario`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=132;
 
 -- criando a tabela tb_login
-
 CREATE TABLE `tb_login` (
-  `id` int(11) NOT NULL,
-  `matricula` varchar(8) NOT NULL,
-  `password` varchar(200) NOT NULL
+  `id` INT(11) NOT NULL AUTO_INCREMENT,
+  `matricula` VARCHAR(8) NOT NULL,
+  `password` VARCHAR(200) NOT NULL,
+  `permissao` VARCHAR(50) NOT NULL,  -- Certifique-se de que o tipo de dado seja compatível
+  PRIMARY KEY (`id`),
+  CONSTRAINT fk_permissao FOREIGN KEY (permissao) REFERENCES tb_cargos(permissao)  -- Relaciona permissao com tb_cargos
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 
--- Despejando dados para a tabela `tb_login`
+INSERT INTO `tb_login` (`id`, `matricula`, `password`, `permissao`) VALUES
+(1, '15151', '$2y$10$k5gFgEh7GUhHCCuqD4p6q.sGpp0cQvx0mv0kuQsd3w//6BoDKnOAa', 'gerente'),
+(2, '20201', '$2y$10$k5gFgEh7GUhHCCuqD4p6q.sGpp0cQvx0mv0kuQsd3w//6BoDKnOAa', 'vendedor'),
+(3, '30301', '$2y$10$k5gFgEh7GUhHCCuqD4p6q.sGpp0cQvx0mv0kuQsd3w//6BoDKnOAa', 'estoquista');
 
 
-INSERT INTO `tb_login` (`id`, `matricula`, `password`) VALUES
-(1, '15151', '$2y$10$k5gFgEh7GUhHCCuqD4p6q.sGpp0cQvx0mv0kuQsd3w//6BoDKnOAa');
 
--- Índices de tabela `tb_login`
+-- TABELA CARGOS
 
-ALTER TABLE `tb_login`
-  ADD PRIMARY KEY (`id`);
 
--- AUTO_INCREMENT de tabela `tb_login`
+CREATE TABLE `tb_cargos` (
+  `id` INT(11) NOT NULL AUTO_INCREMENT,  -- Adiciona AUTO_INCREMENT ao id
+  `cargo` ENUM('gerente', 'vendedor', 'estoquista', 'caixa') NOT NULL,
+  `permissao` VARCHAR(50) NOT NULL,
+  PRIMARY KEY (`id`)  -- Define o id como chave primária
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
-ALTER TABLE `tb_login`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+-- Insere os dados na tabela `tb_cargos`
+INSERT INTO `tb_cargos` (`cargo`, `permissao`) VALUES
+('gerente', 'gerente'),
+('vendedor', 'vendedor'),
+('estoquista', 'estoquista'),
+('caixa', 'caixa');
+
+
 
 -- TABELA PRODUTO
 CREATE TABLE tb_produto (

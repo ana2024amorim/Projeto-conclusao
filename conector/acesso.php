@@ -1,5 +1,5 @@
 <?php
-//session_start();  // Inicia a sessão
+// session_start();  // Inicia a sessão
 require_once "conector_db.php";
 
 // Verifica se os campos de matrícula e senha foram preenchidos
@@ -29,7 +29,27 @@ if ($user = $result->fetch_assoc()) {
     // Verifica se a senha corresponde usando hash no password_verify
     if (password_verify($password, $user['password'])) {
         $_SESSION['matricula'] = $matricula;
-        header('Location: ../pagina_venda.php');
+        $_SESSION['permissao'] = $user['permissao']; // Armazena a permissão na sessão
+        
+        // Redireciona baseado na permissão do usuário
+        switch ($user['permissao']) {
+            case 'gerente':
+                header('Location: ../painel_admin.php');
+                break;
+            case 'vendedor':
+                header('Location: ../pdv/pagina_inicial.php');
+                break;
+            case 'estoquista':
+                header('Location: ../vendas/gestao_produtos.php');
+                break;
+            case 'caixa':
+                header('Location: ../paginacaixa.php');
+                break;
+            default:
+                // Se a permissão não corresponder a nenhuma das opções
+                header('Location: ../index.php?error=permission_denied');
+                break;
+        }
         exit();
     } else {
         // Senha incorreta
