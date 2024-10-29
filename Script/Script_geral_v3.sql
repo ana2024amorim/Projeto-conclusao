@@ -217,3 +217,16 @@ CREATE TABLE tb_estoque (
     fornecedor VARCHAR(255) NOT NULL,
     data_cadastro TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
+
+--tb compra
+CREATE TABLE IF NOT EXISTS tb_compra (
+    id INT(11) AUTO_INCREMENT PRIMARY KEY,
+    cliente_cpfcnpj VARCHAR(20),
+    cliente_nome VARCHAR(100),
+    produto_nome VARCHAR(100),
+    quantidade INT(11),
+    valor_unitario DECIMAL(10, 2),
+    valor_total DECIMAL(10, 2),
+    forma_pagamento VARCHAR(50),
+    data_compra TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+)
