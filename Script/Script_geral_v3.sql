@@ -219,14 +219,25 @@ CREATE TABLE tb_estoque (
 );
 
 --tb compra
-CREATE TABLE IF NOT EXISTS tb_compra (
-    id INT(11) AUTO_INCREMENT PRIMARY KEY,
-    cliente_cpfcnpj VARCHAR(20),
-    cliente_nome VARCHAR(100),
-    produto_nome VARCHAR(100),
-    quantidade INT(11),
-    valor_unitario DECIMAL(10, 2),
-    valor_total DECIMAL(10, 2),
-    forma_pagamento VARCHAR(50),
-    data_compra TIMESTAMP DEFAULT CURRENT_TIMESTAMP
-)
+CREATE TABLE `tb_compra` (
+  `id` int(11) NOT NULL,
+  `cliente_cpfcnpj` varchar(20) DEFAULT NULL,
+  `cliente_nome` varchar(100) DEFAULT NULL,
+  `produto_nome` varchar(100) DEFAULT NULL,
+  `quantidade` int(11) DEFAULT NULL,
+  `valor_unitario` decimal(10,2) DEFAULT NULL,
+  `valor_total` decimal(10,2) DEFAULT NULL,
+  `forma_pagamento` varchar(50) DEFAULT NULL,
+  `finalizado` TINYINT(1) NOT NULL CHECK (`finalizado` IN (0, 1)),
+  `data_compra` timestamp NOT NULL DEFAULT current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+ALTER TABLE `tb_compra`
+  ADD PRIMARY KEY (`id`);
+
+ALTER TABLE `tb_compra`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+COMMIT;
+
+ALTER TABLE `tb_compra`
+  MODIFY `finalizado` TINYINT(1) NOT NULL DEFAULT 0 CHECK (`finalizado` IN (0, 1));

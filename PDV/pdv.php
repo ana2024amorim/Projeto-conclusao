@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -12,17 +13,21 @@
         .container {
             margin-top: 20px;
         }
+
         .product-list {
             max-height: 200px;
             overflow-y: auto;
             margin-bottom: 20px;
         }
+
         .cart-table {
             margin-bottom: 20px;
         }
+
         .total-section {
             text-align: right;
         }
+
         .btn-remove {
             background-color: #ff5c5c;
             color: white;
@@ -30,25 +35,31 @@
             padding: 5px 10px;
             cursor: pointer;
         }
+
         .btn-remove:hover {
             background-color: #ff0000;
         }
+
         .btn-finalizar {
             display: block;
             margin-top: 20px;
         }
+
         .quantity-input {
             width: 60px;
         }
+
         .client-section {
             margin-bottom: 20px;
         }
+
         .client-form-group {
-            width: 200px; /* Ajuste a largura dos campos */
-            margin-right: 10px; /* Espaçamento entre os campos */
+            width: 200px;
+            margin-right: 10px;
         }
     </style>
 </head>
+
 <body>
     <div class="container">
         <h2 class="text-center">Sistema de Venda</h2>
@@ -65,13 +76,11 @@
             </div>
             <div class="form-group w-50">
                 <label for="search-product">Buscar Produto:</label>
-                <input type="text" id="search-product" class="form-control" placeholder="Digite o nome da peça">
+                <input type="text" id="search-product" class="form-control" placeholder="Digite o nome do produto">
             </div>
         </div>
 
-        <div id="product-list" class="product-list list-group">
-            <!-- Os resultados da busca aparecerão aqui -->
-        </div>
+        <div id="product-list" class="product-list list-group"></div>
 
         <h4>Produtos no carrinho</h4>
         <div class="table-responsive">
@@ -85,9 +94,7 @@
                         <th>Remover</th>
                     </tr>
                 </thead>
-                <tbody id="cart-items">
-                    <!-- Itens adicionados aparecerão aqui -->
-                </tbody>
+                <tbody id="cart-items"></tbody>
             </table>
         </div>
 
@@ -127,8 +134,85 @@
         </div>
     </div>
 
-   
+    <!-- Scripts -->
+  <!--scrip para consulta cliente-->
+  <script>
+        $(document).ready(function () {
+            let timeout = null; // Variável para armazenar o timeout
 
+            $('#client-cpfcnpj').keydown(function () {
+                try {
+                    $(this).unmask(); // Remove qualquer máscara existente
+                } catch (e) {}
+
+                var tamanho = $(this).val().length;
+
+                // Aplica a máscara correta com base no tamanho da entrada
+                if (tamanho < 11) {
+                    $(this).mask("999.999.999-99"); // Máscara para CPF
+                } else {
+                    $(this).mask("99.999.999/9999-99"); // Máscara para CNPJ
+                }
+
+                // Ajustando foco
+                var elem = this;
+                setTimeout(function () {
+                    elem.selectionStart = elem.selectionEnd = 10000;
+                }, 0);
+
+                // Reaplico o valor para mudar o foco
+                var currentValue = $(this).val();
+                $(this).val('');
+                $(this).val(currentValue);
+            }).trigger('keydown'); // Aplica a máscara ao carregar a página
+
+            // Função para buscar o nome do cliente pelo CNPJ ou CPF
+            $('#client-cpfcnpj').on('input', function() {
+                clearTimeout(timeout); // Limpa o timeout anterior
+                timeout = setTimeout(identifyAndFetchClient, 1000); // Define um novo timeout
+            });
+        });
+
+        function identifyAndFetchClient() {
+            const input = $('#client-cpfcnpj').val().replace(/\D/g, ''); // Remove caracteres não numéricos
+            const clientNameInput = $('#client-name');
+
+            if (input.length === 11) { // CPF
+                fetch(`../conector/consulta_pdv.php?cpf=${input}`)
+                    .then(response => response.json())
+                    .then(data => {
+                        if (data.nome) {
+                            clientNameInput.val(data.nome);
+                        } else {
+                            alert('Cliente não cadastrado.');
+                            if (confirm('Deseja cadastrar o cliente?')) {
+                                window.location.href = 'cadastro.php';
+                            }
+                        }
+                    })
+                    .catch(error => console.error('Erro ao buscar cliente:', error));
+            } else if (input.length === 14) { // CNPJ
+                fetch(`../conector/consulta_pdv.php?cnpj=${input}`)
+                    .then(response => response.json())
+                    .then(data => {
+                        if (data.nome) {
+                            clientNameInput.val(data.nome);
+                        } else {
+                            alert('Cliente não cadastrado.');
+                            if (confirm('Deseja cadastrar o cliente?')) {
+                                window.location.href = '../cadastro_cliente.php';
+                            }
+                        }
+                    })
+                    .catch(error => console.error('Erro ao buscar cliente:', error));
+            } else {
+                clientNameInput.val(''); // Limpa o campo se não for válido
+            }
+        }
+
+    </script>
+
+<!--script para consulta produto adicionar carrinho e remove carrinho-->
 <script>
             let cart = []; // Array para armazenar produtos no carrinho
 
@@ -232,62 +316,60 @@
             }
 </script>
 
+<!--envia para o pix e insere no banco de dados-->
 <script>
-function submitSale() {
-    const clienteCnpj = $('#client-cpfcnpj').val();
-    const clienteNome = $('#client-name').val();
-    const formaPagamento = $('input[name="paymentMethod"]:checked').val();
+    function submitSale() {
+        const clienteCnpj = $('#client-cpfcnpj').val();
+        const clienteNome = $('#client-name').val();
+        const formaPagamento = $('input[name="paymentMethod"]:checked').val();
 
-    // Monta um array de produtos para enviar
-    const produtos = cart.map(item => ({
-        nome: item.nome_peca,
-        quantidade: item.quantity,
-        valor_unitario: item.valor_varejo.toFixed(2), // Garantir que seja um número formatado
-        valor_total: (item.valor_varejo * item.quantity).toFixed(2) // Garantir que seja um número formatado
-    }));
+        // Monta um array de produtos para enviar
+        const produtos = cart.map(item => ({
+            nome: item.nome_peca,
+            quantidade: item.quantity,
+            valor_unitario: item.valor_varejo,
+            valor_total: item.valor_varejo * item.quantity
+        }));
 
-    // Calcula o valor total da compra
-    const totalCompra = cart.reduce((total, item) => total + (item.valor_varejo * item.quantity), 0).toFixed(2); // Formato
+        // Calcula o valor total da compra
+        const totalCompra = cart.reduce((total, item) => total + (item.valor_varejo * item.quantity), 0);
 
-    // Envia os dados para gravar no banco 
-    $.ajax({
-        url: '../conector/finalizar_compra.php', // Substitua pelo caminho correto
-        method: 'POST',
-        data: {
-            cliente_cpfcnpj: clienteCnpj,
-            cliente_nome: clienteNome,
-            forma_pagamento: formaPagamento,
-            produtos: JSON.stringify(produtos), // Envia como string JSON
-            valor_total: totalCompra // Envia o valor total
-        },
-        success: function(response) {
-            // Verifica se a resposta foi bem-sucedida
-            if (response.success) {
+        // Define o valor de finalizado com base no método de pagamento
+        const finalizado = formaPagamento === 'pix' ? 1 : 0;
+
+        // Envia os dados para gravar no banco
+        $.ajax({
+            url: '../conector/finalizar_compra.php',
+            method: 'POST',
+            data: {
+                cliente_cpfcnpj: clienteCnpj,
+                cliente_nome: clienteNome,
+                forma_pagamento: formaPagamento,
+                produtos: produtos,
+                valor_total: totalCompra,
+                finalizado: finalizado // Envia o valor de finalizado
+            },
+            success: function(response) {
                 if (formaPagamento === 'pix') {
                     // Redireciona para a página de pagamento Pix com o valor
-                    window.location.href = `/QRCode/pagamento.php?pagamento_pix=${totalCompra}`;
+                    window.location.href = `../QRCode/pagamento.php?pagamento_pix=${totalCompra}`;
                 } else {
                     alert('Compra finalizada com sucesso!');
                     cart = []; // Limpa o carrinho
                     updateCart(); // Atualiza a tabela do carrinho
                     $('#paymentModal').modal('hide'); // Fecha o modal
                 }
-            } else {
-                alert('Erro ao gravar a venda: ' + response.message);
+            },
+            error: function(xhr, status, error) {
+                console.error('Erro ao finalizar compra:', error);
+                alert('Ocorreu um erro ao finalizar a compra. Tente novamente.');
             }
-        },
-        error: function(xhr, status, error) {
-            console.error('Erro ao finalizar compra:', error);
-            alert('Ocorreu um erro ao finalizar a compra. Tente novamente.');
-        }
-    });
-}
+        });
+    }
 </script>
 
 
-
-
-    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.10.2/dist/umd/popper.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
 </body>
+
 </html>

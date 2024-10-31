@@ -325,68 +325,56 @@
 
 <!--envia para o pix e insere no banco de dados-->
 <script>
-            function submitSale() {
-                const clienteCnpj = $('#client-cpfcnpj').val();
-                const clienteNome = $('#client-name').val();
-                const formaPagamento = $('input[name="paymentMethod"]:checked').val();
+function submitSale() {
+    const clienteCnpj = $('#client-cpfcnpj').val();
+    const clienteNome = $('#client-name').val();
+    const formaPagamento = $('input[name="paymentMethod"]:checked').val();
 
-                // Monta um array de produtos para enviar
-                const produtos = cart.map(item => ({
-                    nome: item.nome_peca,
-                    quantidade: item.quantity,
-                    valor_unitario: item.valor_varejo,
-                    valor_total: item.valor_varejo * item.quantity
-                }));
+    // Monta um array de produtos para enviar
+    const produtos = cart.map(item => ({
+        nome: item.nome_peca,
+        quantidade: item.quantity,
+        valor_unitario: item.valor_varejo,
+        valor_total: item.valor_varejo * item.quantity
+    }));
 
-                // Calcula o valor total da compra
-                const totalCompra = cart.reduce((total, item) => total + (item.valor_varejo * item.quantity), 0);
+    const produtosJSON = JSON.stringify(produtos); // Converte o array de produtos para JSON
 
-                // Envia os dados para gravarno banco 
-                $.ajax({
-                    url: '../conector/finalizar_compra.php', // Substitua pelo caminho correto
-                    method: 'POST',
-                    data: {
-                        cliente_cpfcnpj: clienteCnpj,
-                        cliente_nome: clienteNome,
-                        forma_pagamento: formaPagamento,
-                        produtos: produtos,
-                        valor_total: totalCompra // Envia o valor total
-                    },
-                    success: function(response) {
-                        if (formaPagamento === 'pix') {
-                            // Redireciona para a página de pagamento Pix com o valor
-                            window.location.href = `/QRCode/pagamento.php?pagamento_pix=${totalCompra}`;
-                        } else {
-                            alert('Compra finalizada com sucesso!');
-                            cart = []; // Limpa o carrinho
-                            updateCart(); // Atualiza a tabela do carrinho
-                            $('#paymentModal').modal('hide'); // Fecha o modal
-                        }
-                    },
-                    error: function(xhr, status, error) {
-                        console.error('Erro ao finalizar compra:', error);
-                        alert('Ocorreu um erro ao finalizar a compra. Tente novamente.');
-                    }
-                });
-            }
+    // Calcula o valor total da compra
+    const totalCompra = cart.reduce((total, item) => total + (item.valor_varejo * item.quantity), 0);
 
-            //envia o valor para o pix
+    const finalizado = formaPagamento === 'pix' ? 1 : 0;
 
-            function submitSale() {
-            const selectedPaymentMethod = $('input[name="paymentMethod"]:checked').val();
-            
-            if (selectedPaymentMethod === 'pix') {
-                const totalAmount = $('#total-price').text().replace(',', '.'); // Certifique-se de que o formato esteja correto
-                // Redireciona para pagamento.php com o valor do Pix
-                window.location.href = `../QRCode/pagamento.php?pagamento_pix=${totalAmount}`;
+    $.ajax({
+        url: '../conector/finalizar_compra.php',
+        method: 'POST',
+        data: {
+            cliente_cpfcnpj: clienteCnpj,
+            cliente_nome: clienteNome,
+            forma_pagamento: formaPagamento,
+            produtos: produtosJSON, // Envia como JSON
+            valor_total: totalCompra,
+            finalizado: finalizado
+        },
+        success: function(response) {
+            if (formaPagamento === 'pix') {
+                window.location.href = `../QRCode/pagamento.php?pagamento_pix=${totalCompra}`;
             } else {
-                // Lógica para outros métodos de pagamento
-                alert('Método de pagamento selecionado não é suportado.');
+                alert('Compra finalizada com sucesso!');
+                cart = []; // Limpa o carrinho
+                updateCart();
+                $('#paymentModal').modal('hide');
             }
+        },
+        error: function(xhr, status, error) {
+            console.error('Erro ao finalizar compra:', error);
+            alert('Ocorreu um erro ao finalizar a compra. Tente novamente.');
         }
-
+    });
+}
 
 </script>
+
 
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.10.2/dist/umd/popper.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.min.js"></script>

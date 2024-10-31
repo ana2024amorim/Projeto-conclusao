@@ -13,8 +13,8 @@
     <link rel="stylesheet" href="css/painel_admin.css">
     <link href="css/painel_admin.min.css" rel="stylesheet">
     <link href="https://afeld.github.io/emoji-css/emoji.css" rel="stylesheet">
+    
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.2/Chart.bundle.min.js" integrity="sha256-XF29CBwU1MWLaGEnsELogU6Y6rcc5nCkhhx89nFMIDQ=" crossorigin="anonymous"></script>
-
 </head>
 <style>
     html, body {
@@ -27,9 +27,7 @@
         align-items: flex-start; /* Alinha os itens no topo da página */
         background-color: #FF7F50; /* Cor de fundo  */
         padding-left: 20px; /* Ajuste o padding conforme necessário */
-        margin-left: -160px
-        
-       
+        margin-left: -160px;
     }
 
     .content {
@@ -37,32 +35,18 @@
         max-width: 1200px; /* Define uma largura máxima */
         width: 100%;    /* Garante que o conteúdo ocupe toda a largura */
         margin: auto;   /* Centraliza o conteúdo horizontalmente */
-        
     }
 </style>
 
-<body class="bg-orange-500 font-sans leading-normal  tracking-normal mt-12 ">
+<body class="bg-orange-500 font-sans leading-normal tracking-normal mt-12">
   
     <!--Nav-->
-   
     <nav class="bg-orange-500 pt-2 md:pt-1 pb-1 px-1 mt-0 h-auto fixed w-full z-20 top-0">
-    
         <div class="flex flex-wrap items-center">
             <div class="flex flex-shrink md:w-1/3 justify-center md:justify-start text-white">
                 <a href="#">
                     <span class="text-xl pl-2"><i class="em em-grinning"></i></span>
                 </a>
-            </div>
-
-            <div class="flex flex-1 md:w-1/3 justify-center md:justify-start text-white px-2">
-                <span class="relative w-full">
-                    <input type="search" placeholder="Pesquisar..." class="w-full bg-gray-900 text-white transition border border-transparent focus:outline-none focus:border-gray-400 rounded py-3 px-2 pl-10 appearance-none leading-normal">
-                    <div class="absolute search-icon" style="top: 1rem; left: .8rem;">
-                        <svg class="fill-current pointer-events-none text-white w-4 h-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
-                            <path d="M12.9 14.32a8 8 0 1 1 1.41-1.41l5.35 5.33-1.42 1.42-5.33-5.34zM8 14A6 6 0 1 0 8 2a6 6 0 0 0 0 12z"></path>
-                        </svg>
-                    </div>
-                </span>
             </div>
 
             <div class="flex w-full pt-2 content-center justify-between md:w-1/3 md:justify-end">
@@ -121,7 +105,6 @@
                             <i class="fa fa-wallet pr-0 md:pr-3"></i>
                             <span class="pb-1 md:pb-0 text-xs md:text-base text-white md:text-white block md:inline-block">Pagamentos</span>
                         </a>
-                        
                     </li>
                     <li class="mr-3 flex-1">
                         <a href="#" onclick="document.getElementById('contentFrame').src='cadastro_funcionario.php';" class="block py-1 md:py-3 pl-0 md:pl-1 align-middle text-white no-underline hover:text-white border-b-2 border-gray-800 hover:border-red-500">
@@ -138,40 +121,25 @@
         
     </div>
     
-
     <script>
-        /*Toggle dropdown list*/
-        function toggleDD(myDropMenu) {
-            document.getElementById(myDropMenu).classList.toggle("invisible");
+        // Toggle the dropdown menu
+        function toggleDD(dropdownId) {
+            document.getElementById(dropdownId).classList.toggle("invisible");
         }
-        /*Filter dropdown options*/
-        function filterDD(myDropMenu, myDropMenuSearch) {
-            var input, filter, div, a, i;
-            input = document.getElementById(myDropMenuSearch);
+
+        // Filter dropdown menu
+        function filterDD(dropdownId, inputId) {
+            let input, filter, ul, li, a, i;
+            input = document.getElementById(inputId);
             filter = input.value.toUpperCase();
-            div = document.getElementById(myDropMenu);
+            div = document.getElementById(dropdownId);
             a = div.getElementsByTagName("a");
             for (i = 0; i < a.length; i++) {
-                if (a[i].innerHTML.toUpperCase().indexOf(filter) > -1) {
-                    a[i].style.display = "";
-                } else {
-                    a[i].style.display = "none";
-                }
-            }
-        }
-        // Close the dropdown menu if the user clicks outside of it
-        window.onclick = function(event) {
-            if (!event.target.matches('.drop-button') && !event.target.matches('.drop-search')) {
-                var dropdowns = document.getElementsByClassName("dropdownlist");
-                for (var i = 0; i < dropdowns.length; i++) {
-                    var openDropdown = dropdowns[i];
-                    if (!openDropdown.classList.contains('invisible')) {
-                        openDropdown.classList.add('invisible');
-                    }
-                }
+                txtValue = a[i].textContent || a[i].innerText;
+                a[i].style.display = txtValue.toUpperCase().indexOf(filter) > -1 ? "" : "none";
             }
         }
     </script>
-
 </body>
+
 </html>

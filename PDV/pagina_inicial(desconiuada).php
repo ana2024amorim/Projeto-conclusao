@@ -141,7 +141,7 @@
             contentDiv.innerHTML = '<h2>Suprimento</h2><p>Gerencie o suprimento do estoque.</p>';
             return; // Exemplo de conteúdo estático
         case 'venda':
-            pageUrl = 'pdv.php'; // Chama a página PDV (venda)
+            pageUrl = 'http://localhost/projeto-conclusao/PDV/teste.php'; // Chama a página PDV (venda)
             break;
         case 'servico':
             contentDiv.innerHTML = '<h2>Serviço</h2><p>Gerencie os serviços prestados.</p>';

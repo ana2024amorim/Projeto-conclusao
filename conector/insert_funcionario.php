@@ -10,49 +10,13 @@ header('Content-Type: application/json'); // Define o tipo de resposta como JSON
 
 $response = array('success' => false, 'message' => '');
 
-// Função para gerar um número de matrícula aleatório único
-function generateUniqueMatricula($conn) {
-    $matricula = null;
-    $count = 0;
-    do {
-        // Gera um número aleatório de 4 dígitos
-        $matricula = sprintf('%04d', rand(0, 9999));
-
-        // Verifica se o número já existe no banco de dados
-        $sql = "SELECT COUNT(*) FROM tb_funcionario WHERE matricula = ?";
-        if ($stmt = $conn->prepare($sql)) {
-            $stmt->bind_param("s", $matricula);
-            $stmt->execute();
-            $stmt->bind_result($count);
-            $stmt->fetch();
-            $stmt->close();
-        } else {
-            die("Erro na preparação da consulta: " . $conn->error);
-        }
-        
-    } while ($count > 0); // Garante que o número seja único
-
-    return $matricula;
-}
-
-// Gera um número de matrícula único
-$matricula = generateUniqueMatricula($conn);
-
-// Captura e sanitiza o nome (campo obrigatório)
-$username = !empty($_POST['username']) ? mysqli_real_escape_string($conn, $_POST['username']) : null;
-
-if (empty($username)) {
-    $response['message'] = "O nome é obrigatório!";
-    echo json_encode($response);
-    exit();
-}
-
 // Captura e sanitiza os campos obrigatórios
+$username = !empty($_POST['username']) ? mysqli_real_escape_string($conn, $_POST['username']) : null;
 $email = !empty($_POST['email']) ? mysqli_real_escape_string($conn, $_POST['email']) : null;
 $password = !empty($_POST['password']) ? mysqli_real_escape_string($conn, $_POST['password']) : null;
 
-if (empty($email) || empty($password)) {
-    $response['message'] = "Email e senha são obrigatórios!";
+if (empty($username) || empty($email) || empty($password)) {
+    $response['message'] = "Nome, email e senha são obrigatórios!";
     echo json_encode($response);
     exit();
 }
@@ -72,6 +36,28 @@ if ($count > 0) {
     exit();
 }
 
+// Função para gerar matrícula única
+function generateUniqueMatricula($conn) {
+    do {
+        // Gera um número aleatório de matrícula
+        $matricula = str_pad(rand(0, 99999999), 8, '0', STR_PAD_LEFT);
+        
+        // Inicializa a contagem
+        $count = 0;
+
+        // Verifica se já existe essa matrícula no banco de dados
+        $sql_check = "SELECT COUNT(*) FROM tb_login WHERE matricula = ?";
+        $stmt_check = $conn->prepare($sql_check);
+        $stmt_check->bind_param("s", $matricula);
+        $stmt_check->execute();
+        $stmt_check->bind_result($count);
+        $stmt_check->fetch();
+        $stmt_check->close();
+    } while ($count > 0); // Repete até que encontre uma matrícula única
+
+    return $matricula; // Retorna a matrícula única
+}
+
 // Captura e sanitiza os campos opcionais
 $gender = !empty($_POST['gender']) ? mysqli_real_escape_string($conn, $_POST['gender']) : null;
 $dob = !empty($_POST['dob']) ? mysqli_real_escape_string($conn, $_POST['dob']) : null;
@@ -79,77 +65,83 @@ $position = !empty($_POST['position']) ? mysqli_real_escape_string($conn, $_POST
 $access_level = !empty($_POST['access-level']) ? mysqli_real_escape_string($conn, $_POST['access-level']) : null;
 $telefone = !empty($_POST['telefone']) ? mysqli_real_escape_string($conn, $_POST['telefone']) : null;
 
-// Hash da senha
-$hashed_password = password_hash($password, PASSWORD_DEFAULT);
-
-// Tratamento do upload da foto (opcional)
-$photo_folder = 'images/template.png'; // Foto padrão se não for fornecida
-if (!empty($_FILES['foto']['name'])) {
-    $photo = $_FILES['foto']['name'];
-    $photo_tmp = $_FILES['foto']['tmp_name'];
-    $photo_folder = "../uploads/" . basename($photo);
-
-    // Verifica o tipo de arquivo
-    $allowed_types = array('jpg', 'jpeg', 'png', 'gif');
-    $photo_ext = pathinfo($photo, PATHINFO_EXTENSION);
-
-    if (!in_array(strtolower($photo_ext), $allowed_types)) {
-        $response['message'] = "Tipo de arquivo não permitido. Por favor, envie uma foto em JPG, JPEG, PNG ou GIF.";
-        echo json_encode($response);
-        exit();
-    }
-
-    if (!move_uploaded_file($photo_tmp, $photo_folder)) {
-        $response['message'] = "Falha ao fazer o upload da foto.";
-        echo json_encode($response);
-        exit();
-    }
-}
-
-// Query de inserção na tabela tb_funcionario
-$sql_funcionario = "INSERT INTO tb_funcionario (matricula, nome, email, genero, data_nascimento, cargo, nivel_acesso, telefone, foto) 
-                    VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
-
-// Preparar a instrução SQL
-$stmt_funcionario = $conn->prepare($sql_funcionario);
-
-if (!$stmt_funcionario) {
-    $response['message'] = "Erro na preparação da consulta: " . $conn->error;
+// Verifica se o arquivo de foto foi enviado
+if (empty($_FILES['foto']['name']) || $_FILES['foto']['error'] != UPLOAD_ERR_OK) {
+    $response['message'] = 'Erro ao fazer upload da foto.';
     echo json_encode($response);
     exit();
 }
 
-// Bind os parâmetros, alguns deles podem ser nulos
-$stmt_funcionario->bind_param("sssssssss", $matricula, $username, $email, $gender, $dob, $position, $access_level, $telefone, $photo_folder);
+// Define o diretório para armazenar as fotos
+$target_dir = "../uploads/"; // Certifique-se de que essa pasta exista e tenha permissões de escrita
+$target_file = $target_dir . basename($_FILES['foto']['name']);
+$uploadOk = 1;
 
-if ($stmt_funcionario->execute()) {
-    // Inserção na tabela tb_login
-    $sql_login = "INSERT INTO tb_login (matricula, password) VALUES (?, ?)";
-    $stmt_login = $conn->prepare($sql_login);
+// Verifica se o arquivo é uma imagem
+$check = getimagesize($_FILES['foto']['tmp_name']);
+if ($check === false) {
+    $response['message'] = 'O arquivo não é uma imagem.';
+    echo json_encode($response);
+    exit();
+}
 
-    if (!$stmt_login) {
-        $response['message'] = "Erro na preparação da consulta de login: " . $conn->error;
+// Tenta mover o arquivo para o diretório desejado
+if (!move_uploaded_file($_FILES['foto']['tmp_name'], $target_file)) {
+    $response['message'] = 'Erro ao mover o arquivo para o diretório.';
+    echo json_encode($response);
+    exit();
+}
+
+// Hash da senha
+$hashed_password = password_hash($password, PASSWORD_DEFAULT);
+
+// Gera uma matrícula única
+$matricula = generateUniqueMatricula($conn);
+
+// Query de inserção na tabela tb_login
+$sql_login = "INSERT INTO tb_login (matricula, password, permissao) VALUES (?, ?, ?)";
+$stmt_login = $conn->prepare($sql_login);
+
+if (!$stmt_login) {
+    $response['message'] = "Erro na preparação da consulta de login: " . $conn->error;
+    echo json_encode($response);
+    exit();
+}
+
+// Bind os parâmetros para a tabela de login
+$stmt_login->bind_param("sss", $matricula, $hashed_password, $access_level); 
+
+// Executa a inserção na tabela tb_login
+if ($stmt_login->execute()) {
+    // Agora insira o funcionário na tabela tb_funcionario
+    $sql_funcionario = "INSERT INTO tb_funcionario (matricula, nome, email, genero, data_nascimento, cargo, nivel_acesso, telefone, foto) 
+                        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
+    
+    $stmt_funcionario = $conn->prepare($sql_funcionario);
+
+    if (!$stmt_funcionario) {
+        $response['message'] = "Erro na preparação da consulta: " . $conn->error;
         echo json_encode($response);
         exit();
     }
 
-    // Bind os parâmetros para a tabela de login
-    $stmt_login->bind_param("ss", $matricula, $hashed_password);
+    // Bind os parâmetros, incluindo o caminho da foto
+    $stmt_funcionario->bind_param("sssssssss", $matricula, $username, $email, $gender, $dob, $position, $access_level, $telefone, $target_file);
 
-    if ($stmt_login->execute()) {
+    // Executa a inserção na tabela tb_funcionario
+    if ($stmt_funcionario->execute()) {
         $response['success'] = true;
         $response['message'] = 'Funcionário cadastrado com sucesso!';
     } else {
-        $response['message'] = 'Erro ao cadastrar no login: ' . $stmt_login->error;
+        $response['message'] = 'Erro ao cadastrar funcionário: ' . $stmt_funcionario->error;
     }
 
-    $stmt_login->close();
+    $stmt_funcionario->close();
 } else {
-    $response['message'] = 'Erro ao cadastrar funcionário: ' . $stmt_funcionario->error;
+    $response['message'] = 'Erro ao cadastrar no login: ' . $stmt_login->error;
 }
 
+$stmt_login->close();
 echo json_encode($response);
-
-$stmt_funcionario->close();
 $conn->close();
 ?>

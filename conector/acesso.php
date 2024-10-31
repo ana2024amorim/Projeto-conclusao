@@ -1,4 +1,11 @@
 <?php
+
+session_start(); // Inicia a sessão
+
+// essa tag passa a sessao do usuario logado para as paginas que ele vai acessar
+$_SESSION['matricula'] = $matricula;
+$_SESSION['permissao'] = $user['permissao'];
+
 // session_start();  // Inicia a sessão
 require_once "conector_db.php";
 
@@ -34,10 +41,10 @@ if ($user = $result->fetch_assoc()) {
         // Redireciona baseado na permissão do usuário
         switch ($user['permissao']) {
             case 'gerente':
-                header('Location: ../painel_admin.php');
+                header('Location: ../modelo.php');
                 break;
             case 'vendedor':
-                header('Location: ../pdv/pagina_inicial.php');
+                header('Location: ../pdv/vendedor.php');
                 break;
             case 'estoquista':
                 header('Location: ../vendas/gestao_produtos.php');
