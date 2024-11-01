@@ -70,7 +70,7 @@ if (!isset($_SESSION['matricula'])) {
         /* Sidebar */
         aside {
             background-color: #FFA726; /* Laranja clara */
-            width: 60px;
+            width: 44px;
             transition: width 0.3s;
             position: fixed;
             top: 60px;
@@ -81,7 +81,7 @@ if (!isset($_SESSION['matricula'])) {
             box-shadow: 2px 0px 5px rgba(0, 0, 0, 0.2);
         }
         aside.expanded {
-            width: 200px;
+            width: 150px;
         }
         aside ul {
             list-style-type: none;
@@ -142,15 +142,30 @@ if (!isset($_SESSION['matricula'])) {
     </style>
 </head>
 <body>
-    <header>
-        <div class="menu-toggle material-icons" onclick="toggleSidebar()">menu</div>
-        <div class="logo">Logo da Empresa</div>
-        <div class="profile">
-            <img src="../uploads/profile.png" alt="Foto de perfil" onclick="alterarCadastro()">
-            <span><?php echo $_SESSION['matricula']; ?></span>
-            <span class="material-icons" onclick="sair()">exit_to_app</span>
-        </div>
-    </header>
+        <header>
+            <div class="menu-toggle material-icons" onclick="toggleSidebar()">menu</div>
+            <!-- Insere a imagem do logo diretamente no local da logo -->
+            <div class="logo">
+                <img src="images/LOGO1.png" alt="Logo da Empresa" width="45" height="auto">
+                <div class="logo">Guardian Control System</div>
+              
+            </div>
+          <!--  <div class="profile">
+                <img src="uploads/profile.png" alt="Foto de perfil" onclick="alterarCadastro()">
+                <span><?php echo $_SESSION['matricula']; ?></span>
+                <span class="material-icons" onclick="sair()">exit_to_app</span>
+            </div> -->
+            <div class="profile">
+                <img src="<?php echo isset($_SESSION['foto']) ? $_SESSION['foto'] : 'uploads/profile.png'; ?>" 
+                    alt="Foto de perfil" 
+                    onclick="alterarCadastro()">                           
+                <span><?php echo isset($_SESSION['matricula']) ? $_SESSION['matricula'] : 'Usuário'; ?></span>
+                <span class="material-icons" onclick="sair()">exit_to_app</span>
+            </div>
+
+
+        </header>
+
 
      <!-- Sidebar -->
     <aside id="sidebar">
@@ -166,6 +181,7 @@ if (!isset($_SESSION['matricula'])) {
     <!-- Conteúdo Principal -->
     <div class="content" id="main-content">
         <iframe src="inicio.html" name="content-frame"></iframe>
+        
     </div>
 
     <!-- Modal de Alteração de Cadastro -->
@@ -179,7 +195,7 @@ if (!isset($_SESSION['matricula'])) {
                 <div class="modal-body">
                     <form id="alterarCadastroForm" enctype="multipart/form-data">
                         <div class="mb-3 text-center">
-                            <img id="fotoPerfil" src="../uploads/profile.png" class="rounded-circle" width="100" height="100">
+                            <img id="fotoPerfil" src="uploads/profile.png" class="rounded-circle" width="100" height="100">
                             <div><a href="#" onclick="document.getElementById('novaFoto').click()">Trocar Imagem</a></div>
                             <input type="file" id="novaFoto" name="novaFoto" style="display: none;">
                         </div>
