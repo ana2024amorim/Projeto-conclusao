@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Recibo - Victor Shop</title>
+    <title>Recibo - NFE</title>
     <style>
         /* Definindo cores e ajustes de padding */
         .color-gray { color: #BCBCBC; }
@@ -58,7 +58,7 @@
 <table class="printer-ticket">
  	<thead>
 		<tr>
-			<th class="title" colspan="3">Victor Shop</th>
+			<th class="title" colspan="3">Guardian Cotrol</th>
 		</tr>
 		<tr>
 			<th colspan="3">17/11/2015 - 11:57:52</th>

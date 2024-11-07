@@ -45,6 +45,6 @@
         </ul>
     </div>
 
-    <script src="js/scrip_popup_edit_perfil.js"></script>
+    <script src="../js/scrip_popup_edit_perfil.js"></script>
 </body>
 </html>

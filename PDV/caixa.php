@@ -27,6 +27,18 @@
 </head>
 <body>
 
+<?php
+// Captura os dados enviados pela URL
+$nome_cliente = isset($_GET['cliente_nome']) ? htmlspecialchars($_GET['cliente_nome']) : 'Nome não informado';
+$valor_total = isset($_GET['valor_total']) ? htmlspecialchars($_GET['valor_total']) : '0.00';
+$forma_pagamento = isset($_GET['forma_pagamento']) ? htmlspecialchars($_GET['forma_pagamento']) : 'Não especificado';
+
+// Captura os arrays de produtos, quantidades e valores unitários
+$nomeproduto = isset($_GET['nomeproduto']) ? explode(',', htmlspecialchars($_GET['nomeproduto'])) : [];
+$quantidade = isset($_GET['quantidade']) ? explode(',', htmlspecialchars($_GET['quantidade'])) : [];
+$valor_unitario = isset($_GET['valor_unitario']) ? explode(',', htmlspecialchars($_GET['valor_unitario'])) : [];
+?>
+
 <!-- Barra Superior -->
 <nav class="navbar navbar-custom">
     <div class="container-fluid d-flex justify-content-between">
@@ -43,14 +55,20 @@
         <div class="col-md-3">
             <div class="card card-custom mb-3">
                 <div class="card-body">
+                    <h5 class="card-title">Cliente</h5>
+                    <p class="card-text"><?= $nome_cliente ?></p>
+                </div>
+            </div>
+            <div class="card card-custom mb-3">
+                <div class="card-body">
                     <h5 class="card-title">Valor Total</h5>
-                    <p class="card-text">R$ 10,00</p>
+                    <p class="card-text">R$ <?= $valor_total ?></p>
                 </div>
             </div>
             <div class="card card-custom">
                 <div class="card-body">
-                    <h5 class="card-title">Valor a Pagar</h5>
-                    <p class="card-text">R$ 10,00</p>
+                    <h5 class="card-title">Forma de Pagamento</h5>
+                    <p class="card-text"><?= $forma_pagamento ?></p>
                 </div>
             </div>
         </div>
@@ -58,23 +76,26 @@
         <!-- Segunda Coluna (2/4) -->
         <div class="col-md-6">
             <div class="payment-section">
-                <h5>Pagamento</h5>
+                <h5>Detalhes dos Produtos</h5>
                 <table class="table table-striped mb-3">
                     <thead>
                         <tr>
-                            <th>Tipo de Pagamento</th>
-                            <th>Valor</th>
+                            <th>Produto</th>
+                            <th>Quantidade</th>
+                            <th>Valor Unitário</th>
                         </tr>
                     </thead>
                     <tbody>
-                        <tr>
-                            <td>Dinheiro</td>
-                            <td>R$ 5,00</td>
-                        </tr>
-                        <tr>
-                            <td>Cartão de Crédito</td>
-                            <td>R$ 5,00</td>
-                        </tr>
+                        <?php
+                        // Exibe os detalhes dos produtos, quantidades e valores unitários
+                        for ($i = 0; $i < count($nomeproduto); $i++) {
+                            echo "<tr>";
+                            echo "<td>" . htmlspecialchars($nomeproduto[$i]) . "</td>";
+                            echo "<td>" . htmlspecialchars($quantidade[$i]) . "</td>";
+                            echo "<td>R$ " . htmlspecialchars($valor_unitario[$i]) . "</td>";
+                            echo "</tr>";
+                        }
+                        ?>
                     </tbody>
                 </table>
                 <div class="card card-payment mb-3">
