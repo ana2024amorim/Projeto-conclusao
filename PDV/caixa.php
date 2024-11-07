@@ -27,11 +27,18 @@
 </head>
 <body>
 
+
+
 <?php
+// Exibe todos os valores de $_GET para depuração
+//echo "<pre>";
+//print_r($_GET);
+//echo "</pre>";
 // Captura os dados enviados pela URL
 $nome_cliente = isset($_GET['cliente_nome']) ? htmlspecialchars($_GET['cliente_nome']) : 'Nome não informado';
 $valor_total = isset($_GET['valor_total']) ? htmlspecialchars($_GET['valor_total']) : '0.00';
 $forma_pagamento = isset($_GET['forma_pagamento']) ? htmlspecialchars($_GET['forma_pagamento']) : 'Não especificado';
+$cliente_cpfcnpj = isset($_GET['cliente_cpfcnpj']) ? htmlspecialchars($_GET['cliente_cpfcnpj']) : 'Não especificado';
 
 // Captura os arrays de produtos, quantidades e valores unitários
 $nomeproduto = isset($_GET['nomeproduto']) ? explode(',', htmlspecialchars($_GET['nomeproduto'])) : [];
@@ -106,20 +113,40 @@ $valor_unitario = isset($_GET['valor_unitario']) ? explode(',', htmlspecialchars
                 </div>
                 <div class="card card-payment">
                     <div class="card-body">
-                        <h5 class="card-title">CPF</h5>
-                        <input type="text" class="form-control" placeholder="Digite o CPF do cliente">
+                        <h5 class="card-title">CPF ou CNPJ</h5>
+                        <input type="text" class="form-control" 
+                            placeholder="Digite o CPF ou CNPJ do cliente" 
+                            name="cliente_cpfcnpj" 
+                            value="<?= isset($_GET['cliente_cpfcnpj']) ? htmlspecialchars($_GET['cliente_cpfcnpj']) : '' ?>">
                     </div>
                 </div>
+
             </div>
         </div>
 
         <!-- Terceira Coluna (1/4) -->
         <div class="col-md-3">
+            <form action="NFE.php" method="POST">
+                <input type="hidden" name="cliente_nome" value="<?= $nome_cliente ?>">
+                <input type="hidden" name="valor_total" value="<?= $valor_total ?>">
+                <input type="hidden" name="forma_pagamento" value="<?= $forma_pagamento ?>">
+                <input type="hidden" name="nomeproduto" value="<?= implode(',', $nomeproduto) ?>">
+                <input type="hidden" name="quantidade" value="<?= implode(',', $quantidade) ?>">
+                <input type="hidden" name="valor_unitario" value="<?= implode(',', $valor_unitario) ?>">
+
+                <!-- Campo oculto para enviar o CPF/CNPJ -->
+                <!-- O valor de cliente_cpfcnpj será atribuído a partir do campo de texto -->
+                <input type="hidden" name="cliente_cpfcnpj" value="<?= isset($_POST['cliente_cpfcnpj']) ? htmlspecialchars($_POST['cliente_cpfcnpj']) : (isset($_GET['cliente_cpfcnpj']) ? htmlspecialchars($_GET['cliente_cpfcnpj']) : '') ?>">
+
+                <button type="submit" class="btn btn-warning payment-button mt-2">Gerar Nota Fiscal</button>
+            </form>
+
             <button class="btn btn-primary payment-button">Dinheiro</button>
             <button class="btn btn-success payment-button">Cartão de Crédito</button>
             <button class="btn btn-info payment-button">Cartão de Débito</button>
         </div>
 
+        
     </div>
 </div>
 

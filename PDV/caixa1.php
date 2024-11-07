@@ -119,6 +119,7 @@
                         url.searchParams.append("nomeproduto", cliente.nomeproduto); // Adiciona produtos
                         url.searchParams.append("quantidade", cliente.quantidade);   // Adiciona quantidades
                         url.searchParams.append("valor_unitario", cliente.valor_unitario); // Adiciona valores unitários
+                        url.searchParams.append("cliente_cpfcnpj", cliente.cliente_cpfcnpj); // Adiciona valores unitários
 
                         row.innerHTML = `
                             <td>${cliente.cliente_nome}</td>
