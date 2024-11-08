@@ -1390,6 +1390,12 @@
         alert("Fechando a janela...");
         window.close();
     }
+
+    // Função para fechar a janela e redirecionar para a página index.php
+    function closeWindow() {
+            // Redireciona para a página index.php
+            window.location.href = "../index.php"; 
+        }
 </script>
 
 </body>

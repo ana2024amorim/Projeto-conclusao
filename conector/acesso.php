@@ -44,7 +44,7 @@ if ($user = $result->fetch_assoc()) {
                 header('Location: ../vendas/gestao_produtos.php');
                 break;
             case 'caixa':
-                header('Location: ../paginacaixa.php');
+                header('Location: ../PDV/caixa1.php');
                 break;
             default:
                 header('Location: ../index.php?error=permission_denied');

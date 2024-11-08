@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>PDV - Cadastro de Clientes</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"> <!-- Fonte para ícones -->
     <style>
         /* Estilo da barra superior */
         .top-bar {
@@ -15,10 +16,16 @@
             align-items: center;
             font-family: Arial, sans-serif;
         }
+        .top-bar img {
+            height: 40px;
+            max-width: 100%; /* Garante que a imagem não ultrapasse a largura da barra */
+        }
 
         .top-bar h1 {
             margin: 0;
             font-size: 24px;
+            flex-grow: 1; /* Permite que o h1 ocupe o espaço disponível */
+            text-align: center; /* Centraliza o texto dentro do h1 */
         }
 
         .top-bar button {
@@ -71,14 +78,41 @@
             background-color: #FF8C00;
             color: white;
         }
+
+        /* Estilização do botão de Sair */
+        .btn-sair {
+            display: flex;
+            align-items: center;
+            background-color: #dc3545; /* Cor vermelha para sair */
+            color: white;
+            padding: 8px 16px;
+            font-size: 16px;
+            border-radius: 4px;
+            text-decoration: none; /* Remove sublinhado do link */
+            transition: background-color 0.3s;
+        }
+
+        .btn-sair:hover {
+            background-color: #c82333; /* Tom mais escuro ao passar o mouse */
+        }
+
+        .btn-sair i {
+            margin-right: 8px; /* Espaçamento entre ícone e texto */
+        }
     </style>
 </head>
 <body>
 
     <!-- Barra Superior -->
     <div class="top-bar">
+        <img src="../images/LOGO1.png" alt="Logo da Empresa" style="height: 60px; margin-right: 10px;">
         <h1>PDV - Sistema</h1>
-        <button onclick="alert('Pausa para Almoço iniciada')">Pausa para Almoço</button>
+        
+
+        <!-- Botão de Sair com ícone -->
+        <a href="../index.php" class="btn-sair">
+            <i class="fas fa-sign-out-alt"></i> Sair
+        </a>
     </div>
 
     <!-- Tabela para exibir os dados -->
