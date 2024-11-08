@@ -101,7 +101,7 @@ echo "</table>";
 </head>
 <body>
 
-<!-- Estrutura do recibo -->
+<!-- Estrutura do recibo 1-->
 <table class="printer-ticket">
     <thead>
         <tr>
