@@ -1,7 +1,28 @@
 <?php
 // Suponha que você tenha uma variável $photoUrl com a URL da foto do banco de dados
 // $photoUrl = 'images/template.png'; // Substitua com a URL real da foto
+
+// Conexão com o banco de dados
+require_once "conector/conector_db.php";
+
+// Consulta para buscar todos os cargos
+$sql = "SELECT permissao FROM tb_cargos";
+$result = $conn->query($sql);
+
+if ($result->num_rows > 0) {
+    // Armazena os cargos em uma array
+    $cargos = [];
+    while ($row = $result->fetch_assoc()) {
+        $cargos[] = $row['permissao'];
+    }
+} else {
+    echo "Erro: Nenhum cargo encontrado.";
+}
+
+$conn->close();
 ?>
+
+
 
 <!DOCTYPE html>
 <html lang="pt-BR">
@@ -30,6 +51,11 @@
                 
                 <label for="password" class="required">Senha:</label>
                 <input type="password" id="password" name="password" placeholder="Nova senha" required>
+
+                <label for="matricula" class="required">Matrícula:</label>
+                <input type="text" id="matricula" name="matricula" placeholder="Matrícula" required 
+                    maxlength="5" pattern="\d{5}" title="Digite exatamente 5 dígitos numéricos">
+
             </div>
 
             <div class="column">
@@ -53,16 +79,24 @@
                 
                 <label for="position">Cargo:</label>
                 <select id="position" name="position">
-                    <option value="Administrador">Administrador</option>
-                    <option value="vendedor">Vendedor</option>
                     <option value="Caixa">Caixa</option>
+                    <option value="Estoquista">Estoquista</option>
+                    <option value="Administrador">Gerente</option>
+                    <option value="Separador">Separador</option>
+                    <option value="Vendedor">Vendedor</option>                                  
+                    
                 </select>
                 
+                            
                 <label for="access-level">Nível de Acesso:</label>
-                <select id="access-level" name="access-level">
-                    <option value="Gerente">Gerente</option>
-                    <option value="Vendedor">Vendedor</option>
-                </select>
+                    <select id="access-level" name="access-level">
+                        <?php foreach ($cargos as $cargo): ?>
+                            <option value="<?php echo htmlspecialchars($cargo); ?>">
+                                <?php echo htmlspecialchars($cargo); ?>
+                            </option>
+                        <?php endforeach; ?>
+                    </select>
+
             </div>
 
            

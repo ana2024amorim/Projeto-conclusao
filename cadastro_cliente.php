@@ -39,7 +39,7 @@
                 </div>
                 <div class="form-group">
                     <label for="complemento">Complemento:</label>
-                    <input type="text" id="complemento" name="complemento" required>
+                    <input type="text" id="complemento" name="complemento">
                 </div>
             </div>
             <div class="form-row">
@@ -77,7 +77,7 @@
             </div>
             <div class="button-container">
                 <a href="pagina_venda.php" class="btn-back">Voltar</a>
-                <button type="submit" class="btn-primary">Enviar</button>
+                <button type="submit" class="btn btn-primary">Enviar</button>
             </div>
         </form>
     </div>
@@ -88,7 +88,7 @@
             <div class="modal-content border-success shadow-lg">
                 <div class="modal-header bg-success text-white">
                     <h5 class="modal-title" id="successModalLabel">Sucesso!</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">&times;</button>
                 </div>
                 <div class="modal-body">
                     <div class="d-flex justify-content-center align-items-center">
@@ -97,7 +97,7 @@
                     <p class="text-center mt-3">Cadastro realizado com sucesso!</p>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-success" data-bs-dismiss="modal">Fechar</button>
+                    <button type="button" class="btn btn-success" data-dismiss="modal">Fechar</button>
                 </div>
             </div>
         </div>
@@ -109,7 +109,7 @@
             <div class="modal-content border-danger shadow-lg">
                 <div class="modal-header bg-danger text-white">
                     <h5 class="modal-title" id="errorModalLabel">Erro!</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">&times;</button>
                 </div>
                 <div class="modal-body">
                     <div class="d-flex justify-content-center align-items-center">
@@ -118,7 +118,7 @@
                     <p class="text-center mt-3">Ocorreu um erro ao realizar o cadastro!</p>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Fechar</button>
+                    <button type="button" class="btn btn-danger" data-dismiss="modal">Fechar</button>
                 </div>
             </div>
         </div>
@@ -129,67 +129,82 @@
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.16/jquery.mask.min.js"></script>
-
+    
     <script>
-        // Máscaras de CPF, CNPJ e outros campos
-        $(document).ready(function () {
-            $('#cpf_cnpj').keydown(function () {
-                try {
-                    $(this).unmask();
-                } catch (e) {}
-                var tamanho = $(this).val().length;
-                if (tamanho < 11) {
-                    $(this).mask("999.999.999-99"); // CPF
-                } else {
-                    $(this).mask("99.999.999/9999-99"); // CNPJ
-                }
-            }).trigger('keydown');
-            $('#cep').mask('00000-000');
-            $('#telefone').mask('(00) 00000-0000');
-        });
+                    $(document).ready(function () {
+                // Máscaras
+                $('#telefone').mask('(00) 00000-0000');
+                $('#cep').mask('00000-000');
 
-        // Lógica de envio do formulário
-        $('#client-form').on('submit', function (event) {
-            event.preventDefault();
+                // Máscara para CPF ou CNPJ dinâmico
+                $('#cpf_cnpj').on('input', function () {
+                    var valor = $(this).val().replace(/\D/g, ''); // Remove qualquer caractere não numérico
 
-            var formData = new FormData(this); // Coleta os dados do formulário
+                    if (valor.length < 11) {
+                        // Aplica a máscara de CPF
+                        $(this).mask('000.000.000-00');
+                    } else {
+                        // Aplica a máscara de CNPJ
+                        $(this).mask('00.000.000/0000-00');
+                    }
+                });
 
-            fetch('conector/insert_client.php', {
-                method: 'POST',
-                body: formData
-            })
-            .then(response => response.json()) // Receber resposta como JSON
-            .then(data => {
-                // Verifica a mensagem retornada pelo PHP
-                if (data.mensagem === 'Cadastro realizado com sucesso!') {
-                    $('#successModal').modal('show'); // Exibe o modal de sucesso
-                } else {
-                    $('#errorModal').modal('show'); // Exibe o modal de erro
-                }
-            })
-            .catch(error => {
-                console.error('Erro:', error);
-                $('#errorModal').modal('show'); // Exibe o modal de erro em caso de outro erro
+                // Validação de e-mail
+                $('#email').on('input', function () {
+                    var emailPattern = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,6}$/;
+                    $(this).css('border-color', emailPattern.test($(this).val()) ? '' : 'red');
+                });
+
+                // Preenchimento de endereço com base no CEP
+                $('#cep').on('blur', function () {
+                    var cep = $(this).val().replace(/\D/g, '');
+                    if (cep.length === 8) {
+                        $.getJSON(`https://viacep.com.br/ws/${cep}/json/`, function (data) {
+                            if (!("erro" in data)) {
+                                $('#endereco').val(data.logradouro);
+                                $('#bairro').val(data.bairro);
+                                $('#cidade').val(data.localidade);
+                                $('#uf').val(data.uf);
+                            } else {
+                                alert("CEP não encontrado.");
+                            }
+                        });
+                    } else {
+                        alert("CEP inválido.");
+                    }
+                });
+            
+
+
+            // Referências aos modais
+            var successModal = new bootstrap.Modal(document.getElementById('successModal'));
+            var errorModal = new bootstrap.Modal(document.getElementById('errorModal'));
+
+            // Lógica de envio do formulário com AJAX
+            $('#client-form').on('submit', function (event) {
+                event.preventDefault();
+                var formData = new FormData(this);
+
+                fetch('conector/insert_client.php', {
+                    method: 'POST',
+                    body: formData
+                })
+                .then(response => response.json()) // Agora a resposta é tratada como JSON
+                .then(data => {
+                    if (data.sucesso) { // Verifica se o campo 'sucesso' no JSON é verdadeiro
+                        successModal.show();
+                    } else {
+                        console.error('Erro:', data.mensagem);
+                        errorModal.show(); // Caso tenha o modal de erro disponível, ele será mostrado
+                    }
+                })
+                .catch(error => {
+                    console.error('Erro:', error);
+                    errorModal.show();
+                });
             });
+
         });
-
-        // Fechar o modal de erro
-        $('#errorModal').on('hidden.bs.modal', function () {
-            // Lógica adicional, se necessário
-        });
-        
-    // Função para limpar o formulário e fechar o modal de erro
-        function closeErrorModal() {
-            // Limpa o formulário
-            $('#client-form')[0].reset();
-
-            // Fecha o modal de erro
-            $('#errorModal').modal('hide');
-        }
-
-        // Associa a função ao evento de clique do botão "Fechar" do modal de erro
-        $('#errorModal .btn-close').on('click', closeErrorModal);
-        $('#errorModal .btn-light').on('click', closeErrorModal); // Caso o botão "Fechar" tenha a classe "btn-light"
     </script>
 </body>
 </html>

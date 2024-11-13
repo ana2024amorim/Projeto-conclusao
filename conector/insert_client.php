@@ -5,6 +5,7 @@ mysqli_report(MYSQLI_REPORT_ERROR | MYSQLI_REPORT_STRICT);
 // Inicia a conexão com o banco de dados
 require_once "conector_db.php";
 $mensagem = ''; // Variável para armazenar a mensagem
+$sucesso = false; // Flag para indicar se o cadastro foi bem-sucedido
 
 // Verifica se o formulário foi submetido
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
@@ -49,6 +50,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 // Executa a query de inserção
                 if ($stmt_insert->execute()) {
                     $mensagem = "Cadastro realizado com sucesso!";
+                    $sucesso = true; // Define a flag de sucesso para true
                 } else {
                     $mensagem = "Erro ao cadastrar: " . $stmt_insert->error;
                 }
@@ -69,7 +71,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     // Fecha a conexão com o banco de dados
     $conn->close();
     
-    // Retorna a mensagem como JSON para o JavaScript
-    echo json_encode(['mensagem' => $mensagem]);
+    // Retorna a mensagem e o status como JSON para o JavaScript
+    echo json_encode(['mensagem' => $mensagem, 'sucesso' => $sucesso]);
 }
 ?>
