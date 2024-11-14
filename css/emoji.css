@@ -1,0 +1,50 @@
+/* emoji.css */
+
+/* Default styling for emoji */
+.em {
+    font-family: 'EmojiFont', sans-serif;
+    font-size: 24px;
+    vertical-align: middle;
+    display: inline-block;
+  }
+  
+  /* Styling for SVG emoji */
+  .em-svg {
+    width: 2em;
+    height: 2em;
+    vertical-align: middle;
+    display: inline-block;
+    background-size: contain;
+    background-repeat: no-repeat;
+  }
+  
+  /* Add emoji classes for popular emojis */
+  .em-heart:before {
+    content: '\2764'; /* Heart emoji */
+  }
+  
+  .em-smile:before {
+    content: '\1F604'; /* Smiling face with open mouth emoji */
+  }
+  
+  .em-thumbs-up:before {
+    content: '\1F44D'; /* Thumbs up emoji */
+  }
+  
+  .em-ok:before {
+    content: '\1F197'; /* OK hand emoji */
+  }
+  
+  /* Example for using SVG images for emojis */
+  .em-svg-heart {
+    background-image: url('https://upload.wikimedia.org/wikipedia/commons/4/46/Heart_emoji.svg');
+  }
+  
+  .em-svg-smile {
+    background-image: url('https://upload.wikimedia.org/wikipedia/commons/5/59/Smiling_face_with_open_mouth_emoji.svg');
+  }
+  
+  .em-svg-thumbs-up {
+    background-image: url('https://upload.wikimedia.org/wikipedia/commons/thumb/7/7e/Thumbs_up_emoji.svg/1024px-Thumbs_up_emoji.svg.png');
+  }
+  

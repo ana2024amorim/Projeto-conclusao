@@ -236,17 +236,22 @@ if (!isset($_SESSION['matricula'])) {
                     <li><a href="cadastro_cliente.php" target="content-frame">Cliente</a></li>
                 </ul>
             </li>
-            <li><a href="financeiro.html" target="content-frame"><span class="icon material-icons">account_balance</span>Financeiro</a></li>
-            <li><a href="usuarios.html" target="content-frame"><span class="icon material-icons">people</span>Usuários</a></li>
+            <li><a href="frame_admin.php" target="content-frame"><span class="icon material-icons">account_balance</span>Financeiro</a></li>
+            <li><a href="frame_cons_usuario.php" target="content-frame"><span class="icon material-icons">people</span>Usuários</a></li>
             <li><a href="estoque.html" target="content-frame"><span class="icon material-icons">inventory</span>Estoque</a></li>
             <li><a href="pecas.html" target="content-frame"><span class="icon material-icons">build</span>Peças</a></li>
         </ul>
     </aside>
 
-    <!-- Conteúdo Principal -->
+    <!-- Conteúdo Principal 
     <div class="content" id="main-content">
         <iframe src="inicio.html" name="content-frame"></iframe>
+    </div> -->
+
+    <div class="content" id="main-content">
+        <iframe src="images/manutencao.png" name="content-frame" frameborder="0"></iframe>
     </div>
+
 
     <script>
         function toggleSidebar() {

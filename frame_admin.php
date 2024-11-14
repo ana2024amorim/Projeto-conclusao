@@ -1,3 +1,10 @@
+
+
+<?php
+// dashboard.php
+include 'conector/cons_geral_financeiro.php'; // Inclui o arquivo de consulta
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -13,7 +20,7 @@
     <link rel="stylesheet" href="css/painel_admin.css">
     <link href="css/painel_admin.min.css" rel=" stylesheet">
     <!--Replace with your tailwind.css once created-->
-    <link href="https://afeld.github.io/emoji-css/emoji.css" rel="stylesheet">
+    <link href="css/emoji.css" rel="stylesheet">
     <!--Totally optional :) -->
     <script src="js/Chart.bundle.min.js"></script>
 
@@ -30,10 +37,16 @@
     body {
         display: flex; /* Ativa o Flexbox para o body */
         align-items: flex-start; /* Alinha os itens no topo da página */
-        background-color: #FF7F50; /* Cor de fundo laranja */
+        /*background-color: #FF7F50;  Cor de fundo laranja */
+        justify-content: center;
         padding-left: 0; /* Remove o preenchimento à esquerda */
         margin-left: 0; /* Remove a margem à esquerda */
+        
+        padding: 1rem; /* Corresponde a 'p-4' */
+        
     }
+
+
 </style>
 
 
@@ -44,7 +57,7 @@
 
 <div class="bg-orange-500 pt-3">
     <div class="rounded-tl-3xl bg-gradient-to-r from-blue-900 to-gray-800 p-4 shadow text-2xl text-white">
-        <h3 class="font-bold pl-2">Analytics</h3>
+        <h3 class="font-bold pl-2">Analises Administrativo</h3>
     </div>
 </div>
 
@@ -71,10 +84,18 @@
                 <div class="flex-shrink pr-4">
                     <div class="rounded-full p-5 bg-pink-600"><i class="fas fa-users fa-2x fa-inverse"></i></div>
                 </div>
+                
                 <div class="flex-1 text-right md:text-center">
-                    <h5 class="font-bold uppercase text-gray-600">Total Users</h5>
-                    <h3 class="font-bold text-3xl">249 <span class="text-pink-500"><i class="fas fa-exchange-alt"></i></span></h3>
+                    <h5 class="font-bold uppercase text-gray-600">Total Clientes</h5>
+                    <h3 class="font-bold text-3xl">
+                        <?php echo isset($total_clientes) ? $total_clientes : 0; ?> <!-- Exibe o total de clientes -->
+                        <span class="text-pink-500">
+                            <i class="fas fa-exchange-alt"></i>
+                        </span>
+                    </h3>
                 </div>
+                
+
             </div>
         </div>
         <!--/Metric Card-->
@@ -86,9 +107,15 @@
                 <div class="flex-shrink pr-4">
                     <div class="rounded-full p-5 bg-yellow-600"><i class="fas fa-user-plus fa-2x fa-inverse"></i></div>
                 </div>
+                
                 <div class="flex-1 text-right md:text-center">
-                    <h5 class="font-bold uppercase text-gray-600">New Users</h5>
-                    <h3 class="font-bold text-3xl">2 <span class="text-yellow-600"><i class="fas fa-caret-up"></i></span></h3>
+                    <h5 class="font-bold uppercase text-gray-600">Total de Funcionarios</h5>
+                    <h3 class="font-bold text-3xl">
+                        <?php echo isset($total_funcionario) ? $total_funcionario : 0; ?> <!-- Exibe o total de funcionários -->
+                        <span class="text-yellow-600">
+                            <i class="fas fa-caret-up"></i>
+                        </span>
+                    </h3>
                 </div>
             </div>
         </div>
@@ -117,9 +144,13 @@
                     <div class="rounded-full p-5 bg-indigo-600"><i class="fas fa-tasks fa-2x fa-inverse"></i></div>
                 </div>
                 <div class="flex-1 text-right md:text-center">
-                    <h5 class="font-bold uppercase text-gray-600">To Do List</h5>
-                    <h3 class="font-bold text-3xl">7 tasks</h3>
+                    <h5 class="font-bold uppercase text-gray-600">Total Vendido</h5>
+                    <h3 class="font-bold text-3xl">
+                        R$ <?php echo number_format($total_vendido, 2, ',', '.'); ?> 
+                        <span class="text-green-500"><i class="fas fa-caret-up"></i></span>
+                    </h3>
                 </div>
+
             </div>
         </div>
         <!--/Metric Card-->
@@ -131,9 +162,10 @@
                 <div class="flex-shrink pr-4">
                     <div class="rounded-full p-5 bg-red-600"><i class="fas fa-inbox fa-2x fa-inverse"></i></div>
                 </div>
+               
                 <div class="flex-1 text-right md:text-center">
-                    <h5 class="font-bold uppercase text-gray-600">Issues</h5>
-                    <h3 class="font-bold text-3xl">3 <span class="text-red-500"><i class="fas fa-caret-up"></i></span></h3>
+                    <h5 class="font-bold uppercase text-gray-600">TOTAL PEÇAS VENDIDAS</h5>
+                    <h3 class="font-bold text-3xl"><?php echo $total_pecas_vendidas; ?> <span class="text-red-500"><i class="fas fa-caret-up"></i></span></h3>
                 </div>
             </div>
         </div>
