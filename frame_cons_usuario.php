@@ -5,6 +5,108 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Consulta de Funcionários</title>
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+<style>
+  body {
+  background-color: #f8f9fa;
+  font-family: Arial, sans-serif;
+}
+
+.container {
+  background-color: #ffffff;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+}
+
+h2 {
+  font-weight: bold;
+  color: #343a40;
+  text-align: center; /* Centraliza o título */
+}
+
+
+.input-group .form-control {
+  border-right: none;
+  border-color: #007bff;
+}
+
+.input-group .btn-primary {
+  background-color: #007bff;
+  border-color: #007bff;
+}
+
+.table {
+  margin-top: 20px;
+}
+
+.table thead th {
+  background-color: #007bff;
+  color: #ffffff;
+  text-align: center;
+}
+
+.table tbody td {
+  vertical-align: middle;
+  text-align: center;
+}
+
+.pagination .page-link {
+  color: #007bff;
+}
+
+.pagination .page-item.active .page-link {
+  background-color: #007bff;
+  border-color: #007bff;
+}
+
+.modal-content {
+  border-radius: 8px;
+}
+
+.modal-header {
+  background-color: #007bff;
+  color: #ffffff;
+  border-bottom: 2px solid #0056b3;
+}
+
+.modal-title {
+  font-weight: bold;
+}
+
+.modal-body .form-label {
+  color: #343a40;
+}
+
+.modal-body .form-control {
+  border: 1px solid #ced4da;
+  border-radius: 4px;
+}
+
+.modal-body .btn-primary {
+  background-color: #007bff;
+  border-color: #007bff;
+}
+
+.btn-warning {
+  background-color: #ffc107;
+  border-color: #ffc107;
+}
+
+.btn-success, .btn-danger {
+  color: #ffffff;
+}
+
+.text-success {
+  font-weight: bold;
+}
+
+.text-danger {
+  font-weight: bold;
+}
+
+</style>
+
+
 </head>
 <body>
   <div class="container mt-5">

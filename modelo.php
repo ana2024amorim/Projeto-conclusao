@@ -238,8 +238,14 @@ if (!isset($_SESSION['matricula'])) {
             </li>
             <li><a href="frame_admin.php" target="content-frame"><span class="icon material-icons">account_balance</span>Financeiro</a></li>
             <li><a href="frame_cons_usuario.php" target="content-frame"><span class="icon material-icons">people</span>Usuários</a></li>
-            <li><a href="estoque.html" target="content-frame"><span class="icon material-icons">inventory</span>Estoque</a></li>
-            <li><a href="pecas.html" target="content-frame"><span class="icon material-icons">build</span>Peças</a></li>
+            <li><a href="frame_cons_estoque.php" target="content-frame"><span class="icon material-icons">inventory</span>Estoque</a></li>
+            <li>
+                <a href="#"><span class="icon material-icons">build</span>Configurações</a>
+                <ul class="submenu">
+                    <li><a href="QRCode/admin_pagamento.php" target="content-frame">Pagamento</a></li>
+                    <li><a href="email/admin_email.php" target="content-frame">Email</a></li>
+                </ul>
+            </li>
         </ul>
     </aside>
 
