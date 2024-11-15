@@ -210,7 +210,49 @@ if (!isset($_SESSION['matricula'])) {
                 width: calc(100% - 150px);
             }
         }
+        #fotoUpload {
+            text-align: center;
+        }
+
+        #fotoPerfil {
+            display: block;
+            margin: 0 auto;
+        }
+        /* Centraliza o título do modal */
+        .modal-title {
+            text-align: center;
+            width: 100%;
+        }
+
+        /* Reduz o espaçamento entre as linhas do formulário */
+        #alterarCadastroModal .form-control {
+            margin-bottom: 10px; /* Reduz espaço entre os campos */
+            padding: 6px 10px;   /* Reduz altura dos campos */
+            font-size: 14px;     /* Tamanho de fonte menor */
+        }
+
+        /* Botão no rodapé alinhado para melhor estética */
+        .modal-footer .btn {
+            margin: 0 5px;
+        }
+        /* Estilo do símbolo "+" para troca de imagem */
+        .trocar-imagem {
+            font-size: 24px;      /* Tamanho do sinal de "+" */
+            color: green;         /* Cor verde */
+            cursor: pointer;     /* Indica que é clicável */
+            font-weight: bold;    /* Deixa o símbolo mais forte */
+            padding: 5px 10px;    /* Espaço ao redor do sinal */
+            border-radius: 50%;   /* Torna o símbolo arredondado */
+            background-color: #e0ffe0; /* Fundo verde claro */
+            transition: background-color 0.3s ease; /* Efeito de transição */
+        }
+
+        .trocar-imagem:hover {
+            background-color: #b2ffb2; /* Cor mais clara ao passar o mouse */
+        }
+
     </style>
+
 </head>
 <body>
     <header>
@@ -225,6 +267,58 @@ if (!isset($_SESSION['matricula'])) {
             <span class="material-icons" onclick="sair()">exit_to_app</span>
         </div>
     </header>
+
+    <!-- Modal de cadastro do funcionário -->
+<div class="modal fade" id="alterarCadastroModal" tabindex="-1" aria-labelledby="alterarCadastroModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="alterarCadastroModalLabel">Alterar Cadastro</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Fechar"></button>
+            </div>
+            <div class="modal-body">
+                <form id="alterarCadastroForm" enctype="multipart/form-data" method="POST" >
+                    <div class="form-group text-center">
+                        <img id="fotoPerfil" src="uploads/profile.png" alt="Foto de Perfil" class="img-fluid rounded-circle" width="100" height="100">
+                        <div class="mt-2">
+                            <span id="trocarImagem" class="trocar-imagem" onclick="document.getElementById('inputImagem').click()">&#43;</span>
+                        </div>
+                        <input type="file" id="inputImagem" style="display: none;" accept="image/*" onchange="previewImagem(event)">
+                        
+                    </div>
+
+                    <div class="mt-4">
+                        <div class="mb-3">
+                            <label for="nome" class="form-label">Nome</label>
+                            <input type="text" class="form-control" id="nome" name="nome" disabled>
+                        </div>
+                        <div class="mb-3">
+                            <label for="email" class="form-label">Email</label>
+                            <input type="email" class="form-control" id="email" name="email" disabled>
+                        </div>
+                    </div>
+
+                    <div class="mt-4">
+                        <div class="mb-3">
+                            <label for="novaSenha" class="form-label">Nova Senha</label>
+                            <input type="password" class="form-control" id="novaSenha" name="novaSenha" placeholder="Digite a nova senha">
+                        </div>
+                        <div class="mb-3">
+                            <label for="confirmaSenha" class="form-label">Confirmar Nova Senha</label>
+                            <input type="password" class="form-control" id="confirmaSenha" name="confirmaSenha" placeholder="Confirme a nova senha">
+                        </div>
+                    </div>
+                </form>
+                
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fechar</button>
+                <button type="button" class="btn btn-primary" onclick="salvarAlteracoes()">Salvar Alterações</button>
+            </div>
+        </div>
+    </div>
+</div>
+
 
     <!-- Sidebar -->
     <aside id="sidebar">
@@ -249,15 +343,10 @@ if (!isset($_SESSION['matricula'])) {
         </ul>
     </aside>
 
-    <!-- Conteúdo Principal 
-    <div class="content" id="main-content">
-        <iframe src="inicio.html" name="content-frame"></iframe>
-    </div> -->
-
+    <!-- Conteúdo Principal -->
     <div class="content" id="main-content">
         <iframe src="images/manutencao.png" name="content-frame" frameborder="0"></iframe>
     </div>
-
 
     <script>
         function toggleSidebar() {
@@ -269,15 +358,16 @@ if (!isset($_SESSION['matricula'])) {
             window.location.assign('index.php');
         }
 
+        // Função de buscar dados do perfil
         function alterarCadastro() {
             const matricula = "<?php echo $_SESSION['matricula']; ?>";
-            fetch('../conector/busca_funcionario.php?matricula=' + matricula)
+            fetch('conector/busca_funcionario.php?matricula=' + matricula)
                 .then(response => response.json())
                 .then(data => {
                     if (data.success) {
                         document.getElementById('nome').value = data.funcionario.nome;
                         document.getElementById('email').value = data.funcionario.email;
-                        document.getElementById('fotoPerfil').src = data.funcionario.foto || '../uploads/profile.png';
+                        document.getElementById('fotoPerfil').src = data.funcionario.foto || 'uploads/profile.png';
                     } else {
                         alert('Erro ao buscar dados: ' + data.message);
                     }
@@ -286,6 +376,55 @@ if (!isset($_SESSION['matricula'])) {
 
             new bootstrap.Modal(document.getElementById('alterarCadastroModal')).show();
         }
+
+        function salvarAlteracoes() {
+    var form = document.getElementById('alterarCadastroForm');
+    var formData = new FormData(form); // Cria um FormData para enviar os dados do formulário
+
+    // Adiciona o ID do usuário à requisição
+    var usuarioId = "<?php echo $_SESSION['matricula']; ?>"; // Obtém a matrícula do usuário da sessão
+    
+    if (!usuarioId) {
+        alert('Usuário não autenticado.');
+        return;
+    }
+
+    formData.append('matricula', usuarioId); // Adiciona a matrícula ao FormData
+
+    // Envia o formulário via AJAX para o arquivo PHP
+    fetch('conector/update_pass_foto.php', {
+        method: 'POST',
+        body: formData
+    })
+    .then(response => response.json()) // Converte a resposta para JSON
+    .then(data => {
+        if (data.sucesso) {
+            alert(data.mensagem); // Exibe mensagem de sucesso
+            window.location.reload(); // Recarrega a página para mostrar as alterações
+        } else {
+            alert(data.mensagem); // Exibe mensagem de erro
+        }
+    })
+    .catch(error => {
+        alert('Erro ao salvar as alterações. Tente novamente.'); // Exibe erro se algo falhar
+    });
+}
+
+// Função que mostra a pré-visualização da imagem
+function previewImagem(event) {
+    var imagem = event.target.files[0];  // Acessa o arquivo da imagem
+    var reader = new FileReader();  // Cria um objeto FileReader para ler a imagem
+
+    // Quando a imagem for carregada, atualiza o elemento de imagem no HTML
+    reader.onload = function() {
+        var preview = document.getElementById('fotoPerfil');
+        preview.src = reader.result;  // Atribui o resultado da leitura (imagem) ao src
+    };
+
+    // Lê o arquivo como uma URL de dados (base64)
+    reader.readAsDataURL(imagem);
+}
+
     </script>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>

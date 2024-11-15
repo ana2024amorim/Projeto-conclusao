@@ -24,7 +24,7 @@ body {
 
 /* Título principal */
 h2 {
-    color: #007bff;
+    color: #000;
     font-weight: 600;
     text-align: center;
     margin-bottom: 20px;

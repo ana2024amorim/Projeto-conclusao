@@ -204,6 +204,11 @@
                 });
             });
 
+            // Limpando o formulário ao fechar os modais
+            $('#successModal, #errorModal').on('hidden.bs.modal', function () {
+                $('#client-form')[0].reset(); // Reseta o formulário para os valores padrão
+            });
+
         });
     </script>
 </body>
