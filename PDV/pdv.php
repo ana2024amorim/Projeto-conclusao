@@ -18,6 +18,7 @@
             max-height: 200px;
             overflow-y: auto;
             margin-bottom: 20px;
+            
         }
 
         .cart-table {
@@ -57,6 +58,7 @@
             width: 200px;
             margin-right: 10px;
         }
+        
     </style>
 </head>
 
@@ -78,6 +80,7 @@
                 <label for="search-product">Buscar Produto:</label>
                 <input type="text" id="search-product" class="form-control" placeholder="Digite o nome do produto">
             </div>
+            
         </div>
 
         <div id="product-list" class="product-list list-group"></div>
@@ -124,6 +127,10 @@
                     <div class="form-check">
                         <input class="form-check-input" type="radio" name="paymentMethod" id="payment-pix" value="pix">
                         <label class="form-check-label" for="payment-pix">Pix</label>
+                    </div>
+                    <div class="form-check">
+                        <input class="form-check-input" type="radio" name="paymentMethod" id="payment-card" value="cartao_credito">
+                        <label class="form-check-label" for="payment-card">Cartão de Débito</label>
                     </div>
                 </div>
                 <div class="modal-footer">

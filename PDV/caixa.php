@@ -7,10 +7,10 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <style>
         .navbar-custom {
-            background-color: #FFA07A; /* Laranja clara */
+            background-color: #FFA726; /* Laranja claro */
         }
         .card-custom {
-            background-color: #001f3f; /* Azul marinho */
+            background-color: #FFA726; /* Laranja Claro */
             color: #FFFFFF;
         }
         .card-payment {

@@ -5,101 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>PDV - Cadastro de Clientes</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"> <!-- Fonte para ícones -->
-    <style>
-        /* Estilo da barra superior */
-        .top-bar {
-            background-color: #FF8C00; /* Cor laranja clara */
-            color: white;
-            padding: 10px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            font-family: Arial, sans-serif;
-        }
-        .top-bar img {
-            height: 40px;
-            max-width: 100%; /* Garante que a imagem não ultrapasse a largura da barra */
-        }
-
-        .top-bar h1 {
-            margin: 0;
-            font-size: 24px;
-            flex-grow: 1; /* Permite que o h1 ocupe o espaço disponível */
-            text-align: center; /* Centraliza o texto dentro do h1 */
-        }
-
-        .top-bar button {
-            background-color: #333;
-            color: white;
-            border: none;
-            padding: 8px 16px;
-            font-size: 14px;
-            cursor: pointer;
-            border-radius: 4px;
-        }
-
-        /* Estilo do formulário */
-        .form-container {
-            max-width: 600px;
-            margin: 20px auto;
-            padding: 20px;
-            border: 1px solid #ddd;
-            border-radius: 8px;
-            background-color: #f9f9f9;
-            font-family: Arial, sans-serif;
-        }
-
-        /* Estilo da Tabela */
-        .table-container {
-            margin-top: 30px;
-            max-width: 800px;
-            margin: 20px auto;
-            border: 1px solid #ddd;
-            border-radius: 8px;
-            padding: 10px;
-            background-color: #f9f9f9;
-        }
-
-        table {
-            width: 100%;
-            border-collapse: collapse;
-        }
-
-        table, th, td {
-            border: 1px solid #ddd;
-        }
-
-        th, td {
-            padding: 8px;
-            text-align: center;
-        }
-
-        th {
-            background-color: #FF8C00;
-            color: white;
-        }
-
-        /* Estilização do botão de Sair */
-        .btn-sair {
-            display: flex;
-            align-items: center;
-            background-color: #dc3545; /* Cor vermelha para sair */
-            color: white;
-            padding: 8px 16px;
-            font-size: 16px;
-            border-radius: 4px;
-            text-decoration: none; /* Remove sublinhado do link */
-            transition: background-color 0.3s;
-        }
-
-        .btn-sair:hover {
-            background-color: #c82333; /* Tom mais escuro ao passar o mouse */
-        }
-
-        .btn-sair i {
-            margin-right: 8px; /* Espaçamento entre ícone e texto */
-        }
-    </style>
+    <link rel="stylesheet" href="../css/caixa1.css">
 </head>
 <body>
 
@@ -113,6 +19,8 @@
         <a href="../index.php" class="btn-sair">
             <i class="fas fa-sign-out-alt"></i> Sair
         </a>
+
+        
     </div>
 
     <!-- Tabela para exibir os dados -->
@@ -131,7 +39,11 @@
                 <!-- As linhas dos clientes serão inseridas aqui -->
             </tbody>
         </table>
+        
     </div>
+<!-- Botão Caixa (Laranja Claro) -->
+<button class="btn btn-warning btn-caixa ms-3" onclick="window.location.href='fechamento_caixa.php';">Fechamento Caixa</button>
+
 
     <script>
         // Função para buscar os dados do PHP e preencher a tabela

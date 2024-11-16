@@ -9,7 +9,7 @@
     
     body {
               
-        background-color: #f8d7a1; /* Laranja claro */
+        background-color: #FFA726; /* Laranja claro */
     }
 
     #main-content {

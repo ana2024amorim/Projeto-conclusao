@@ -131,6 +131,10 @@
                         <label class="form-check-label" for="payment-card">Cartão de Crédito</label>
                     </div>
                     <div class="form-check">
+                        <input class="form-check-input" type="radio" name="paymentMethod" id="payment-card" value="cartao_credito">
+                        <label class="form-check-label" for="payment-card">Cartão de Débito</label>
+                    </div>
+                    <div class="form-check">
                         <input class="form-check-input" type="radio" name="paymentMethod" id="payment-pix" value="pix">
                         <label class="form-check-label" for="payment-pix">Pix</label>
                     </div>

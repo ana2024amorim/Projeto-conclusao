@@ -39,7 +39,7 @@ $conn->close();
         .navbar { background-color: #FFA726; }
         #frame-container { height: 80vh; margin-top: 20px; }
         iframe { width: 100%; height: 100%; border: none; }
-        .nav-link { color: white; }
+        .nav-link { color: white; font-size: larger;}
         .nav-link:hover { color: #ffe0b2; }
         .dropdown-toggle { padding: 0; border: none; background: transparent; }
         .dropdown-toggle img { border-radius: 50%; object-fit: cover; }

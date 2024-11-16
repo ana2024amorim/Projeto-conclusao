@@ -1,0 +1,137 @@
+/* Estilo da barra superior */
+.top-bar {
+    background-color: #FFA726; /* Cor laranja clara */
+    color: white;
+    padding: 10px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-family: Arial, sans-serif;
+}
+.top-bar img {
+    height: 40px;
+    max-width: 100%; /* Garante que a imagem não ultrapasse a largura da barra */
+}
+
+.top-bar h1 {
+    margin: 0;
+    font-size: 24px;
+    flex-grow: 1; /* Permite que o h1 ocupe o espaço disponível */
+    text-align: center; /* Centraliza o texto dentro do h1 */
+}
+
+.top-bar button {
+    background-color: #333;
+    color: white;
+    border: none;
+    padding: 8px 16px;
+    font-size: 14px;
+    cursor: pointer;
+    border-radius: 4px;
+}
+
+/* Estilo do formulário */
+.form-container {
+    max-width: 600px;
+    margin: 20px auto;
+    padding: 20px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    background-color: #f9f9f9;
+    font-family: Arial, sans-serif;
+}
+
+/* Estilo da Tabela */
+.table-container {
+    margin-top: 30px;
+    max-width: 800px;
+    margin: 20px auto;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    padding: 10px;
+    background-color: #f9f9f9;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+table, th, td {
+    border: 1px solid #ddd;
+}
+
+th, td {
+    padding: 8px;
+    text-align: center;
+}
+
+th {
+    background-color: #FFA726;
+    color: white;
+}
+
+/* Estilização do botão de Sair */
+.btn-sair {
+    display: flex;
+    align-items: center;
+    background-color: #dc3545; /* Cor vermelha para sair */
+    color: white;
+    padding: 8px 16px;
+    font-size: 16px;
+    border-radius: 4px;
+    text-decoration: none; /* Remove sublinhado do link */
+    transition: background-color 0.3s;
+}
+
+.btn-sair:hover {
+    background-color: #c82333; /* Tom mais escuro ao passar o mouse */
+}
+
+.btn-sair i {
+    margin-right: 8px; /* Espaçamento entre ícone e texto */
+}
+ /* botao */
+ /* Estilo para o botão */
+.btn-caixa {
+    background-color: #FFA726;  /* Cor laranja claro */
+    font-family: Arial, sans-serif;
+    color: white;
+    border: none;  /* Removendo borda */
+    padding: 18px 44px;  /* Tamanho do botão */
+    border-radius: 5px;  /* Bordas arredondadas */
+    cursor: pointer;  /* Mostra o cursor de clique */
+    font-size: 23px;  /* Tamanho da fonte */
+    float: right;  /* Coloca o botão à direita */
+    clear: both;  /* Garante que o botão fique abaixo de outros elementos flutuantes */
+    margin-top: -140px;  /* Adiciona espaço acima do botão */
+    margin-left: -785px;  /* Move o botão um pouco para a esquerda */
+    z-index: 1000;  /* Garante que o botão ficará acima de outros elementos */
+    
+}
+
+.btn-caixa:hover {
+    background-color: #FF9F00;  /* Tom de laranja mais intenso ao passar o mouse */
+}
+
+/* Responsividade: ajuste do botão para telas menores */
+@media (max-width: 768px) {
+    .btn-caixa {
+        font-size: 20px;  /* Diminui o tamanho da fonte */
+        padding: 15px 60px;  /* Ajusta o tamanho do botão */
+        margin-top: 20px;  /* Ajusta o espaçamento acima */
+        margin-left: 0;  /* Remove o deslocamento à esquerda */
+        width: 100%;  /* Faz o botão ocupar toda a largura disponível */
+        float: none;  /* Remove o flutuamento */
+        font-family: Arial, sans-serif;
+    }
+}
+
+@media (max-width: 480px) {
+    .btn-caixa {
+        font-size: 18px;  /* Reduz o tamanho da fonte em telas menores */
+        padding: 12px 40px;  /* Diminui ainda mais o tamanho do botão */
+        margin-top: 10px;  /* Ajuste de margem superior */
+        font-family: Arial, sans-serif;
+    }
+}
