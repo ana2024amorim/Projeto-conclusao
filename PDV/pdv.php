@@ -186,7 +186,7 @@
                         } else {
                             alert('Cliente não cadastrado.');
                             if (confirm('Deseja cadastrar o cliente?')) {
-                                window.location.href = 'cadastro.php';
+                                window.location.href = '../cadastro_cliente.php';
                             }
                         }
                     })

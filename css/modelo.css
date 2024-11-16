@@ -1,0 +1,238 @@
+ /* Reset básico */
+ * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: Arial, sans-serif;
+}
+
+/* Estilo do corpo para ajustar altura e overflow */
+body {
+    display: flex;
+    height: 100vh;
+    overflow: hidden;
+}
+
+/* Barra Superior */
+header {
+    background-color: #FFA726; /* Cor laranja clara */
+    color: #fff;
+    padding: 10px 20px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    z-index: 100;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2); /* Sombra da barra */
+}
+
+header .logo {
+    font-size: 24px;
+    font-weight: bold;
+    display: flex;
+    align-items: center;
+}
+
+header .menu-toggle {
+    cursor: pointer;
+    margin-right: 20px;
+}
+
+header .profile {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+header .profile img {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+}
+
+header .profile span {
+    font-size: 16px;
+}
+
+/* Sidebar */
+aside {
+    background-color: #FFA726; /* Cor laranja clara */
+    width: 44px; /* Largura inicial da sidebar */
+    transition: width 0.3s; /* Animação de expansão */
+    position: fixed;
+    top: 60px;
+    left: 0;
+    height: calc(100% - 60px);
+    overflow: hidden;
+    z-index: 99;
+    box-shadow: 2px 0px 5px rgba(0, 0, 0, 0.2);
+}
+
+aside.expanded {
+    width: 200px; /* Largura da sidebar expandida */
+}
+
+aside ul {
+    list-style-type: none;
+    padding: 0;
+}
+
+aside ul li {
+    padding: 15px 10px;
+    display: flex;
+    align-items: center;
+    position: relative; /* Para posicionar o submenu */
+}
+
+aside ul li a {
+    color: #fff;
+    text-decoration: none;
+    font-size: 18px;
+    display: flex;
+    align-items: center;
+    white-space: nowrap;
+    transition: color 0.2s;
+}
+
+aside ul li a:hover {
+    color: #333;
+}
+
+aside ul li a .icon {
+    margin-right: 10px;
+    font-size: 24px;
+}
+
+/* Submenu */
+.submenu {
+    display: none; /* Oculta o submenu inicialmente */
+    position: absolute;
+    left: 45px;
+    top: 0;
+    background-color: #FFB74D; /* Cor um pouco mais clara */
+    padding: 10px;
+    border-radius: 4px;
+    z-index: 1;
+    white-space: nowrap;
+}
+
+/* Sidebar */
+aside ul li {
+    padding: 15px 10px;
+    display: flex;
+    align-items: center;
+    position: relative;
+}
+
+/* Submenu - Estilo para exibir logo abaixo do item "Cadastro" */
+.submenu {
+    display: none; /* Oculto inicialmente */
+    background-color: #FFB74D; /* Cor do submenu */
+    padding: 10px;
+    border-radius: 4px;
+    margin-top: 35px; /* Espaço entre o item e o submenu */
+    margin-left: 15px; /* Indentação do submenu */
+}
+
+/* Exibe o submenu ao passar o mouse */
+aside ul li:hover .submenu {
+    display: block; /* Mostra o submenu ao passar o mouse */
+}
+
+/* Estilos dos itens do submenu */
+.submenu a {
+    display: block;
+    color: #fff;
+    font-size: 16px;
+    text-decoration: none;
+    padding: 5px 20px;
+    transition: color 0.2s;
+}
+
+.submenu a:hover {
+    color: #333;
+}
+
+
+/* Conteúdo principal */
+.content {
+    margin-top: 60px;
+    margin-left: 60px;
+    width: calc(100% - 60px);
+    height: calc(100% - 60px);
+    transition: margin-left 0.3s, width 0.3s;
+}
+
+.content.expanded {
+    margin-left: 200px;
+    width: calc(100% - 200px);
+}
+
+/* Iframe */
+iframe {
+    width: 100%;
+    height: 100%;
+    border: none;
+}
+
+/* Responsividade */
+@media (max-width: 768px) {
+    header .profile span {
+        display: none;
+    }
+    aside.expanded {
+        width: 150px;
+    }
+    .content.expanded {
+        margin-left: 150px;
+        width: calc(100% - 150px);
+    }
+}
+#fotoUpload {
+    text-align: center;
+}
+
+#fotoPerfil {
+    display: block;
+    margin: 0 auto;
+    border-radius: 50%;  /* Torna a foto redonda */
+    width: 100px;        /* Ajuste o tamanho da imagem */
+    height: 100px;       /* Ajuste o tamanho da imagem */
+    object-fit: cover;   /* Garante que a imagem se ajuste corretamente ao círculo */
+}
+
+/* Centraliza o título do modal */
+.modal-title {
+    text-align: center;
+    width: 100%;
+}
+
+/* Reduz o espaçamento entre as linhas do formulário */
+#alterarCadastroModal .form-control {
+    margin-bottom: 10px; /* Reduz espaço entre os campos */
+    padding: 6px 10px;   /* Reduz altura dos campos */
+    font-size: 14px;     /* Tamanho de fonte menor */
+}
+
+/* Botão no rodapé alinhado para melhor estética */
+.modal-footer .btn {
+    margin: 0 5px;
+}
+/* Estilo do símbolo "+" para troca de imagem */
+.trocar-imagem {
+    font-size: 24px;      /* Tamanho do sinal de "+" */
+    color: green;         /* Cor verde */
+    cursor: pointer;     /* Indica que é clicável */
+    font-weight: bold;    /* Deixa o símbolo mais forte */
+    padding: 5px 10px;    /* Espaço ao redor do sinal */
+    border-radius: 50%;   /* Torna o símbolo arredondado */
+    background-color: #e0ffe0; /* Fundo verde claro */
+    transition: background-color 0.3s ease; /* Efeito de transição */
+}
+
+.trocar-imagem:hover {
+    background-color: #b2ffb2; /* Cor mais clara ao passar o mouse */
+}

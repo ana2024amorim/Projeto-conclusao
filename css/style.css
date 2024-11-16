@@ -10,7 +10,8 @@ body {
   height: 100vh;
   justify-content: center;
   align-items: center;
-  background: #e7762b; /* Fundo vermelho */
+  /* background: #e7762b;  Fundo vermelho */
+  background: #FFA726;
   position: relative;
   /*overflow: hidden;*/
   padding: 20px;
@@ -40,7 +41,8 @@ form {
   z-index: 2; /* Coloca o formulário acima das ondas */
 }
 .barra-horizontal {
-  background-color: #f87842;
+  /*background-color: #f87842; */
+  
   height: 5px;
   width: 210px;
 }
