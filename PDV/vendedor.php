@@ -74,7 +74,7 @@ $conn->close();
 </nav>
 
 <div class="container-fluid" id="frame-container">
-    <iframe id="content-frame" src="../pdv/pdv.php"></iframe>
+    <iframe id="content-frame" src="../mensagem/visualizar_mensagem.php"></iframe>
 </div>
 
 <!-- Modal de Alteração de Cadastro -->

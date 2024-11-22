@@ -111,11 +111,13 @@ $conn->close();
                 <ul class="submenu">
                     <li><a href="cadastro_funcionario.php" target="content-frame">Funcionario</a></li>
                     <li><a href="cadastro_cliente.php" target="content-frame">Cliente</a></li>
+                    <li><a href="consulta_delete_cliente.php" target="content-frame">Adm Cliente</a></li>
                 </ul>
             </li>
             <li><a href="frame_admin.php" target="content-frame"><span class="icon material-icons">account_balance</span>Financeiro</a></li>
             <li><a href="frame_cons_usuario.php" target="content-frame"><span class="icon material-icons">people</span>Usuários</a></li>
             <li><a href="frame_cons_estoque.php" target="content-frame"><span class="icon material-icons">inventory</span>Estoque</a></li>
+            <li><a href="mensagem/editor_mensagem.php" target="content-frame"><span class="icon material-icons">chat</span>Mensagem</a></li>
             <li>
                 <a href="#"><span class="icon material-icons">build</span>Configurações</a>
                 <ul class="submenu">
@@ -128,7 +130,7 @@ $conn->close();
 
     <!-- Conteúdo Principal -->
     <div class="content" id="main-content">
-        <iframe src="images/manutencao.png" name="content-frame" frameborder="0"></iframe>
+        <iframe src="mensagem/visualizar_mensagem.php" name="content-frame" frameborder="0"></iframe>
     </div>
 
     <script>

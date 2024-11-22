@@ -23,6 +23,11 @@
             width: 100%;
             margin-top: 10px;
         }
+        .card-custom .card-body,
+        .card-payment .card-body {
+            color: #000000; /* Cor preta para o texto dentro dos cards */
+        }
+
     </style>
 </head>
 <body>
@@ -44,7 +49,7 @@ $valor_unitario = isset($_GET['valor_unitario']) ? explode(',', htmlspecialchars
 <nav class="navbar navbar-custom">
     <div class="container-fluid d-flex justify-content-between">
         <span class="navbar-brand mb-0 h1">PDV</span>
-        <a href="logout.php" class="btn btn-outline-light">Sair</a>
+        <a href="../index.php" class="btn btn-outline-light">Sair</a>
     </div>
 </nav>
 
@@ -99,12 +104,12 @@ $valor_unitario = isset($_GET['valor_unitario']) ? explode(',', htmlspecialchars
                         ?>
                     </tbody>
                 </table>
-                <div class="card card-payment mb-3">
+              <!--  <div class="card card-payment mb-3">
                     <div class="card-body">
                         <h5 class="card-title">E-mail</h5>
                         <input type="email" class="form-control" placeholder="Digite o e-mail do cliente">
                     </div>
-                </div>
+                </div> -->
                 <div class="card card-payment">
                     <div class="card-body">
                         <h5 class="card-title">CPF ou CNPJ</h5>
@@ -122,8 +127,10 @@ $valor_unitario = isset($_GET['valor_unitario']) ? explode(',', htmlspecialchars
         <div class="col-md-3">
 
             <button class="btn btn-primary payment-button" onclick="registrarPagamento('dinheiro')">Pago em Dinheiro</button>
-            <button class="btn btn-success payment-button" onclick="registrarPagamento('credito')">Pago em Cartão de Crédito</button>
-            <button class="btn btn-info payment-button" onclick="registrarPagamento('debito')">Pago em Cartão de Débito</button>
+            <button class="btn btn-primary payment-button" onclick="registrarPagamento('credito')">Pago em Cartão de Crédito</button>
+            <button class="btn btn-primary payment-button" onclick="registrarPagamento('debito')">Pago em Cartão de Débito</button>
+            <button class="btn btn-primary payment-button" onclick="registrarPagamento('pix')">Pago em Pix</button>
+            <button class="btn btn-primary payment-button" onclick="registrarPagamento('boleto')">Pago em Boleto</button>
            <!-- Botão de Imprimir Nota Fiscal com chamada JavaScript -->
            <button type="button" class="btn btn-warning payment-button mt-2" onclick="imprimirNotaFiscal()">Imprimir Nota Fiscal</button>        
        

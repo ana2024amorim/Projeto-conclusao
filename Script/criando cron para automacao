@@ -1,0 +1,17 @@
+1 execute
+taskschd.msc
+
+No painel à direita, clique em Criar Tarefa....
+No campo Geral, dê um nome para sua tarefa (por exemplo, "Executar Script PHP").
+
+    Você também pode marcar Executar com privilégios mais altos caso o script necessite de permissões administrativas.
+
+Agendando o tempo
+Vá para a aba Disparadores e clique em Novo....
+Selecione a frequência com que o script será executado. Por exemplo:
+
+    Diariamente para rodar o script todos os dias.
+    A cada hora para rodar o script de hora em hora.
+    Quando o computador for iniciado se quiser rodar o script logo ao ligar a máquina.
+
+Clique em OK após configurar a frequência desejada.
