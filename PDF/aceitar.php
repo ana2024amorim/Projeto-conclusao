@@ -43,7 +43,43 @@ $caminhoArquivo = "http://localhost/projeto-conclusao/PDF/documento_" . $nomeSan
             <input type="checkbox" name="aceite" value="1" required> Eu li e aceito os termos do documento.
         </label>
         <br><br>
+
+        <!-- Campo oculto para passar o nome sanitizado -->
+        <input type="hidden" name="nome_usuario" value="<?php echo $nomeSanitizado; ?>">
+
         <button type="submit">Confirmar Aceite</button>
     </form>
+    <script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const qrCodeModal = new bootstrap.Modal(document.getElementById('qrCodeModal'));
+        qrCodeModal.show(); // Exibe o modal automaticamente
+
+        // Verifica periodicamente no servidor se o aceite foi registrado
+        const nomeUsuario = "<?php echo $nome; ?>"; // Obtém o nome do usuário da sessão
+
+        function verificarAceite() {
+            fetch('verifica_aceite.php', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded'
+                },
+                body: new URLSearchParams({ nome_usuario: nomeUsuario })
+            })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.status === 'found') {
+                        window.location.href = 'dados_recuperados.php';
+                    } else if (data.status === 'error') {
+                        console.error("Erro:", data.message);
+                    }
+                })
+                .catch(error => console.error('Erro ao verificar aceite:', error));
+        }
+
+        // Chama a função a cada 5 segundos
+        setInterval(verificarAceite, 3000);
+    });
+</script>
+
 </body>
 </html>

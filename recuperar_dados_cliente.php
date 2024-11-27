@@ -3,241 +3,228 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Salvar Cliente no Banco</title>
+    <title>Detalhes do Cliente</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+<style>
+    body {
+    font-family: Arial, sans-serif;
+    background-color: #f0f0f0;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
 
-    <style>
-        /* Estilização geral */
-        body {
-            font-family: Arial, sans-serif;
-            background-color: #f4f4f9;
-            margin: 0;
-            padding: 0;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-            flex-direction: column;
-        }
+.container {
+    background-color: #ffffff;
+    padding: 30px;
+    border-radius: 8px;
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
+    width: 80%;
+    max-width: 1000px;
+    box-sizing: border-box;
+}
 
-        h1 {
-            text-align: center;
-            color: #333;
-            margin-bottom: 30px;
-            font-size: 28px; /* Ajustando o tamanho do título */
-        }
+h1 {
+    text-align: center;
+    color: #333333;
+    margin-bottom: 20px;
+}
 
-        /* Formulário */
-        form {
-            background-color: #fff;
-            padding: 30px 40px; /* Aumentando o espaço interno */
-            border-radius: 8px;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-            width: 100%;
-            max-width: 1100px; /* Aumentando a largura máxima do formulário */
-            box-sizing: border-box;
-        }
+.list-group {
+    margin-bottom: 30px;
+}
 
-        /* Estrutura de 3 colunas */
-        .form-row {
-            display: flex;
-            justify-content: space-between;
-            gap: 15px;
-            margin-bottom: 15px;
-        }
+.list-group-item {
+    background-color: #f9f9f9;
+    border: 1px solid #ddd;
+    padding: 10px;
+    border-radius: 4px;
+    margin-bottom: 10px;
+    font-size: 1.1rem;
+}
 
-        .form-group {
-            flex: 1;
-            display: flex;
-            flex-direction: column;
-        }
+strong {
+    color: #555;
+}
 
-        /* Campos de entrada */
-        form label {
-            font-weight: bold;
-            margin-bottom: 8px;
-            color: #555;
-        }
+.d-flex {
+    margin-top: 20px;
+}
 
-        form input[type="text"],
-        form input[type="tel"],
-        form input[type="email"],
-        form input[type="number"],
-        form select {
-            width: 100%;
-            padding: 12px 14px; /* Aumentando o preenchimento dos campos */
-            border: 1px solid #ccc;
-            border-radius: 5px;
-            box-sizing: border-box;
-            font-size: 16px; /* Fonte maior para os campos */
-            transition: border-color 0.3s;
-        }
+button, .btn {
+    padding: 12px 20px;
+    border: none;
+    border-radius: 4px;
+    font-size: 16px;
+    cursor: pointer;
+    width: 45%;
+    text-align: center;
+}
 
-        form input[type="text"]:focus,
-        form input[type="tel"]:focus,
-        form input[type="email"]:focus,
-        form select:focus {
-            border-color: #007bff;
-            outline: none;
-        }
+button:hover, .btn:hover {
+    opacity: 0.9;
+}
 
-        /* Botões */
-        form .form-actions {
-            text-align: right;
-            margin-top: 20px;
-        }
+.btn-secondary {
+    background-color: #7e6868;
+    color: white;
+}
 
-        form button {
-            background-color: #007bff;
-            color: #fff;
-            border: none;
-            border-radius: 5px;
-            padding: 12px 20px; /* Botão maior */
-            font-size: 16px;
-            cursor: pointer;
-            transition: background-color 0.3s;
-        }
+.btn-primary {
+    background-color: #4CAF50;
+    color: white;
+}
 
-        form button:hover {
-            background-color: #0056b3;
-        }
+.btn-secondary:hover {
+    background-color: #6d5c5c;
+}
 
-        /* Responsividade */
-        @media (max-width: 768px) {
-            .form-row {
-                flex-wrap: wrap;
-            }
+.btn-primary:hover {
+    background-color: #45a049;
+}
 
-            .form-group {
-                flex: 1 1 100%; /* Cada campo ocupa toda a largura */
-            }
+.alert-warning {
+    color: #856404;
+    background-color: #fff3cd;
+    border-color: #ffeeba;
+    padding: 15px;
+    border-radius: 4px;
+    font-size: 1rem;
+    margin-top: 20px;
+}
 
-            form {
-                padding: 20px;
-            }
+/* Responsividade */
+@media (max-width: 768px) {
+    .container {
+        padding: 20px;
+    }
 
-            h1 {
-                font-size: 22px; /* Ajustando o título em telas menores */
-            }
-        }
-    </style>
+    h1 {
+        font-size: 24px;
+    }
+
+    .d-flex {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .d-flex button {
+        width: 100%;
+        margin-bottom: 10px;
+    }
+}
+
+@media (max-width: 480px) {
+    .container {
+        padding: 15px;
+    }
+
+    h1 {
+        font-size: 20px;
+    }
+}
+
+</style>
+
 </head>
 <body>
-    <h1>Cadastro de Cliente</h1>
-
-    <form id="insert-form">
-        <!-- Primeira linha -->
-        <div class="form-row">
-            <div class="form-group">
-                <label for="cpf_cnpj">CPF/CNPJ:</label>
-                <input type="text" id="cpf_cnpj" name="cpf_cnpj" required>
-            </div>
-            <div class="form-group">
-                <label for="razao_nome">Razão Social/Nome:</label>
-                <input type="text" id="razao_nome" name="razao_nome" required>
-            </div>
-            <div class="form-group">
-                <label for="cep">CEP:</label>
-                <input type="text" id="cep" name="cep" required>
-            </div>
+    <div class="container mt-5">
+        <h1 class="mb-4">Cadastro do Cliente</h1>
+        <div id="client-details" class="list-group">
+            <!-- Os detalhes do cliente serão exibidos aqui -->
         </div>
-
-        <!-- Segunda linha -->
-        <div class="form-row">
-            <div class="form-group">
-                <label for="cidade">Cidade:</label>
-                <input type="text" id="cidade" name="cidade" required>
-            </div>
-            <div class="form-group">
-                <label for="endereco">Endereço:</label>
-                <input type="text" id="endereco" name="endereco" required>
-            </div>
-            <div class="form-group">
-                <label for="complemento">Complemento:</label>
-                <input type="text" id="complemento" name="complemento">
-            </div>
+        <div class="d-flex justify-content-between mt-4">
+            <a href="pagina_venda.php" class="btn btn-secondary">Voltar</a>
+            <button id="send-data" class="btn btn-primary">Enviar Dados</button>
         </div>
-
-        <!-- Terceira linha -->
-        <div class="form-row">
-            <div class="form-group">
-                <label for="bairro">Bairro:</label>
-                <input type="text" id="bairro" name="bairro" required>
-            </div>
-            <div class="form-group">
-                <label for="uf">UF:</label>
-                <input type="text" id="uf" name="uf" required>
-            </div>
-            <div class="form-group">
-                <label for="telefone">Telefone:</label>
-                <input type="tel" id="telefone" name="telefone" required>
-            </div>
-        </div>
-
-        <!-- Quarta linha -->
-        <div class="form-row">
-            <div class="form-group">
-                <label for="email">E-mail:</label>
-                <input type="email" id="email" name="email" required>
-            </div>
-            <div class="form-group">
-                <label for="rginscricao">RG/Inscrição:</label>
-                <input type="text" id="rginscricao" name="rginscricao" required>
-            </div>
-            <div class="form-group">
-                <label for="sitcad">Situação:</label>
-                <select id="sitcad" name="sitcad" required>
-                    <option value="Ativo">Ativo</option>
-                    <option value="Desativado">Desativado</option>
-                </select>
-            </div>
-        </div>
-
-        <!-- Botões -->
-        <div class="form-actions">
-            <button type="submit">Enviar</button>
-        </div>
-    </form>
+    </div>
 
     <script>
-        // Recuperando os dados do LocalStorage
-        const clientData = JSON.parse(localStorage.getItem('clientData'));
+    // Recuperando os dados armazenados no localStorage
+    const clientData = JSON.parse(localStorage.getItem('clientData'));
 
-        if (clientData) {
-            // Preenchendo os campos automaticamente
-            document.getElementById('cpf_cnpj').value = clientData.cpf_cnpj || '';
-            document.getElementById('razao_nome').value = clientData.razao_nome || '';
-            document.getElementById('cep').value = clientData.cep || '';
-            document.getElementById('cidade').value = clientData.cidade || '';
-            document.getElementById('endereco').value = clientData.endereco || '';
-            document.getElementById('complemento').value = clientData.complemento || '';
-            document.getElementById('bairro').value = clientData.bairro || '';
-            document.getElementById('uf').value = clientData.uf || '';
-            document.getElementById('telefone').value = clientData.telefone || '';
-            document.getElementById('email').value = clientData.email || '';
-            document.getElementById('rginscricao').value = clientData.rginscricao || '';
-            document.getElementById('sitcad').value = clientData.sitcad || '';
-        }
-
-        // Enviando os dados para o servidor
-        document.getElementById('insert-form').addEventListener('submit', function (e) {
-            e.preventDefault(); // Evita recarregar a página
-
-            const formData = new FormData(e.target);
-
-            fetch('salvar_cliente.php', {
+    // Verificando se os dados existem no localStorage
+    if (clientData) {
+        // Exibindo os dados do cliente
+        const clientDetailsContainer = document.getElementById('client-details');
+        
+        clientDetailsContainer.innerHTML = `
+            <div class="list-group-item">
+                <strong>CPF/CNPJ:</strong> ${clientData.cpf_cnpj}
+            </div>
+            <div class="list-group-item">
+                <strong>Razão Social/Nome:</strong> ${clientData.razao_nome}
+            </div>
+            <div class="list-group-item">
+                <strong>CEP:</strong> ${clientData.cep}
+            </div>
+            <div class="list-group-item">
+                <strong>Cidade:</strong> ${clientData.cidade}
+            </div>
+            <div class="list-group-item">
+                <strong>Endereço:</strong> ${clientData.endereco}
+            </div>
+            <div class="list-group-item">
+                <strong>Complemento:</strong> ${clientData.complemento || 'Não Informado'}
+            </div>
+            <div class="list-group-item">
+                <strong>Bairro:</strong> ${clientData.bairro}
+            </div>
+            <div class="list-group-item">
+                <strong>UF:</strong> ${clientData.uf}
+            </div>
+            <div class="list-group-item">
+                <strong>Telefone:</strong> ${clientData.telefone}
+            </div>
+            <div class="list-group-item">
+                <strong>E-mail:</strong> ${clientData.email}
+            </div>
+            <div class="list-group-item">
+                <strong>RG/Inscrição:</strong> ${clientData.rginscricao}
+            </div>
+            <div class="list-group-item">
+                <strong>Situação Cadastro:</strong> ${clientData.sitcad}
+            </div>
+        `;
+        
+        // Evento de envio dos dados
+        document.getElementById('send-data').addEventListener('click', function () {
+            // Enviando os dados para o PHP via POST
+            fetch('conector/insert2_cliente.php', {
                 method: 'POST',
-                body: formData
+                headers: {
+                    'Content-Type': 'application/json', // Envia os dados no formato JSON
+                },
+                body: JSON.stringify(clientData) // Envia os dados recuperados como JSON
             })
-            .then(response => response.text())
+            .then(response => response.json())
             .then(data => {
-                alert('Cliente salvo com sucesso!');
-                console.log(data);
+                if (data.sucesso) { // Verificando o retorno de sucesso
+                    alert('Dados enviados com sucesso!');
+                    // Redirecionar ou realizar outra ação após sucesso
+                    window.location.href = "cadastro2_cliente.php"; // Exemplo de redirecionamento
+                } else {
+                    alert('Erro ao enviar os dados: ' + data.mensagem); // Exibe a mensagem de erro retornada
+                }
             })
             .catch(error => {
-                alert('Erro ao salvar o cliente!');
-                console.error(error);
+                console.error('Erro:', error);
+                alert('Erro ao enviar os dados! Por favor, tente novamente mais tarde.');
             });
         });
+    } else {
+        // Caso os dados não sejam encontrados no localStorage
+        document.getElementById('client-details').innerHTML = `
+            <div class="alert alert-warning" role="alert">
+                Nenhum dado de cliente encontrado!
+            </div>
+        `;
+    }
     </script>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>

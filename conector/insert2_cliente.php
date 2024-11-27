@@ -7,22 +7,23 @@ require_once "conector_db.php";
 $mensagem = ''; // Variável para armazenar a mensagem
 $sucesso = false; // Flag para indicar se o cadastro foi bem-sucedido
 
-// Verifica se o formulário foi submetido
-if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    
-    // Coleta os dados do formulário com proteção contra SQL Injection
-    $cpf_cnpj = mysqli_real_escape_string($conn, $_POST['cpf_cnpj']);
-    $razao_nome = mysqli_real_escape_string($conn, $_POST['razao_nome']);
-    $cep = mysqli_real_escape_string($conn, $_POST['cep']);
-    $cidade = mysqli_real_escape_string($conn, $_POST['cidade']);
-    $endereco = mysqli_real_escape_string($conn, $_POST['endereco']);
-    $complemento = mysqli_real_escape_string($conn, $_POST['complemento']);
-    $bairro = mysqli_real_escape_string($conn, $_POST['bairro']);
-    $uf = mysqli_real_escape_string($conn, $_POST['uf']);
-    $telefone = mysqli_real_escape_string($conn, $_POST['telefone']);
-    $email = mysqli_real_escape_string($conn, $_POST['email']);
-    $rginscricao = mysqli_real_escape_string($conn, $_POST['rginscricao']);
-    $sitcad = mysqli_real_escape_string($conn, $_POST['sitcad']);
+// Verifica se o corpo da requisição é JSON
+$data = json_decode(file_get_contents("php://input"), true);
+
+if ($data) {
+    // Coleta os dados do JSON
+    $cpf_cnpj = mysqli_real_escape_string($conn, $data['cpf_cnpj']);
+    $razao_nome = mysqli_real_escape_string($conn, $data['razao_nome']);
+    $cep = mysqli_real_escape_string($conn, $data['cep']);
+    $cidade = mysqli_real_escape_string($conn, $data['cidade']);
+    $endereco = mysqli_real_escape_string($conn, $data['endereco']);
+    $complemento = mysqli_real_escape_string($conn, $data['complemento']);
+    $bairro = mysqli_real_escape_string($conn, $data['bairro']);
+    $uf = mysqli_real_escape_string($conn, $data['uf']);
+    $telefone = mysqli_real_escape_string($conn, $data['telefone']);
+    $email = mysqli_real_escape_string($conn, $data['email']);
+    $rginscricao = mysqli_real_escape_string($conn, $data['rginscricao']);
+    $sitcad = mysqli_real_escape_string($conn, $data['sitcad']);
 
     // Verifica se o CPF/CNPJ já existe no banco de dados
     $check_query = "SELECT cpf_cnpj FROM tb_cliente WHERE cpf_cnpj = ?";
@@ -73,5 +74,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     
     // Retorna a mensagem e o status como JSON para o JavaScript
     echo json_encode(['mensagem' => $mensagem, 'sucesso' => $sucesso]);
+} else {
+    // Se os dados não forem encontrados ou forem inválidos
+    echo json_encode(['mensagem' => 'Dados inválidos!', 'sucesso' => false]);
 }
 ?>

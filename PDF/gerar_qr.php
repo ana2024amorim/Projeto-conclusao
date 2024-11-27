@@ -79,11 +79,29 @@ if (isset($_GET['nome'])) {
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.min.js"></script>
 
-    <!-- Script para abrir automaticamente o modal -->
+    <!-- Script para abrir automaticamente o modal e verificar o banco -->
     <script>
         document.addEventListener('DOMContentLoaded', function () {
             const qrCodeModal = new bootstrap.Modal(document.getElementById('qrCodeModal'));
             qrCodeModal.show(); // Exibe o modal automaticamente
+
+            // Passa o nome do usuário para a função
+            const nomeUsuario = "<?php echo $_SESSION['nome']; ?>"; 
+
+            // Função para verificar no servidor
+            function verificarAceite() {
+                fetch('verifica_aceite.php?nome_usuario=' + encodeURIComponent(nomeUsuario))
+                    .then(response => response.json())
+                    .then(data => {
+                        if (data.status === 'confirmed') {
+                            window.location.href = '../recuperar_dados_cliente.php'; // Redireciona para pagina de recuperar os dados do cliente
+                        }
+                    })
+                    .catch(error => console.error('Erro ao verificar o banco:', error));
+            }
+
+            // Verifica o status a cada 5 segundos
+            setInterval(verificarAceite, 5000);
         });
     </script>
 </body>
