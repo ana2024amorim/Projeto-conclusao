@@ -84,7 +84,7 @@ $conn->close();
     // Função para carregar a página via AJAX
     function loadFornecedorPage(pagina) {
         $.ajax({
-            url: 'consulta_fornecedores.php',
+            url: 'busca_fornecedor.php',
             type: 'GET',
             data: { pagina: pagina },
             success: function(data) {

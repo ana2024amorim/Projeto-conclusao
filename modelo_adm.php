@@ -109,7 +109,7 @@ $conn->close();
             <li>
                 <a href="#"><span class="icon material-icons">person_add</span>Cadastro</a>
                 <ul class="submenu">
-                  <!--  <li><a href="cadastro_funcionario.php" target="content-frame">Funcionario</a></li> -->
+                    <li><a href="cadastro_funcionario.php" target="content-frame">Funcionario</a></li>
                     <li><a href="cadastro2_cliente.php" target="content-frame">Cliente</a></li>
                     <li><a href="consulta_delete_cliente.php" target="content-frame">Adm Cliente</a></li>
                 </ul>

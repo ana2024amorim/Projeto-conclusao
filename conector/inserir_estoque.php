@@ -13,7 +13,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $posicao = isset($_POST['posicao']) ? htmlspecialchars(strip_tags($_POST['posicao'])) : null;
     $nivel = isset($_POST['nivel']) ? htmlspecialchars(strip_tags($_POST['nivel'])) : null;
     $quantidade = isset($_POST['quantidade']) ? (int) $_POST['quantidade'] : null;
-    $fornecedor = isset($_POST['fornecedor']) ? htmlspecialchars(strip_tags($_POST['fornecedor'])) : null;
+    $fornecedor = isset($_POST['fornecedor2']) ? htmlspecialchars(strip_tags($_POST['fornecedor2'])) : null;
 
     // Verifica se todos os dados obrigatórios foram recebidos
     if ($codigo_peca && $localizacao && $corredor && $posicao && $nivel && $quantidade !== null && $fornecedor) {

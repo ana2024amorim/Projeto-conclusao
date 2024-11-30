@@ -57,7 +57,8 @@ $conn->close();
             <ul class="navbar-nav mx-auto">
                 <li class="nav-item mx-4"><a class="nav-link" href="#" onclick="loadPage('../pdv/pdv.php')">Venda</a></li>
                 <li class="nav-item mx-4"><a class="nav-link" href="#" onclick="loadPage('../frame_cons_estoque.php')">Consulta Peças</a></li>
-                <li class="nav-item mx-4"><a class="nav-link" href="#" onclick="loadPage('../cadastro_cliente.php')">Cadastro Cliente</a></li>
+                <li class="nav-item mx-4"><a class="nav-link" href="#" onclick="loadPage('../cadastro2_cliente.php')">Cadastro Cliente</a></li>
+                <li class="nav-item mx-4"><a class="nav-link" href="#" onclick="loadPage('../consulta_venda.php')">Consulta Venda</a></li>
             </ul>
         </div>
         <div class="dropdown">

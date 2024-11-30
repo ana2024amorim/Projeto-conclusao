@@ -37,6 +37,9 @@ if ($user = $result->fetch_assoc()) {
             case 'Gerente':
                 header('Location: ../modelo.php');
                 break;
+            case 'Administrador':
+                header('Location: ../modelo_adm.php');
+                break;
             case 'Vendedor':
                 header('Location: ../pdv/vendedor.php');
                 break;

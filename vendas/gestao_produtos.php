@@ -135,35 +135,48 @@
             /* Ajuste do campo Marca do Carro para ter aparência padrão */
             #fabricante-carro {
                 width: 100%; /* Largura total igual às caixas de texto */
-                padding: 5px; /* Espaçamento interno */
+                padding: 8px; /* Espaçamento interno */
                 border: 1px solid #000; /* Borda padrão */
                 background-color: #FFF; /* Cor de fundo branco */
                 font-size: 14px; /* Tamanho da fonte igual às outras caixas */
             }
             #modelo-carro {
                 width: 100%; /* Largura total igual às caixas de texto */
-                padding: 5px; /* Espaçamento interno */
+                padding: 8px; /* Espaçamento interno */
                 border: 1px solid #000; /* Borda padrão */
                 background-color: #FFF; /* Cor de fundo branco */
                 font-size: 14px; /* Tamanho da fonte igual às outras caixas */
             }
             #fornecedor1 {
                 width: 100%; /* Largura total igual às caixas de texto */
-                padding: 5px; /* Espaçamento interno */
+                padding: 8px; /* Espaçamento interno */
+                border: 1px solid #000; /* Borda padrão */
+                background-color: #FFF; /* Cor de fundo branco */
+                font-size: 14px; /* Tamanho da fonte igual às outras caixas */
+            }
+            #fornecedor2 {
+                width: 100%; /* Largura total igual às caixas de texto */
+                padding: 8px; /* Espaçamento interno */
                 border: 1px solid #000; /* Borda padrão */
                 background-color: #FFF; /* Cor de fundo branco */
                 font-size: 14px; /* Tamanho da fonte igual às outras caixas */
             }
             #marca-fabricante {
                 width: 100%; /* Largura total igual às caixas de texto */
-                padding: 5px; /* Espaçamento interno */
+                padding: 8px; /* Espaçamento interno */
                 border: 1px solid #000; /* Borda padrão */
                 background-color: #FFF; /* Cor de fundo branco */
                 font-size: 14px; /* Tamanho da fonte igual às outras caixas */
             }
             #situacao {
                 width: 100%; /* Largura total igual às caixas de texto */
-                padding: 5px; /* Espaçamento interno */
+                padding: 8px; /* Espaçamento interno */
+                border: 1px solid #000; /* Borda padrão */
+                background-color: #FFF; /* Cor de fundo branco */
+                font-size: 14px; /* Tamanho da fonte igual às outras caixas */
+            }#codigo_produto {
+                width: 100%; /* Largura total igual às caixas de texto */
+                padding: 8px; /* Espaçamento interno */
                 border: 1px solid #000; /* Borda padrão */
                 background-color: #FFF; /* Cor de fundo branco */
                 font-size: 14px; /* Tamanho da fonte igual às outras caixas */
@@ -234,7 +247,19 @@
 
                             .pagination .page-link:hover {
                                 background-color: #0056b3; /* Cor de fundo ao passar o mouse */
-                                color: white; /* Cor do texto ao passar o mouse */
+                                color: black; /* Cor do texto ao passar o mouse */
+                            }
+                            .btn-cinza {
+                                background-color: #808080; /* Cor cinza */
+                                color: black; /* Cor do texto */
+                                border: 1px solid #000;
+                                padding: 10px 20px;
+                                border-radius: 0px;
+                                cursor: pointer;
+                            }
+
+                            .btn-cinza:hover {
+                                background-color: #5a6268; /* Cor ao passar o mouse */
                             }
 
 
@@ -248,7 +273,8 @@
     <!-- Botão de Fechar -->
     <div class="close-btn" onclick="closeWindow()">X</div>
 
-    <div class="form-group-small">
+    <!-- utoes de pesquisa ainda tem que implementar -->
+   <!--  <div class="form-group-small">
         <label for="codigo-int-produto">Código interno Produto:</label>
         <input type="text" id="codigo-int-produto">
     </div>
@@ -267,7 +293,7 @@
     <div class="form-group-small">
         <label for="fabricante">Fabricante:</label>
         <input type="text" id="fabricante">
-    </div>
+    </div> -->
 
     <!-- Tabs -->
     <div class="tabs">
@@ -280,9 +306,13 @@
     <!-- Tab 1: Cadastro de Produto -->
     <div class="form-section active" id="tab1">
         <form action="../conector/inserir_produto.php" method="POST">
+            
             <div class="form-group">
-                <label for="codigo-produto">Código Produto:</label>
-                <input type="text" id="codigo-produto" name="codigo_produto" required>
+                <label for="codigo_produto">Código Produto:</label>
+                <select id="codigo_produto" name="codigo_produto" required>
+                    <option value="">Selecione o Produto</option>
+                    <!-- Os fornecedores serão carregados aqui via AJAX -->
+                </select>
             </div>
 
             <div class="form-group">
@@ -458,6 +488,26 @@
                 // Evento para abrir a modal de consulta
                 document.getElementById('btn-consultar').addEventListener('click', () => loadPage());
 
+                //funcao para carregar codigo produto
+                $(document).ready(function() {
+                    $.ajax({
+                        url: '../conector/cons_codigo_produto.php',
+                        type: 'GET',
+                        dataType: 'json',
+                        success: function(data) {
+                            var select = $('#codigo_produto');
+                            select.empty();
+                            select.append('<option value="">Selecione o Produto</option>');
+                            
+                            $.each(data, function(index, fornecedor) {
+                                select.append('<option value="' + fornecedor + '">' + fornecedor + '</option>');
+                            });
+                        },
+                        error: function() {
+                            alert("Erro ao carregar os fornecedores.");
+                        }
+                    });
+                });
                 //funcao para chamar dados de edicao
                 async function openEditModal(codigo) {
                     try {
@@ -598,345 +648,369 @@
 
     <!-- Tab 2: Posicao estoque -->
     <div class="form-section" id="tab2">
-    <form id="form-peca" method="POST">
-        <div class="form-group">
-            <label for="codigo-peca">Código da Peça:</label>
-            <input type="text" id="codigo-peca" name="codigo_peca" required>
-        </div>
+        <form id="form-peca" method="POST">
+            <div class="form-group">
+                <label for="codigo-peca">Código da Peça:</label>
+                <input type="text" id="codigo-peca" name="codigo_peca" required>
+            </div>
 
-        <div class="form-group">
-            <label for="localizacao">Localização:</label>
-            <input type="text" id="localizacao" name="localizacao" required>
-        </div>
+            <div class="form-group">
+                <label for="localizacao">Localização:</label>
+                <input type="text" id="localizacao" name="localizacao" required>
+            </div>
 
-        <div class="form-group">
-            <label for="corredor">Corredor:</label>
-            <input type="text" id="corredor" name="corredor" required>
-        </div>
+            <div class="form-group">
+                <label for="corredor">Corredor:</label>
+                <input type="text" id="corredor" name="corredor" required>
+            </div>
 
-        <div class="form-group">
-            <label for="posicao">Posição:</label>
-            <input type="text" id="posicao" name="posicao" required>
-        </div>
+            <div class="form-group">
+                <label for="posicao">Posição:</label>
+                <input type="text" id="posicao" name="posicao" required>
+            </div>
 
-        <div class="form-group">
-            <label for="nivel">Nível:</label>
-            <input type="text" id="nivel" name="nivel" required>
-        </div>
+            <div class="form-group">
+                <label for="nivel">Nível:</label>
+                <input type="text" id="nivel" name="nivel" required>
+            </div>
 
-        <div class="form-group">
-            <label for="quantidade">Quantidade:</label>
-            <input type="number" id="quantidade" name="quantidade" required>
-        </div>
+            <div class="form-group">
+                <label for="quantidade">Quantidade:</label>
+                <input type="number" id="quantidade" name="quantidade" required>
+            </div>
 
-        <div class="form-group">
-            <label for="fornecedor">Fornecedor:</label>
-            <input type="text" id="fornecedor" name="fornecedor" required>
-        </div>
+        
+            <div class="form-group">
+                    <label for="fornecedor2">Fornecedor:</label>
+                    <select id="fornecedor2" name="fornecedor2" required>
+                        <option value="">Selecione o Fornecedor</option>
+                        <!-- Os fornecedores serão carregados aqui via AJAX -->
+                    </select>
+            </div>
 
-        <div class="button-group">
-            <button type="submit" class="btn btn-primary">Salvar</button>
-            <button type="button" class="btn btn-secondary" onclick="openEstoqueModal()">Consultar Estoque</button>
-        </div>
-    </form>
+            <div class="button-group">
+                <button type="submit" class="btn btn-cinza">Salvar</button>
+                <button type="button" class="btn btn-cinza" onclick="openEstoqueModal()">Consultar Estoque</button>
+            </div>
+        </form>
 
-    <!-- Modal de Consulta de Estoque -->
-    <div class="modal fade" id="estoqueModal" tabindex="-1" role="dialog" aria-labelledby="estoqueModalLabel" aria-hidden="true">
-        <div class="modal-dialog modal-lg" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="estoqueModalLabel">Consulta de Estoque</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <div class="modal-body">
-                    <div id="estoque-list">
-                        <!-- Os dados do estoque serão carregados aqui via AJAX -->
+        <!-- Modal de Consulta de Estoque -->
+        <div class="modal fade" id="estoqueModal" tabindex="-1" role="dialog" aria-labelledby="estoqueModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-lg" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="estoqueModalLabel">Consulta de Estoque</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <div id="estoque-list">
+                            <!-- Os dados do estoque serão carregados aqui via AJAX -->
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Fechar</button>
                     </div>
                 </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Fechar</button>
-                </div>
             </div>
         </div>
-    </div>
 
-        <!-- Modal de Edição de Estoque -->
-    <div class="modal fade" id="editEstoqueModal" tabindex="-1" role="dialog" aria-labelledby="editEstoqueModalLabel" aria-hidden="true">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="editEstoqueModalLabel">Editar Estoque</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <div class="modal-body">
-                    <form id="edit-estoque-form">
-                        <div class="form-group">
-                            <label for="codigo-peca-edit">Código da Peça</label>
-                            <input type="text" class="form-control" id="codigo-peca-edit" name="codigo_peca" readonly>
-                        </div>
-                        <div class="form-group">
-                            <label for="localizacao-edit">Localização</label>
-                            <input type="text" class="form-control" id="localizacao-edit" name="localizacao" required>
-                        </div>
-                        <div class="form-group">
-                            <label for="corredor-edit">Corredor</label>
-                            <input type="text" class="form-control" id="corredor-edit" name="corredor" required>
-                        </div>
-                        <div class="form-group">
-                            <label for="posicao-edit">Posição</label>
-                            <input type="text" class="form-control" id="posicao-edit" name="posicao" required>
-                        </div>
-                        <div class="form-group">
-                            <label for="local-nivel">Nível</label>
-                            <input type="text" class="form-control" id="local-nivel" name="nivel" required>
-                        </div>
-                        <div class="form-group">
-                            <label for="quantidade-edit">Quantidade</label>
-                            <input type="number" class="form-control" id="quantidade-edit" name="quantidade" required>
-                        </div>
-                        <div class="form-group">
-                            <label for="fornecedor-edit">Fornecedor</label>
-                            <input type="text" class="form-control" id="fornecedor-edit" name="fornecedor" required>
-                        </div>
-                        <button type="button" class="btn btn-primary" onclick="submitEditEstoqueForm()">Salvar alterações</button>
-                    </form>
+            <!-- Modal de Edição de Estoque -->
+        <div class="modal fade" id="editEstoqueModal" tabindex="-1" role="dialog" aria-labelledby="editEstoqueModalLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="editEstoqueModalLabel">Editar Estoque</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <form id="edit-estoque-form">
+                            <div class="form-group">
+                                <label for="codigo-peca-edit">Código da Peça</label>
+                                <input type="text" class="form-control" id="codigo-peca-edit" name="codigo_peca" readonly>
+                            </div>
+                            <div class="form-group">
+                                <label for="localizacao-edit">Localização</label>
+                                <input type="text" class="form-control" id="localizacao-edit" name="localizacao" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="corredor-edit">Corredor</label>
+                                <input type="text" class="form-control" id="corredor-edit" name="corredor" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="posicao-edit">Posição</label>
+                                <input type="text" class="form-control" id="posicao-edit" name="posicao" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="local-nivel">Nível</label>
+                                <input type="text" class="form-control" id="local-nivel" name="nivel" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="quantidade-edit">Quantidade</label>
+                                <input type="number" class="form-control" id="quantidade-edit" name="quantidade" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="fornecedor-edit">Fornecedor</label>
+                                <input type="text" class="form-control" id="fornecedor-edit" name="fornecedor" required>
+                            </div>
+                            <button type="button" class="btn btn-primary" onclick="submitEditEstoqueForm()">Salvar alterações</button>
+                        </form>
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
 
-    <!-- Modal de Exclusão de Estoque -->
-    <div class="modal fade" id="deleteEstoqueModal" tabindex="-1" role="dialog" aria-labelledby="deleteEstoqueModalLabel" aria-hidden="true">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="deleteEstoqueModalLabel">Confirmar Exclusão</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <div class="modal-body">
-                    <p>Tem certeza que deseja excluir este item do estoque?</p>
-                    <input type="hidden" id="codigo-peca-delete">
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
-                    <button type="button" class="btn btn-danger" onclick="confirmDeleteEstoque()">Excluir</button>
+        <!-- Modal de Exclusão de Estoque -->
+        <div class="modal fade" id="deleteEstoqueModal" tabindex="-1" role="dialog" aria-labelledby="deleteEstoqueModalLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="deleteEstoqueModalLabel">Confirmar Exclusão</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <p>Tem certeza que deseja excluir este item do estoque?</p>
+                        <input type="hidden" id="codigo-peca-delete">
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+                        <button type="button" class="btn btn-danger" onclick="confirmDeleteEstoque()">Excluir</button>
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
-            <script>
-            // Função para carregar a página de estoque via AJAX
-            async function openEstoqueModal(pageNumber = 1) {
+                <script>
+                // Função para carregar a página de estoque via AJAX
+                async function openEstoqueModal(pageNumber = 1) {
+                    try {
+                        const response = await fetch(`../conector/consulta_estoque.php?pagina=${pageNumber}`);
+                        if (!response.ok) {
+                            throw new Error('Erro na resposta do servidor: ' + response.status);
+                        }
+                        const html = await response.text();
+                        document.getElementById('estoque-list').innerHTML = html;
+                        $('#estoqueModal').modal('show'); // Mostra o modal após carregar os dados
+                    } catch (error) {
+                        console.error('Erro ao carregar o estoque:', error);
+                        document.getElementById('estoque-list').innerHTML = '<div>Erro ao carregar o estoque.</div>';
+                    }
+                }
+                //funcao so para mudar as paginas
+                async function loadEstoquePage(pageNumber) {
+                    console.log('Carregando página:', pageNumber);
+                    await openEstoqueModal(pageNumber);
+                }
+
+
+            // Função para abrir o modal de edição
+            async function openEditEstoqueModal(codigo) {
                 try {
-                    const response = await fetch(`../conector/consulta_estoque.php?pagina=${pageNumber}`);
+                    const response = await fetch('../conector/get_estoque.php', {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({ codigo_peca: codigo }),
+                    });
+
                     if (!response.ok) {
                         throw new Error('Erro na resposta do servidor: ' + response.status);
                     }
-                    const html = await response.text();
-                    document.getElementById('estoque-list').innerHTML = html;
-                    $('#estoqueModal').modal('show'); // Mostra o modal após carregar os dados
+
+                    const estoque = await response.json();
+
+                    // Preencher os campos do formulário
+                    document.getElementById('codigo-peca-edit').value = estoque.codigo_peca || '';
+                    document.getElementById('localizacao-edit').value = estoque.localizacao || '';
+                    document.getElementById('corredor-edit').value = estoque.corredor || '';
+                    document.getElementById('posicao-edit').value = estoque.posicao || '';
+                    document.getElementById('local-nivel').value = estoque.nivel || '';
+                    document.getElementById('quantidade-edit').value = estoque.quantidade || '';
+                    document.getElementById('fornecedor-edit').value = estoque.fornecedor || '';
+
+                    // Mostrar o modal de edição
+                    $('#editEstoqueModal').modal('show');
                 } catch (error) {
-                    console.error('Erro ao carregar o estoque:', error);
-                    document.getElementById('estoque-list').innerHTML = '<div>Erro ao carregar o estoque.</div>';
+                    console.error('Erro ao abrir o modal de edição:', error);
                 }
             }
-            //funcao so para mudar as paginas
-            async function loadEstoquePage(pageNumber) {
-                console.log('Carregando página:', pageNumber);
-                await openEstoqueModal(pageNumber);
-            }
-
-
-        // Função para abrir o modal de edição
-        async function openEditEstoqueModal(codigo) {
-            try {
-                const response = await fetch('../conector/get_estoque.php', {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ codigo_peca: codigo }),
-                });
-
-                if (!response.ok) {
-                    throw new Error('Erro na resposta do servidor: ' + response.status);
-                }
-
-                const estoque = await response.json();
-
-                // Preencher os campos do formulário
-                document.getElementById('codigo-peca-edit').value = estoque.codigo_peca || '';
-                document.getElementById('localizacao-edit').value = estoque.localizacao || '';
-                document.getElementById('corredor-edit').value = estoque.corredor || '';
-                document.getElementById('posicao-edit').value = estoque.posicao || '';
-                document.getElementById('local-nivel').value = estoque.nivel || '';
-                document.getElementById('quantidade-edit').value = estoque.quantidade || '';
-                document.getElementById('fornecedor-edit').value = estoque.fornecedor || '';
-
-                // Mostrar o modal de edição
-                $('#editEstoqueModal').modal('show');
-            } catch (error) {
-                console.error('Erro ao abrir o modal de edição:', error);
-            }
-        }
-
+                //funcao para carregar fornecedor
+                    $(document).ready(function() {
+                        $.ajax({
+                            url: '../conector/cons_fornecedor_veiculo_cad.php',
+                            type: 'GET',
+                            dataType: 'json',
+                            success: function(data) {
+                                var select = $('#fornecedor2');
+                                select.empty();
+                                select.append('<option value="">Selecione o Fornecedor</option>');
                                 
-               // Função para enviar o formulário de edição
-            async function submitEditEstoqueForm() {
-                // Cria um objeto com os dados do formulário
-                const data = {
-                    codigo_peca: document.getElementById('codigo-peca-edit').value,
-                    localizacao: document.getElementById('localizacao-edit').value,
-                    corredor: document.getElementById('corredor-edit').value,
-                    posicao: document.getElementById('posicao-edit').value,
-                    nivel: document.getElementById('local-nivel').value,
-                    quantidade: document.getElementById('quantidade-edit').value,
-                    fornecedor: document.getElementById('fornecedor-edit').value
-                };
-
-                // Converte o objeto para uma string JSON
-                const jsonData = JSON.stringify(data);
-
-                console.log('Enviando dados do formulário:', jsonData);
-
-                try {
-                    const response = await fetch('../conector/update_estoque.php', {
-                        method: 'POST',
-                        headers: {
-                            'Content-Type': 'application/json' // Define o cabeçalho para JSON
-                        },
-                        body: jsonData,
+                                $.each(data, function(index, fornecedor) {
+                                    select.append('<option value="' + fornecedor + '">' + fornecedor + '</option>');
+                                });
+                            },
+                            error: function() {
+                                alert("Erro ao carregar os fornecedores.");
+                            }
+                        });
                     });
 
-                    console.log('Resposta do servidor:', response);
+                                    
+                // Função para enviar o formulário de edição
+                async function submitEditEstoqueForm() {
+                    // Cria um objeto com os dados do formulário
+                    const data = {
+                        codigo_peca: document.getElementById('codigo-peca-edit').value,
+                        localizacao: document.getElementById('localizacao-edit').value,
+                        corredor: document.getElementById('corredor-edit').value,
+                        posicao: document.getElementById('posicao-edit').value,
+                        nivel: document.getElementById('local-nivel').value,
+                        quantidade: document.getElementById('quantidade-edit').value,
+                        fornecedor: document.getElementById('fornecedor-edit').value
+                    };
 
-                    if (response.ok) {
-                        const responseData = await response.json();
-                        alert(responseData.message); // Exibe a mensagem de sucesso ou erro
-                        $('#editEstoqueModal').modal('hide'); // Esconde o modal após atualização
-                        openEstoqueModal(); // Recarrega a lista de estoque
-                    } else {
-                        alert('Erro ao atualizar o estoque.');
-                    }
-                } catch (error) {
-                    console.error('Erro ao atualizar o estoque:', error);
-                }
-            }
+                    // Converte o objeto para uma string JSON
+                    const jsonData = JSON.stringify(data);
 
+                    console.log('Enviando dados do formulário:', jsonData);
 
-            // Função para abrir o modal de exclusão
-            function openDeleteEstoqueModal(codigo) {
-                document.getElementById('codigo-peca-delete').value = codigo;
-                $('#deleteEstoqueModal').modal('show');
-            }
-
-            // Função para confirmar a exclusão
-                        async function confirmDeleteEstoque() {
-                    const codigo = document.getElementById('codigo-peca-delete').value;
                     try {
-                        const response = await fetch('../conector/delete_estoque.php', {
+                        const response = await fetch('../conector/update_estoque.php', {
                             method: 'POST',
-                            headers: { 'Content-Type': 'application/json' },
-                            body: JSON.stringify({ codigo_peca: codigo }),
+                            headers: {
+                                'Content-Type': 'application/json' // Define o cabeçalho para JSON
+                            },
+                            body: jsonData,
                         });
 
+                        console.log('Resposta do servidor:', response);
+
                         if (response.ok) {
-                            alert('Item excluído com sucesso!');
-                            $('#deleteEstoqueModal').modal('hide');
+                            const responseData = await response.json();
+                            alert(responseData.message); // Exibe a mensagem de sucesso ou erro
+                            $('#editEstoqueModal').modal('hide'); // Esconde o modal após atualização
                             openEstoqueModal(); // Recarrega a lista de estoque
                         } else {
-                            alert('Erro ao excluir o item.');
+                            alert('Erro ao atualizar o estoque.');
                         }
                     } catch (error) {
-                        console.error('Erro ao excluir o item:', error);
+                        console.error('Erro ao atualizar o estoque:', error);
                     }
                 }
 
-    </script>
 
-        
-
-
-            <!-- Popup de sucesso -->
-            <div id="popup-success" class="popup1" style="display: none;">
-                <p>Estoque cadastrado com sucesso!</p> <!-- Mensagem ajustada para cadastro de estoque -->
-                <button id="popup-close1" class="popup-close1">Fechar</button>
-            </div>
-
-            <style>
-                .popup1 {
-                    position: fixed;
-                    top: 50%;
-                    left: 50%;
-                    transform: translate(-50%, -50%);
-                    padding: 20px;
-                    background-color: white;
-                    border: 2px solid black;
-                    z-index: 1000;
-                    text-align: center;
+                // Função para abrir o modal de exclusão
+                function openDeleteEstoqueModal(codigo) {
+                    document.getElementById('codigo-peca-delete').value = codigo;
+                    $('#deleteEstoqueModal').modal('show');
                 }
-                .popup-close1 {
-                    margin-top: 10px;
-                    padding: 5px 10px;
-                    background-color: grey;
-                    color: white;
-                    border: none;
-                    cursor: pointer;
-                }
-                .popup-close1:hover {
-                    background-color: darkgrey;
-                }
-            </style>
 
-            <script>
-                document.getElementById("form-peca").addEventListener("submit", function(event) {
-                    event.preventDefault(); // Impede o envio padrão do formulário
+                // Função para confirmar a exclusão
+                            async function confirmDeleteEstoque() {
+                        const codigo = document.getElementById('codigo-peca-delete').value;
+                        try {
+                            const response = await fetch('../conector/delete_estoque.php', {
+                                method: 'POST',
+                                headers: { 'Content-Type': 'application/json' },
+                                body: JSON.stringify({ codigo_peca: codigo }),
+                            });
 
-                    // Cria um objeto FormData para enviar os dados do formulário
-                    var formData = new FormData(this);
-
-                    fetch('../conector/inserir_estoque.php', {
-                        method: 'POST',
-                        body: formData
-                    })
-                    .then(response => {
-                        // Verifica se a resposta é válida e contém JSON
-                        if (!response.ok) {
-                            throw new Error('Erro na resposta do servidor');
+                            if (response.ok) {
+                                alert('Item excluído com sucesso!');
+                                $('#deleteEstoqueModal').modal('hide');
+                                openEstoqueModal(); // Recarrega a lista de estoque
+                            } else {
+                                alert('Erro ao excluir o item.');
+                            }
+                        } catch (error) {
+                            console.error('Erro ao excluir o item:', error);
                         }
-                        return response.json(); // Tenta parsear a resposta como JSON
-                    })
-                    .then(data => {
-                        if (data.status === "success") {
-                            // Exibe o popup de sucesso e atualiza a mensagem
-                            showSuccessPopup(data.message); 
-                        } else {
-                            // Exibe a mensagem de erro no popup
-                            showSuccessPopup(data.message);
-                        }
-                    })
-                    .catch(error => {
-                        console.error("Erro ao enviar dados:", error);
-                        showSuccessPopup("Erro ao tentar cadastrar o estoque.");
+                    }
+
+        </script>
+
+            
+
+
+                <!-- Popup de sucesso -->
+                <div id="popup-success" class="popup1" style="display: none;">
+                    <p>Estoque cadastrado com sucesso!</p> <!-- Mensagem ajustada para cadastro de estoque -->
+                    <button id="popup-close1" class="popup-close1">Fechar</button>
+                </div>
+
+                <style>
+                    .popup1 {
+                        position: fixed;
+                        top: 50%;
+                        left: 50%;
+                        transform: translate(-50%, -50%);
+                        padding: 20px;
+                        background-color: white;
+                        border: 2px solid black;
+                        z-index: 1000;
+                        text-align: center;
+                    }
+                    .popup-close1 {
+                        margin-top: 10px;
+                        padding: 5px 10px;
+                        background-color: grey;
+                        color: white;
+                        border: none;
+                        cursor: pointer;
+                    }
+                    .popup-close1:hover {
+                        background-color: darkgrey;
+                    }
+                </style>
+
+                <script>
+                    document.getElementById("form-peca").addEventListener("submit", function(event) {
+                        event.preventDefault(); // Impede o envio padrão do formulário
+
+                        // Cria um objeto FormData para enviar os dados do formulário
+                        var formData = new FormData(this);
+
+                        fetch('../conector/inserir_estoque.php', {
+                            method: 'POST',
+                            body: formData
+                        })
+                        .then(response => {
+                            // Verifica se a resposta é válida e contém JSON
+                            if (!response.ok) {
+                                throw new Error('Erro na resposta do servidor');
+                            }
+                            return response.json(); // Tenta parsear a resposta como JSON
+                        })
+                        .then(data => {
+                            if (data.status === "success") {
+                                // Exibe o popup de sucesso e atualiza a mensagem
+                                showSuccessPopup(data.message); 
+                            } else {
+                                // Exibe a mensagem de erro no popup
+                                showSuccessPopup(data.message);
+                            }
+                        })
+                        .catch(error => {
+                            console.error("Erro ao enviar dados:", error);
+                            showSuccessPopup("Erro ao tentar cadastrar o estoque.");
+                        });
                     });
-                });
 
-                // Função para exibir o popup
-                function showSuccessPopup(message) {
-                    document.getElementById("popup-success").style.display = "block";
-                    document.getElementById("popup-success").children[0].innerText = message; // Atualiza a mensagem no popup
-                }
+                    // Função para exibir o popup
+                    function showSuccessPopup(message) {
+                        document.getElementById("popup-success").style.display = "block";
+                        document.getElementById("popup-success").children[0].innerText = message; // Atualiza a mensagem no popup
+                    }
 
-                // Fecha o popup ao clicar no botão
-                document.getElementById("popup-close1").addEventListener("click", function() {
-                    document.getElementById("popup-success").style.display = "none";
-                    document.getElementById("form-peca").reset(); // Limpa o formulário após fechar o popup
-                });
-            </script>
+                    // Fecha o popup ao clicar no botão
+                    document.getElementById("popup-close1").addEventListener("click", function() {
+                        document.getElementById("popup-success").style.display = "none";
+                        document.getElementById("form-peca").reset(); // Limpa o formulário após fechar o popup
+                    });
+                </script>
     </div>
 
     <!-- Tab 3: Fornecedor -->
@@ -1021,8 +1095,66 @@
                         </div>
                     </div>
                 </div>
+<!-- Modal de Edição -->
+<div class="modal fade" id="editFornecedorModal" tabindex="-1" role="dialog" aria-labelledby="editFornecedorModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="editFornecedorModalLabel">Editar Fornecedor</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form id="editFornecedorForm">
+                    <div class="form-group">
+                        <label for="fornecedor">Fornecedor</label>
+                        <input type="text" id="fornecedor" name="fornecedor" class="form-control" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="razao_social">Razão Social</label>
+                        <input type="text" id="razao_social" name="razao_social" class="form-control" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="cnpj">CNPJ</label>
+                        <input type="text" id="cnpj" name="cnpj" class="form-control" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="telefone">Telefone</label>
+                        <input type="text" id="telefone" name="telefone" class="form-control" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="endereco">Endereço</label>
+                        <input type="text" id="endereco" name="endereco" class="form-control" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="cidade">Cidade</label>
+                        <input type="text" id="cidade" name="cidade" class="form-control" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="situacao">Situação</label>
+                        <input type="text" id="situacao" name="situacao" class="form-control" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="email">E-mail</label>
+                        <input type="email" id="email" name="email" class="form-control" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="data_cadastro">Data de Cadastro</label>
+                        <input type="text" id="data_cadastro" name="data_cadastro" class="form-control" disabled>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Salvar</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
 
-            <script>
+
+             
+
+
+        <script>
                 // Função para carregar a página de fornecedores via AJAX
                 function loadFornecedorPage(pageNumber) {
                     fetch('../conector/consulta_fornecedor.php?pagina=' + pageNumber)
@@ -1042,7 +1174,67 @@
                     loadFornecedorPage(1); // Carrega a primeira página dos dados
                     $('#fornecedorModal').modal('show'); // Abre o modal
                 }
-            </script>
+
+                 // Funcao para editar o fornecedor
+                 function editFornecedor(cnpj) {
+                    $.ajax({
+                        url: '../conector/busca_fornecedor.php', // Arquivo que busca os dados do fornecedor
+                        type: 'POST',
+                        data: { cnpj: cnpj },
+                        success: function(response) {
+                            // Depuração - Verifique o que está sendo retornado
+                            console.log("Resposta do servidor:", response);
+                            
+                            // Supondo que o retorno seja um JSON com os dados do fornecedor
+                            const fornecedor = JSON.parse(response);
+
+                            // Depuração - Verifique o conteúdo do objeto fornecedor
+                            console.log("Fornecedor JSON:", fornecedor);
+
+                            // Preenche os campos do modal de edição com os dados do fornecedor
+                            $('#fornecedor').val(fornecedor.fornecedor);           // Nome do fornecedor
+                            $('#razao_social').val(fornecedor.razao_social);       // Razão Social
+                            $('#cnpj').val(fornecedor.cnpj);                         // CNPJ
+                            $('#telefone').val(fornecedor.telefone);                 // Telefone
+                            $('#endereco').val(fornecedor.endereco);                 // Endereço
+                            $('#cidade').val(fornecedor.cidade);                     // Cidade
+                            $('#situacao').val(fornecedor.situacao);                 // Situação
+                            $('#email').val(fornecedor.email);                       // E-mail
+                            $('#data_cadastro').val(fornecedor.data_cadastro);      // Data de Cadastro
+
+                            // Abre o modal de edição
+                            $('#editFornecedorModal').modal('show');
+                        },
+                        error: function() {
+                            console.error("Erro ao buscar os dados do fornecedor.");
+                        }
+                    });
+                }
+
+
+
+            //funcao para salvar edicao
+            $('#editFornecedorForm').on('submit', function(e) {
+                e.preventDefault();
+
+                // Envia os dados atualizados para o servidor
+                $.ajax({
+                    url: '../conector/atualizar_fornecedor.php', // Crie este arquivo para salvar os dados
+                    type: 'POST',
+                    data: $(this).serialize(),
+                    success: function(response) {
+                        alert("Fornecedor atualizado com sucesso!");
+                        $('#editFornecedorModal').modal('hide');
+                        loadFornecedorPage(1); // Recarrega a listagem
+                    },
+                    error: function() {
+                        console.error("Erro ao atualizar o fornecedor.");
+                    }
+                });
+            });
+
+
+        </script>
 
             <!-- Popup de sucesso -->
             <div id="popup-success" class="popup" style="display: none;">
