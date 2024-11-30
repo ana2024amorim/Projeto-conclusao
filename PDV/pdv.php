@@ -243,9 +243,10 @@
                             if (data.length > 0) {
                                 data.forEach(product => {
                                     const price = parseFloat(product.valor_varejo);
+                                    const quantidade = product.quantidade !== null ? product.quantidade : 'N/A';
                                     const listItem = $('<a>')
                                         .addClass('list-group-item list-group-item-action')
-                                        .text(`${product.nome_peca} - ${product.modelo_carro} - R$ ${(isNaN(price) ? 0 : price).toFixed(2)}`)
+                                        .text(`${product.nome_peca} - ${product.modelo_carro} - Estoque: ${quantidade} - R$ ${(isNaN(price) ? 0 : price).toFixed(2)}`)
                                         .data('product', product)
                                         .click(function() {
                                             addToCart(product); // Chama addToCart passando o produto

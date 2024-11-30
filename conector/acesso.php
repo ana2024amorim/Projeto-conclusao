@@ -26,8 +26,21 @@ $result = $stmt->get_result();
 
 // Verifica se um usuário foi encontrado
 if ($user = $result->fetch_assoc()) {
-    // Verifica se a senha corresponde usando hash no password_verify
+    // Verifica se o usuário está bloqueado devido a tentativas falhadas
+    if ($user['tentativas_falhas'] >= 3) {
+        header('Location: ../index.php?error=account_locked');
+        exit();
+    }
+
+    // Verifica a senha
     if (password_verify($password, $user['password'])) {
+        // Se a senha estiver correta, resetar o contador de tentativas falhadas
+        $query = "UPDATE tb_login SET tentativas_falhas = 0 WHERE matricula = ?";
+        $stmt = $conn->prepare($query);
+        $stmt->bind_param("s", $matricula);
+        $stmt->execute();
+
+        // Sessão de login bem-sucedido
         $_SESSION['matricula'] = $matricula;
         $_SESSION['permissao'] = $user['permissao'];
         $_SESSION['foto'] = $user['foto']; // Armazena a foto do perfil na sessão
@@ -49,17 +62,43 @@ if ($user = $result->fetch_assoc()) {
             case 'Caixa':
                 header('Location: ../PDV/caixa1.php');
                 break;
-            case 'Caixa':
-                header('Location: ../PDV/separado.php');
-                break;
             default:
                 header('Location: ../index.php?error=permission_denied');
                 break;
         }
         exit();
     } else {
-        header('Location: ../index.php?error=incorrect_password');
-        exit();
+        // Se a senha estiver incorreta, incrementa as tentativas falhadas
+        $tentativas_falhas = $user['tentativas_falhas'] + 1;
+
+        // Se atingir 2 tentativas falhadas, mostra um aviso
+        if ($tentativas_falhas == 2) {
+            // Atualiza o número de tentativas falhadas no banco de dados
+            $query = "UPDATE tb_login SET tentativas_falhas = ? WHERE matricula = ?";
+            $stmt = $conn->prepare($query);
+            $stmt->bind_param("is", $tentativas_falhas, $matricula);
+            $stmt->execute();
+
+            // Redireciona com o erro de aviso de bloqueio
+            header('Location: ../index.php?error=warning_attempts');
+            exit();
+        } elseif ($tentativas_falhas >= 3) {
+            // Se atingir 3 tentativas falhadas, bloqueia o usuário
+            $query = "UPDATE tb_login SET tentativas_falhas = 3 WHERE matricula = ?";
+            $stmt = $conn->prepare($query);
+            $stmt->bind_param("s", $matricula);
+            $stmt->execute();
+            header('Location: ../index.php?error=account_locked');
+            exit();
+        } else {
+            // Atualiza o número de tentativas falhadas
+            $query = "UPDATE tb_login SET tentativas_falhas = ? WHERE matricula = ?";
+            $stmt = $conn->prepare($query);
+            $stmt->bind_param("is", $tentativas_falhas, $matricula);
+            $stmt->execute();
+            header('Location: ../index.php?error=incorrect_password');
+            exit();
+        }
     }
 } else {
     header('Location: ../index.php?error=user_not_found');

@@ -189,6 +189,11 @@ h2 {
 
 
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+  
+ 
+  
+  
+  
   <script>
     let paginaAtual = 1; // Página inicial
     const limitePorPagina = 5;
@@ -229,6 +234,7 @@ h2 {
                   <button class="btn btn-sm ${funcionario.ativo === 1 ? 'btn-danger' : 'btn-success'}" onclick="toggleAtivacao(${funcionario.id}, ${funcionario.ativo})">
                     ${funcionario.ativo === 1 ? 'Desativar' : 'Ativar'}
                   </button>
+                  <button class="btn btn-sm btn-primary" onclick="desbloquearFuncionario(${funcionario.id})">Desbloquear</button>
                 </td>
               </tr>
             `;
@@ -330,5 +336,27 @@ h2 {
     // Inicializa a consulta ao carregar a página
     consultarFuncionario();
   </script>
+
+<script>
+     // Função para processar o desbloqueio
+     function desbloquearFuncionario(id) {
+      fetch('conector/desbloquear_usuario.php', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ id })
+      })
+      .then(response => response.json())
+      .then(data => {
+        if (data.sucesso) {
+          alert('Usuário desbloqueado com sucesso!');
+          consultarFuncionario(); // Atualiza a lista de funcionários
+        } else {
+          alert('Erro ao desbloquear o usuário.');
+        }
+      })
+      .catch(error => console.error('Erro ao desbloquear usuário:', error));
+    }
+  </script>
+  
 </body>
 </html>

@@ -7,12 +7,28 @@ header('Content-Type: application/json');
 $nome = isset($_GET['nome']) ? $_GET['nome'] : '';
 
 try {
-    // Preparar a consulta SQL
-    $query = "SELECT id, codigo_produto, nome_peca, modelo_carro, valor_varejo FROM tb_produto WHERE nome_peca LIKE ?";
+    // Consulta SQL com JOIN para combinar os dados das duas tabelas
+    $query = "
+        SELECT 
+            p.id, 
+            p.codigo_produto, 
+            p.nome_peca, 
+            p.modelo_carro, 
+            p.valor_varejo, 
+            e.quantidade
+        FROM 
+            tb_produto p
+        LEFT JOIN 
+            tb_estoque e 
+        ON 
+            p.codigo_produto = e.codigo_peca
+        WHERE 
+            p.nome_peca LIKE ?
+    ";
 
     // Preparar a declaração
     $stmt = $conn->prepare($query);
-    
+
     if ($stmt === false) {
         die(json_encode(['error' => 'Erro na preparação da consulta: ' . $conn->error]));
     }
