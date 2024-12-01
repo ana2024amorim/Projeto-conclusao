@@ -52,9 +52,9 @@
 
 /* Estilos para o título do modal */
 h2 {
-    font-size: 44px; /* Tamanho do título */
+    font-size: 34px; /* Tamanho do título */
     font-weight: bold;
-    margin-bottom: 50px; /* Espaçamento abaixo do título */
+    margin-bottom: 40px; /* Espaçamento abaixo do título */
     color: #e74c3c; /* Cor vermelha para destaque */
 }
 
@@ -67,8 +67,8 @@ h2 {
 }
 
 .alert-img {
-    width: 70px; /* Tamanho da imagem */
-    height: 70px;
+    width: 50px; /* Tamanho da imagem */
+    height: 50px;
     margin-bottom: 20px; /* Espaçamento abaixo da imagem */
 }
 .alert2 {
@@ -78,14 +78,14 @@ h2 {
     margin-top: 20px; /* Espaçamento acima da imagem */
 }
 .alert2-img {
-    width: 90px; /* Tamanho da imagem */
-    height: 90px;
+    width: 50px; /* Tamanho da imagem */
+    height: 50px;
     margin-bottom: 20px; /* Espaçamento abaixo da imagem */
 }
 
 /* Estilos para a mensagem de alerta */
 .alert-message {
-    font-size: 38px; /* Tamanho da fonte da mensagem */
+    font-size: 28px; /* Tamanho da fonte da mensagem */
     font-weight: bold;
     color: #333; /* Cor preta para o texto */
     line-height: 1.5; /* Melhor espaçamento entre as linhas */

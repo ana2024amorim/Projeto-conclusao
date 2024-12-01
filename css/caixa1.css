@@ -98,7 +98,7 @@ th {
     font-family: Arial, sans-serif;
     color: white;
     border: none;  /* Removendo borda */
-    padding: 18px 44px;  /* Tamanho do botão */
+    padding: 12px 4px;  /* Tamanho do botão */
     border-radius: 5px;  /* Bordas arredondadas */
     cursor: pointer;  /* Mostra o cursor de clique */
     font-size: 23px;  /* Tamanho da fonte */

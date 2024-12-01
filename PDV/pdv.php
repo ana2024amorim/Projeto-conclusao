@@ -193,7 +193,7 @@
                         } else {
                             alert('Cliente não cadastrado.');
                             if (confirm('Deseja cadastrar o cliente?')) {
-                                window.location.href = '../cadastro_cliente.php';
+                                window.location.href = '../cadastro2_cliente.php';
                             }
                         }
                     })
@@ -207,7 +207,7 @@
                         } else {
                             alert('Cliente não cadastrado.');
                             if (confirm('Deseja cadastrar o cliente?')) {
-                                window.location.href = '../cadastro_cliente.php';
+                                window.location.href = '../cadastro2_cliente.php';
                             }
                         }
                     })

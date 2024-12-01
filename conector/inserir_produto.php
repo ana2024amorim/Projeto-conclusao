@@ -1,9 +1,9 @@
 <?php
 require_once "conector_db.php"; // Conexão com o banco de dados
 
-// Verifica se a requisição foi feita via POST
+header('Content-Type: application/json'); // Definir resposta como JSON
+
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    // Captura os dados do formulário
     $codigo_produto = $_POST['codigo_produto'];
     $fornecedor = $_POST['fornecedor1'];
     $nome_peca = $_POST['nome_peca'];
@@ -13,7 +13,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $marca_fabricante = $_POST['marca-fabricante'];
     $descricao_peca = $_POST['descricao_peca'];
 
-    // Prepara e executa a consulta de inserção
     $sql = "INSERT INTO tb_produto (codigo_produto, fornecedor, nome_peca, peso, valor_varejo, modelo_carro, marca_fabricante, descricao_peca) 
             VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
     
@@ -21,9 +20,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $stmt->bind_param("ssssssss", $codigo_produto, $fornecedor, $nome_peca, $peso, $valor_varejo, $modelo_carro, $marca_fabricante, $descricao_peca);
 
     if ($stmt->execute()) {
-        echo "Produto cadastrado com sucesso!";
+        echo json_encode(["sucesso" => true, "mensagem" => "Produto cadastrado com sucesso!"]);
     } else {
-        echo "Erro ao cadastrar produto: " . $stmt->error;
+        echo json_encode(["sucesso" => false, "mensagem" => "Erro ao cadastrar produto: " . $stmt->error]);
     }
 
     $stmt->close();

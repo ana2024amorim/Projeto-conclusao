@@ -15,6 +15,11 @@
     <script src="../js/carregar_modelo_veiculo.js"></script>
     <script src="../js/carregar_fabricante_veiculo.js"></script>
     <script src="../js/carregar_fornecedor_veiculo.js"></script>
+    <!-- Bootstrap CSS  para o modal de sucesso da 1 aba-->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Bootstrap JS para o modal de sucesso da 1 aba- -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
 
 
 
@@ -305,7 +310,7 @@
 
     <!-- Tab 1: Cadastro de Produto -->
     <div class="form-section active" id="tab1">
-        <form action="../conector/inserir_produto.php" method="POST">
+        <form id="form-produto" action="../conector/inserir_produto.php" method="POST">
             
             <div class="form-group">
                 <label for="codigo_produto">Código Produto:</label>
@@ -373,6 +378,24 @@
                 <button type="button" id="btn-consultar">Consultar</button>
             </div>
         </form>
+        
+        <!-- Modal de Sucesso -->
+            <div class="modal fade" id="modal-sucesso" tabindex="-1" aria-labelledby="modalLabel" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="modalLabel">Sucesso</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            Produto cadastrado com sucesso!
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fechar</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
 
         <!-- Modal de Consulta -->
         <div class="modal fade" id="consultaModal" tabindex="-1" role="dialog" aria-labelledby="consultaModalLabel" aria-hidden="true">
@@ -466,7 +489,37 @@
                 </div>
             </div>
         </div>
+        <script>
+            document.getElementById('form-produto').addEventListener('submit', function (event) {
+                event.preventDefault(); // Impede o envio padrão do formulário
 
+                const form = event.target;
+                const formData = new FormData(form);
+
+                fetch(form.action, {
+                    method: 'POST',
+                    body: formData,
+                })
+                    .then(response => response.json())
+                    .then(data => {
+                        if (data.sucesso) {
+                            // Exibir o modal de sucesso
+                            const modal = new bootstrap.Modal(document.getElementById('modal-sucesso'));
+                            modal.show();
+
+                            // Limpar o formulário
+                            form.reset();
+                        } else {
+                            alert(data.mensagem || 'Erro desconhecido ao cadastrar produto.');
+                        }
+                    })
+                    .catch(error => {
+                        console.error('Erro:', error);
+                        alert('Ocorreu um erro ao cadastrar o produto.');
+                    });
+            });
+
+        </script>
 
         <script>
                 // Função para carregar dados via AJAX
